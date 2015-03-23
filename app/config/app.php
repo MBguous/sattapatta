@@ -124,6 +124,7 @@ return array(
 		'Way\Generators\GeneratorsServiceProvider',
 		'Barryvdh\DomPDF\ServiceProvider',
 		'Zizaco\Entrust\EntrustServiceProvider',
+		'Intervention\Image\ImageServiceProvider'
 
 	),
 
@@ -194,6 +195,7 @@ return array(
 		'Carbon' 			=> 'Carbon\Carbon',
 		'PDF' 				=> 'Barryvdh\DomPDF\Facade',
 		'Entrust' 			=> 'Zizaco\Entrust\EntrustFacade',
+		'Image' 			=> 'Intervention\Image\Facades\Image'
 
 	),
 

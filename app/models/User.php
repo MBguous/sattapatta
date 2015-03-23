@@ -27,6 +27,10 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	'email' => 'required|email|max:50|unique:users'
 	];
 
+	public static $image_rules = [
+	'photoURL' => 'required|image|mimes:jpeg,jpg,png,gif,bmp'
+	];
+
 	protected $fillable = ['username', 'password', 'email', 'active', 'code', 'identifier', 'photoURL', 
 							'firstName', 'lastName', 'gender', 'birthday', 'birthMonth', 
 							'birthYear', 'phone', 'address', 'country'];

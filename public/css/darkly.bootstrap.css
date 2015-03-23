@@ -213,7 +213,8 @@ th {
   }
   a,
   a:visited {
-    text-decoration: underline;
+    /*text-decoration: underline;*/
+    text-decoration: none;
   }
   a[href]:after {
     content: " (" attr(href) ")";
@@ -6913,7 +6914,8 @@ table-bordered > tfoot > tr > td,
 }
 input,
 textarea {
-  color: #464545;
+  /*color: #464545;*/
+  color: #ffffff;
 }
 .form-control,
 input,

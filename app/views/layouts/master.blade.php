@@ -42,6 +42,9 @@
     html {
       font-family: 'OpenSans';
     }
+    body {
+      overflow: hidden;
+    }
     footer {
       border-top: 3px solid #222222;
       background-color: #1c1e2a;
@@ -155,13 +158,17 @@
     <!-- /.container -->
   </nav>
 
+
+  
   @yield('content')
+
+
 
 
     <!-- Footer -->
     <footer>
-      <div class="row">
-        <div class="col-lg-12">
+      <div class="row text-center">
+        <div class="col-md-4 col-md-offset-4">
           <p>Copyright &copy; SattaPatta 2015</p>
         </div>
       </div>
@@ -171,10 +178,12 @@
   <!-- /.container -->
 
   <!-- jQuery -->
-  <script src="js/jquery.js"></script>
+  <!-- // <script src="js/jquery.js"></script> -->
+  {{ HTML::script('js/jquery.js') }}
 
   <!-- Bootstrap Core JavaScript -->
-  <script src="js/bootstrap.min.js"></script>
+  <!-- // <script src="js/bootstrap.min.js"></script> -->
+  {{ HTML::script('js/bootstrap.min.js') }}
  
 
     <!-- Menu Toggle Script -->

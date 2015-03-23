@@ -11,7 +11,8 @@
 		"nesbot/Carbon": "*",
 		"barryvdh/laravel-dompdf": "0.4.*",
 		"zizaco/entrust": "1.2.*@dev",
-		"hybridauth/hybridauth": "dev-master"
+		"hybridauth/hybridauth": "dev-master",
+		"intervention/image": "dev-master"
 	},
 	"autoload": {
 		"classmap": [

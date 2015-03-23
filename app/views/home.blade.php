@@ -88,7 +88,7 @@
     <!-- <hr> -->
     </div>
     <!-- .how-it-works -->
-    <div class="container" style="background:#efefef; width:100%; color:#020202; padding:20px 0 20px 0">
+    <div style="background:#efefef; color:#020202; padding:20px 0 20px 0">
        <div class="row text-center">
          <div class="col-md-3">
           <!-- <span class="fa-stack fa-5x">
@@ -132,10 +132,11 @@
     <!-- /.how-it-works -->
 
    
-
+    <div class="container">
     <hr>
 
   <div id="disqus_thread"></div>
+  </div>
 <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = 'sattapatta';
