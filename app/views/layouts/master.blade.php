@@ -23,16 +23,6 @@
   {{ HTML::style('css/search.css') }}
   {{ HTML::style('css/sidebar.css') }}
 
-  <!-- GOOGLE FONT -->
-  <!--<link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900' rel='stylesheet' type='text/css'>-->
-  <!-- <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'> -->
-
-  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-  <![endif]-->
 
   <style>
     @font-face {
@@ -42,21 +32,41 @@
     html {
       font-family: 'OpenSans';
     }
+    body, html{
+      min-height: 100%;
+      height: 100%;
+    }
     body {
-      overflow: hidden;
+      overflow-x: hidden;
     }
+    a i{
+      outline: none;
+    }
+    .body-container{
+      min-height: 100%;
+
+    }
+    .body-container:after {
+  content: "";
+  display: block;
+}
+footer, .body-container:after {
+  height: 100px; 
+}
     footer {
-      border-top: 3px solid #222222;
-      background-color: #1c1e2a;
-      height: 100px;
-      position: relative;
-      bottom: 0px;
-    }
+        border-top: 3px solid #222222;
+  background-color: #1c1e2a;
+  height: 100px;
+  position: relative;
+  margin-bottom: 0;
+  margin-top: -100px;
+}
   </style>
 
 </head>
 
 <body>
+<div class="body-container">
 
   <!-- Navigation -->
   <nav class="navbar navbar-inverse navbar-fixed-top" style="height:50px; border-bottom: 3px solid #0e0e14;">
@@ -163,12 +173,13 @@
   @yield('content')
 
 
-
+</div>
 
     <!-- Footer -->
     <footer>
       <div class="row text-center">
         <div class="col-md-4 col-md-offset-4">
+          <br>
           <p>Copyright &copy; SattaPatta 2015</p>
         </div>
       </div>
@@ -192,6 +203,87 @@
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
     });
+
+ /*   $(document).ready(function(){
+      $('#get').click(function(e){
+        e.preventDefault();
+
+        // ajax get
+        $.get('jpt/get', function(data) {
+          console.log(data);
+        });
+      });
+
+      $('form').submit(function(e) {
+        e.preventDefault();
+
+        var name = $(this).find('input[name=name]').val();
+
+        // ajax post
+        $.post('jpt/get', {name: name}, function(data){
+          console.log(data);
+        });
+      });
+    });*/
+
+    $(document).ready(function(){
+      $('#infoForm').submit(function(e) {
+        e.preventDefault();
+
+        var name = $(this).find('input[name=username]').val();
+        var $form = $(this); 
+        var data=$form.serialize();
+
+        // ajax post
+        // $.post('profile/info', {data: name}, function(jpt){
+        $.post('profile/info', {formData:data}, function(response){
+          if(response.fail) {
+             $.each(response.errors, function(index, value){
+               var errorDiv = '#'+index+'_error';
+               // console.log(errorDiv);
+               // $(errorDiv).addClass('required');
+               $(errorDiv).empty().append(value);
+             });
+           }
+           if(response.success) {
+            $('#edit-profile').slideUp();
+            var successMessage = 'Profile info updated successfully';
+              $('#messageDiv').empty().append(successMessage);
+           }
+          // console.log(response.errors);
+        });
+      });
+    });
+
+   
+/*    $(document).on('submit', '#infoForm', function(event) {
+    event.preventDefault();
+    var $form = $(this); 
+    var data=$form.serialize();
+    var url=$form.attr("url");
+    var posting = $.post(url, {formData:data});
+    // posting.done(function(data){
+    //  if(data.fail) {
+    //    $.each(data.errors, function(index, value){
+    //      var errorDiv = '#'+index+'_error';
+    //      $(errorDiv).addClass('required');
+    //      $(errorDiv).empty().append(value);
+    //    });
+    //  }
+    // });
+    $.post(url, {formData:data}, function(response){
+      // validation success
+    }).fail(function(response){
+      //validation fail
+      //if(data.fail) {
+        $.each(data.errors, function(index, value){
+          var errorDiv = '#'+index+'_error';
+          $(errorDiv).addClass('required');
+          $(errorDiv).empty().append(value);
+        });
+      //}
+    });
+  });*/
     </script>
 
 </body>

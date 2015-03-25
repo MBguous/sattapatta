@@ -2,11 +2,49 @@
 
 @section ('content')
 
-  @extends ('layouts.user')
+	<div id="wrapper">
 
-  @section ('user-content')
+   
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="#">
+                      {{-- HTML::image(Auth::user()->photoURL, 'profile-pic', ['height'=>'60px', 'class'=>'img-circle']) --}}
+                    </a>
+                </li>
+                <li>
+
+                  {{ HTML::linkRoute('users.dashboard', 'Dashboard') }}
+                </li>
+                <li>
+                  {{ HTML::link('#', 'Post Item') }}
+                </li>
+                <li>
+                  {{ HTML::link('#', 'My Listings') }}
+                </li>
+                <li>
+                  {{ HTML::link('#', 'Messages') }}
+                </li>
+                <li>
+                  {{ HTML::linkRoute('users.profile', 'Profile') }}
+                </li>
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+        
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <a href="#menu-toggle" id="menu-toggle"><i class='fa fa-align-justify fa-2x'></i></a>
+                        
+  <div id="messageDiv"></div>
   @if (Session::has('message'))
-	  <div class="alert alert-info alert-dismissible" style="display:inline-block" role="alert">
+
+	  <div class="alert alert-info alert-dismissible" id="messageDiv" style="display:inline-block" role="alert">
 	    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
 	      <span aria-hidden="true">&times;</span>
 	    </button>
@@ -28,7 +66,7 @@
 						        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
 						        <h4 class="modal-title">Change profile picture</h4>
 						      </div>
-						      {{ Form::open(array('route'=>'post.users.profile', 'files'=>true)) }}
+						      {{ Form::open(array('url'=>'users/profile/image', 'files'=>true)) }}
 						      <div class="modal-body">
 						        
 						        	{{ Form::label('image', 'Choose an image') }}
@@ -51,16 +89,213 @@
 			</div>
 			<!-- profile image div -->
 			<div class="col-md-8">
-  			<div class="panel panel-success text-center">
+  			<!-- <div class="panel panel-success text-center">
 		    	<div class="panel panel-heading">Edit info</div>
 		    	<div class="panel panel-body">
 		    		
 		    	</div>
-		    </div>
+		    </div> -->
+		    <div role="tabpanel">
+
+				  <!-- Nav tabs -->
+				  <ul class="nav nav-pills" role="tablist">
+				    <li role="presentation" class="active">
+				    	<a href="#profile" aria-controls="profile" role="tab" data-toggle="pill"> Edit Profile</a>
+				  	</li>
+				    <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="pill">Messages</a></li>
+				    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="pill">Settings</a></li>
+				  </ul>
+
+				  <!-- Tab panes -->
+				  <div class="tab-content">
+				    <div role="tabpanel" class="tab-pane active" id="profile">
+				    	<br><br>
+				    	<div class="col-md-4">
+				    		<p><strong>Username:</strong></p>
+				    		<p><strong>Email:</strong></p>
+				    		<p><strong>First Name:</strong></p>
+				    		<p><strong>Last Name:</strong></p>
+				    		<p><strong>Gender:</strong></p>
+				    		<p><strong>Date of Birth:</strong></p>
+				    		<p><strong>Phone:</strong></p>
+				    		<p><strong>Address:</strong></p>
+				    		<p><strong>Country:</strong></p>
+				    		{{ HTML::link('#edit-profile', 'Edit', ['data-toggle'=>'modal', ]) }}
+				    		<div class="modal fade" id="edit-profile">
+								  <div class="modal-dialog">
+								    <div class="modal-content">
+								      <div class="modal-header">
+								        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+								        <h4 class="modal-title">Edit profile details</h4>
+								      </div>
+								      {{ Form::model(Auth::user(), array('url'=>'users/profile/info', 'class'=>'form-horizontal', 'id'=>'infoForm')) }}
+								      <!-- <form action="#" id="infoForm" class="form-horizontal"> -->
+								      <div class="modal-body">
+
+												    <div class="form-group">
+												    	{{ Form::label('username', 'Username', ['class'=>'col-md-3 control-label']) }}
+												    	<div class="col-md-9">
+													    	{{ Form::text('username', null, ['class'=>'form-control']) }}
+													    	<div id="username_error"></div>
+												    	</div>
+												    </div>
+
+												    <div class="form-group">
+												    	{{ Form::label('firstName', 'First Name', ['class'=>'col-md-3 control-label']) }}
+												    	<div class="col-md-9">
+													    	{{ Form::text('firstName', null, ['class'=>'form-control']) }}
+													    	<div id="firstName_error"></div>
+												    	</div>
+												    </div>
+
+												    <div class="form-group">
+												    	{{ Form::label('lastName', 'Last Name', ['class'=>'col-md-3 control-label']) }}
+												    	<div class="col-md-9">
+													    	{{ Form::text('lastName', null, ['class'=>'form-control']) }}
+													    	<div id="lastName_error"></div>
+												    	</div>
+												    </div>
+
+												    <div class="form-group">
+												      <label class="col-lg-3 control-label">Gender</label>
+												      <div class="col-lg-9">
+												        <div class="radio">
+												          <label>
+												            <input type="radio" name="gender" id="male" value="male" checked="">
+												            Male
+												          </label>
+												        </div>
+												        <div class="radio">
+												          <label>
+												            <input type="radio" name="gender" id="female" value="female">
+												            Female
+												          </label>
+												        </div>
+												        <div id="gender_error"></div>
+												      </div>
+												    </div>
+
+												    <div class="form-group">
+												    	{{ Form::label('birthDay', 'Birth Day', ['class'=>'col-md-3 control-label']) }}
+												    	<div class="col-md-9">
+													    	{{ Form::text('birthDay', null, ['class'=>'form-control']) }}
+													    	<div id="birthDay_error"></div>
+												    	</div>
+												    </div>
+
+												    <div class="form-group">
+												    	{{ Form::label('birthMonth', 'Birth Month', ['class'=>'col-md-3 control-label']) }}
+												    	<div class="col-md-9">
+													    	{{ Form::text('birthMonth', null, ['class'=>'form-control']) }}
+													    	<div id="birthMonth_error"></div>
+												    	</div>
+												    </div>
+
+												    <div class="form-group">
+												    	{{ Form::label('birthYear', 'Birth Year', ['class'=>'col-md-3 control-label']) }}
+												    	<div class="col-md-9">
+													    	{{ Form::text('birthYear', null, ['class'=>'form-control']) }}
+													    	<div id="birthYear_error"></div>
+												    	</div>
+												    </div>
+
+												    <div class="form-group">
+												    	{{ Form::label('phone', 'Phone', ['class'=>'col-md-3 control-label']) }}
+												    	<div class="col-md-9">
+													    	{{ Form::text('phone', null, ['class'=>'form-control']) }}
+												    	</div>
+												    	<div id="phone_error"></div>
+												    </div>
+
+												    <div class="form-group">
+												    	{{ Form::label('address', 'Address', ['class'=>'col-md-3 control-label']) }}
+												    	<div class="col-md-9">
+													    	{{ Form::text('address', null, ['class'=>'form-control']) }}
+												    	</div>
+												    	<div id="address_error"></div>
+												    </div>
+
+												    <div class="form-group">
+												    	{{ Form::label('country', 'Country', ['class'=>'col-md-3 control-label']) }}
+												    	<div class="col-md-9">
+													    	{{ Form::text('country', null, ['class'=>'form-control']) }}
+												    	</div>
+												    	<div id="country_error"></div>
+												    </div>
+								        
+								      </div>
+								      <div class="modal-footer">
+								        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								        <button type="submit" class="btn btn-primary">Save changes</button>
+								      </div>
+								      <!-- </form> -->
+								      {{ Form::close() }}
+								    </div>
+								  </div>
+								</div>
+								<!-- /modal -->
+				    	</div>
+				    	<div class="col-md-offset-4">
+				    		<p>{{ Auth::user()->username }}</p>
+				    		<p>{{ Auth::user()->email }}</p>
+				    		<p>{{ Auth::user()->firstName }}</p>
+				    		<p>{{ Auth::user()->lastName }}</p>
+				    		<p>{{ Auth::user()->gender }}</p>
+				    		<p>{{'s' }}</p>
+				    		<p>{{ Auth::user()->phone }}</p>
+				    		<p>{{ Auth::user()->address }}</p>
+				    		<p>{{ Auth::user()->country }}</p>
+				    	</div>
+				    </div>
+				    <div role="tabpanel" class="tab-pane" id="messages">Messages</div>
+				    <div role="tabpanel" class="tab-pane" id="settings">Settings</div>
+				  </div>
+				</div>
 			</div>
 			<!-- profile info div -->
     </div>
+                        
+                        <!-- <h2>Dashboard</h2> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
 
-  @stop
+    </div>
+    <!-- /#wrapper -->
+
+<script>
+
+	// $(document).on('submit', '#infoForm', function(event) {
+	// 	event.preventDefault();
+	// 	var $form = $(this); 
+	// 	var data=$form.serialize();
+	// 	var url=$form.attr("url");
+	// 	var posting = $.post(url, {formData:data});
+	// 	// posting.done(function(data){
+	// 	// 	if(data.fail) {
+	// 	// 		$.each(data.errors, function(index, value){
+	// 	// 			var errorDiv = '#'+index+'_error';
+	// 	// 			$(errorDiv).addClass('required');
+	// 	// 			$(errorDiv).empty().append(value);
+	// 	// 		});
+	// 	// 	}
+	// 	// });
+	// 	$.post(url, {formData:data}, function(response){
+	// 		// validation success
+	// 	}).fail(function(response){
+	// 		//validation fail
+	// 		//if(data.fail) {
+	// 			$.each(data.errors, function(index, value){
+	// 				var errorDiv = '#'+index+'_error';
+	// 				$(errorDiv).addClass('required');
+	// 				$(errorDiv).empty().append(value);
+	// 			});
+	// 		//}
+	// 	});
+	// });
+
+</script>
 
 @stop

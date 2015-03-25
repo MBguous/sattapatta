@@ -30,4 +30,66 @@ class UserController extends BaseController {
 		return Redirect::back()->withMessage('Image upload failed. Please try again.');
 	}
 
+	public function editProfileInfo() {
+
+	if (Request::ajax()) {
+		$inputData = Input::get('formData');
+		parse_str($inputData, $formFields);
+		// dd($formFields['gender']);
+		$userData = array(
+			'username' => $formFields['username'],
+			// 'email' => $formFields['email'],
+			'firstName' => $formFields['firstName'],
+			'lastName' => $formFields['lastName'],
+			// 'gender' => $formFields['gender'],
+			'birthDay' => $formFields['birthDay'],
+			'birthMonth' => $formFields['birthMonth'],
+			'birthYear' => $formFields['birthYear'],
+			'phone' => $formFields['phone'],
+			'address' => $formFields['address'],
+			'country' => $formFields['country'],
+		);
+		// dd($userData);
+		// var_dump(Input::all());
+		// var_dump($inputData);
+
+		$rules = [
+		'username'	=> 'max:20|min:3|unique:users',
+		'email'			=> 'email|max:50|unique:users',
+		'firstName'	=> 'string',
+		'lastName'	=> 'string',
+		'gender'		=> 'string',
+		'birthDay'	=> 'integer',
+		'birthMonth'=> 'integer',
+		'birthYear'	=> 'integer',
+		'phone'			=> 'string',
+		'address'		=> 'string',
+		'country'		=> 'string'
+		];
+
+		$validator = Validator::make($userData,$rules);
+    if($validator->fails()) {
+        return Response::json(array(
+            'fail' => true,
+            'errors' => $validator->getMessageBag()->toArray()
+        ));
+		}
+		else {
+			// dd('validator passed');
+	 		if(Auth::user()->update($userData)) {
+	 			return Response::json(array(
+	 				'success' => true
+	 				));
+	 		}
+
+			// return Redirect::back()->withMessage('Profile info updated');
+		}
+		// return 'ajax post request';
+		// return Response::json(Input::all());
+    
+	}
+
+
+	}
+
 }

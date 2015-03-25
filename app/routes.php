@@ -34,9 +34,72 @@ Route::get('mail/{email}', array('as'=>'mail', 'uses'=>'AccountController@sendMa
 Route::group(array('before'=>'auth'), function() {
 	Route::get('users/dashboard', array('as'=>'users.dashboard', 'uses'=>'UserController@showDashboard'));
 	Route::get('users/profile', array('as'=>'users.profile', 'uses'=>'UserController@showProfile'));
-	Route::post('users/profile', array('as'=>'post.users.profile', 'uses'=>'UserController@editProfileImage'));
+	Route::post('users/profile/image', array('as'=>'post.users.profile', 'uses'=>'UserController@editProfileImage'));
+	Route::post('users/profile/info', array('as'=>'post.users.profile.info', 'uses'=>'UserController@editProfileInfo'));
 });
 
 Route::get('browse', function() {
 	return View::make('browse');
+});
+Route::get('jpt', function() {
+	return View::make('jpt');
+});
+Route::get('jpt/get', function(){
+	if (Request::ajax()){
+		return 'ajax get request';
+	}
+});
+Route::post('jpt/get', function(){
+	if (Request::ajax()) {
+		var_dump(Input::all());
+		return 'ajax post request';
+		// return Response::json(Input::all());
+	}
+});
+Route::post('users/profile/info-inactive', function(){
+	if (Request::ajax()) {
+		$inputData = Input::get('formData');
+		parse_str($inputData, $formFields);
+		// dd($formFields['gender']);
+		$userData = array(
+			'username' => $formFields['username'],
+			// 'email' => $formFields['email'],
+			'firstName' => $formFields['firstName'],
+			'lastName' => $formFields['lastName'],
+			// 'gender' => $formFields['gender'],
+			'birthDay' => $formFields['birthDay'],
+			'birthMonth' => $formFields['birthMonth'],
+			'birthYear' => $formFields['birthYear'],
+			'phone' => $formFields['phone'],
+			'address' => $formFields['address'],
+			'country' => $formFields['country'],
+		);
+		// dd($userData);
+		// var_dump(Input::all());
+		// var_dump($inputData);
+
+		$rules = [
+		'username'	=> 'max:20|min:3|unique:users',
+		'email'			=> 'email|max:50|unique:users',
+		'firstName'	=> 'string',
+		'lastName'	=> 'string',
+		'gender'		=> 'string',
+		'birthDay'	=> 'integer',
+		'birthMonth'=> 'integer',
+		'birthYear'	=> 'integer',
+		'phone'			=> 'string',
+		'address'		=> 'string',
+		'country'		=> 'string'
+		];
+
+		$validator = Validator::make($userData,$rules);
+    if($validator->fails()) {
+        return Response::json(array(
+            'fail' => true,
+            'errors' => $validator->getMessageBag()->toArray()
+        ));
+     }
+		return 'ajax post request';
+		// return Response::json(Input::all());
+	}
 });
