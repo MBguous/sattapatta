@@ -47,20 +47,20 @@
 
     }
     .body-container:after {
-      content: "";
-      display: block;
-    }
-    footer, .body-container:after {
-      height: 100px; 
-    }
+  content: "";
+  display: block;
+}
+footer, .body-container:after {
+  height: 100px; 
+}
     footer {
-      border-top: 3px solid #222222;
-      background-color: #1c1e2a;
-      height: 100px;
-      position: relative;
-      margin-bottom: 0;
-      margin-top: -100px;
-    }
+        border-top: 3px solid #222222;
+  background-color: #1c1e2a;
+  height: 100px;
+  position: relative;
+  margin-bottom: 0;
+  margin-top: -100px;
+}
   </style>
 
 </head>
@@ -95,7 +95,7 @@
               <!-- <a href="#" class="active">HOME</a> -->
             </li>
             <li>
-              {{ HTML::linkRoute('items.browse', 'BROWSE') }}
+              <a href="#">BROWSE</a>
             </li>
             <li>
               <a href="#">HAVES</a>
@@ -134,11 +134,7 @@
                   <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
-                  <li>{{ HTML::linkRoute('users.dashboard', 'Dashboard') }}</li>
-                  <li>{{ HTML::linkRoute('users.post', 'Post item') }}</li>
-                  <li>{{ HTML::linkRoute('users.listing', 'My listings') }}</li>
-                  <li>{{ HTML::link('#', 'Messages') }}</li>
-                  <li>{{ HTML::linkRoute('users.profile', 'Profile') }}</li>
+                  <li>{{ HTML::link('#', 'View Profile') }}</li>
                   <li>{{ HTML::linkRoute('logout', 'Log out') }}</li>
                  </ul>
               </li>
@@ -174,7 +170,50 @@
 
 
   
-  @yield('content')
+  {{--@yield('content')--}}
+
+  <div id="wrapper">
+
+        @section('sidebar')
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand"><a href="#"></a></li>
+                <li><blockquote>{{ HTML::linkRoute('users.dashboard', 'Dashboard', null, ['style'=>'background:#454545']) }}</blockquote></li>
+                <li>{{ HTML::linkRoute('users.post', 'Post Item') }}</li>
+                <li>{{ HTML::link('#', 'My Listings') }}</li>
+                <li>{{ HTML::link('#', 'Messages') }}</li>
+                <li>{{ HTML::linkRoute('users.profile', 'Profile') }}</li>
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+        @show
+        
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                @if (Session::has('message'))
+                  <div class="alert alert-warning alert-dismissible" id="messageDiv" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                    <span><i class="fa fa-info-circle"></i>&nbsp;{{ Session::get('message') }}</span>
+                  </div>
+                @endif
+                    <div class="col-lg-12">
+
+                        <a href="#menu-toggle" id="menu-toggle"><i class='fa fa-align-justify fa-2x'></i></a>
+                        @yield('content')
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
 
 
 </div>

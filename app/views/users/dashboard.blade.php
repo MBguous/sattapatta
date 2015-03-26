@@ -11,7 +11,7 @@
                 <li class="sidebar-brand"><a href="#"></a></li>
                 <li><blockquote>{{ HTML::linkRoute('users.dashboard', 'Dashboard', null, ['style'=>'background:#454545']) }}</blockquote></li>
                 <li>{{ HTML::linkRoute('users.post', 'Post Item') }}</li>
-                <li>{{ HTML::link('#', 'My Listings') }}</li>
+                <li>{{ HTML::linkRoute('users.listing', 'My Listings') }}</li>
                 <li>{{ HTML::link('#', 'Messages') }}</li>
                 <li>{{ HTML::linkRoute('users.profile', 'Profile') }}</li>
             </ul>

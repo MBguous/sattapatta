@@ -38,11 +38,11 @@ Route::group(array('before'=>'auth'), function() {
 	Route::post('users/profile/info', array('as'=>'post.users.profile.info', 'uses'=>'UserController@editProfileInfo'));
 	Route::get('users/post', array('as'=>'users.post', 'uses'=>'ItemController@showPostItem'));
 	Route::post('users/post', array('as'=>'post.users.post', 'uses'=>'ItemController@postItem'));
+	Route::get('users/listing', array('as'=>'users.listing', 'uses'=>'ItemController@showListing'));
 });
 
-Route::get('browse', function() {
-	return View::make('browse');
-});
+Route::get('items/browse', array('as'=>'items.browse', 'uses'=>'ItemController@browse'));
+
 Route::get('jpt', function() {
 	return View::make('jpt');
 });

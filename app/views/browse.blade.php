@@ -6,7 +6,7 @@
     <!-- Title -->
     <div class="row">
       <div class="col-lg-12">
-        <h3>Latest Postings</h3>
+        <h4>Postings by latest time</h4>
       </div>
     </div>
     <!-- /.row -->

@@ -3,7 +3,6 @@
 @section ('content')
 
 	<div id="wrapper">
-
    
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
@@ -15,9 +14,13 @@
                 </li>
                 <li>{{ HTML::linkRoute('users.dashboard', 'Dashboard') }}</li>
                 <li>{{ HTML::linkRoute('users.post', 'Post Item') }}</li>
-                <li>{{ HTML::link('#', 'My Listings') }}</li>
+                <li>{{ HTML::linkRoute('users.listing', 'My Listings') }}</li>
                 <li>{{ HTML::link('#', 'Messages') }}</li>
-                <li><blockquote>{{ HTML::linkRoute('users.profile', 'Profile', null, ['style'=>'background:#454545']) }}</blockquote></li>
+                <li>
+                	<blockquote>
+                		{{ HTML::linkRoute('users.profile', 'Profile', null, ['style'=>'background:#454545']) }}
+                	</blockquote>
+                </li>
             </ul>
         </div>
         <!-- /#sidebar-wrapper -->   
@@ -99,17 +102,48 @@
 				  <div class="tab-content">
 				    <div role="tabpanel" class="tab-pane active" id="profile">
 				    	<br><br>
-				    	<div class="col-md-4">
-				    		<p><strong>Username:</strong></p>
-				    		<p><strong>Email:</strong></p>
-				    		<p><strong>First Name:</strong></p>
-				    		<p><strong>Last Name:</strong></p>
-				    		<p><strong>Gender:</strong></p>
-				    		<p><strong>Date of Birth:</strong></p>
-				    		<p><strong>Phone:</strong></p>
-				    		<p><strong>Address:</strong></p>
-				    		<p><strong>Country:</strong></p>
-				    		{{ HTML::link('#edit-profile', 'Edit', ['data-toggle'=>'modal', ]) }}
+				    	<div class="col-md-12">
+				    		<table class="table table-striped table-hover">
+			        		<tr>
+			        			<th>Username</th>
+			        			<td>{{ Auth::user()->username }}</td>
+			        		</tr>
+			        		<tr>
+			        			<th>Email</th>
+			        			<td>{{ Auth::user()->email }}</td>
+			        		</tr>
+			        		<tr>
+			        			<th>First Name</th>
+			        			<td>{{ Auth::user()->firstName }}</td>
+			        		</tr>
+			        		<tr>
+			        			<th>Last Name</th>
+			        			<td>{{ Auth::user()->lastName }}</td>
+			        		</tr>
+			        		<tr>
+			        			<th>Gender</th>
+			        			<td>{{ Auth::user()->gender }}</td>
+			        		</tr>
+			        		<tr>
+			        			<th>Date of Birth</th>
+			        			<td>{{ Auth::user()->gender }}</td>
+			        		</tr>
+			        		<tr>
+			        			<th>Phone</th>
+			        			<td>{{ Auth::user()->phone }}</td>
+			        		</tr>
+			        		<tr>
+			        			<th>Address</th>
+			        			<td>{{ Auth::user()->address }}</td>
+			        		</tr>
+			        		<tr>
+			        			<th>Country</th>
+			        			<td>{{ Auth::user()->country }}</td>
+			        		</tr>
+			        	</table>
+			        	{{ HTML::link('#edit-profile', 'Edit', ['data-toggle'=>'modal', ]) }}
+				    	</div>
+				    		
 				    		<div class="modal fade" id="edit-profile">
 								  <div class="modal-dialog">
 								    <div class="modal-content">
@@ -223,18 +257,7 @@
 								  </div>
 								</div>
 								<!-- /modal -->
-				    	</div>
-				    	<div class="col-md-offset-4">
-				    		<p>{{ Auth::user()->username }}</p>
-				    		<p>{{ Auth::user()->email }}</p>
-				    		<p>{{ Auth::user()->firstName }}</p>
-				    		<p>{{ Auth::user()->lastName }}</p>
-				    		<p>{{ Auth::user()->gender }}</p>
-				    		<p>{{'s' }}</p>
-				    		<p>{{ Auth::user()->phone }}</p>
-				    		<p>{{ Auth::user()->address }}</p>
-				    		<p>{{ Auth::user()->country }}</p>
-				    	</div>
+				    	
 				    </div>
 				    <div role="tabpanel" class="tab-pane" id="messages">Messages</div>
 				    <div role="tabpanel" class="tab-pane" id="settings">Settings</div>

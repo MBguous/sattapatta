@@ -1087,7 +1087,8 @@ body {
   font-size: 15px;
   line-height: 1.42857143;
   color: #ffffff;
-  /*background-color: #222222;*/
+  /*background-color: #1F253D;*/
+  /*background-color: #E9E9E9;*/
   background-color: #222431;
 }
 input,
@@ -5008,13 +5009,13 @@ a.badge:focus {
   }
 }
 .thumbnail {
-  /*height: 350px;*/
+  height: 350px;
   display: block;
   /*padding: 2px;*/
   /*margin-bottom: 21px;*/
   line-height: 1.42857143;
   background-color: #222222;
-  /*border: 1px solid #464545;*/
+  border: 1px solid #464545;
   /*border-radius: 4px;*/
   -webkit-transition: border 0.2s ease-in-out;
   -o-transition: border 0.2s ease-in-out;
