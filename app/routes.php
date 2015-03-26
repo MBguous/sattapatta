@@ -36,6 +36,8 @@ Route::group(array('before'=>'auth'), function() {
 	Route::get('users/profile', array('as'=>'users.profile', 'uses'=>'UserController@showProfile'));
 	Route::post('users/profile/image', array('as'=>'post.users.profile', 'uses'=>'UserController@editProfileImage'));
 	Route::post('users/profile/info', array('as'=>'post.users.profile.info', 'uses'=>'UserController@editProfileInfo'));
+	Route::get('users/post', array('as'=>'users.post', 'uses'=>'ItemController@showPostItem'));
+	Route::post('users/post', array('as'=>'post.users.post', 'uses'=>'ItemController@postItem'));
 });
 
 Route::get('browse', function() {

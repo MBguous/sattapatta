@@ -13,44 +13,33 @@
                       {{-- HTML::image(Auth::user()->photoURL, 'profile-pic', ['height'=>'60px', 'class'=>'img-circle']) --}}
                     </a>
                 </li>
-                <li>
-
-                  {{ HTML::linkRoute('users.dashboard', 'Dashboard') }}
-                </li>
-                <li>
-                  {{ HTML::link('#', 'Post Item') }}
-                </li>
-                <li>
-                  {{ HTML::link('#', 'My Listings') }}
-                </li>
-                <li>
-                  {{ HTML::link('#', 'Messages') }}
-                </li>
-                <li>
-                  {{ HTML::linkRoute('users.profile', 'Profile') }}
-                </li>
+                <li>{{ HTML::linkRoute('users.dashboard', 'Dashboard') }}</li>
+                <li>{{ HTML::linkRoute('users.post', 'Post Item') }}</li>
+                <li>{{ HTML::link('#', 'My Listings') }}</li>
+                <li>{{ HTML::link('#', 'Messages') }}</li>
+                <li><blockquote>{{ HTML::linkRoute('users.profile', 'Profile', null, ['style'=>'background:#454545']) }}</blockquote></li>
             </ul>
         </div>
-        <!-- /#sidebar-wrapper -->
-        
+        <!-- /#sidebar-wrapper -->   
 
         <!-- Page Content -->
         <div id="page-content-wrapper">
             <div class="container-fluid">
                 <div class="row">
+                @if (Session::has('message'))
+
+				  <div class="alert alert-warning alert-dismissible" id="messageDiv" role="alert">
+				    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				      <span aria-hidden="true">&times;</span>
+				    </button>
+				    <span><i class="fa fa-info-circle"></i>&nbsp;{{ Session::get('message') }}</span>
+				  </div>
+			  @endif
                     <div class="col-lg-12">
                         <a href="#menu-toggle" id="menu-toggle"><i class='fa fa-align-justify fa-2x'></i></a>
                         
   <div id="messageDiv"></div>
-  @if (Session::has('message'))
-
-	  <div class="alert alert-info alert-dismissible" id="messageDiv" style="display:inline-block" role="alert">
-	    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-	      <span aria-hidden="true">&times;</span>
-	    </button>
-	    <span><i class="fa fa-info-circle"></i>&nbsp;{{ Session::get('message') }}</span>
-	  </div>
-  @endif
+  
   	<div class="row">
   		<div class="col-md-4">
   			<div class="panel panel-success text-center">
@@ -98,7 +87,7 @@
 		    <div role="tabpanel">
 
 				  <!-- Nav tabs -->
-				  <ul class="nav nav-pills" role="tablist">
+				  <ul class="nav nav-pills nav-justified" role="tablist">
 				    <li role="presentation" class="active">
 				    	<a href="#profile" aria-controls="profile" role="tab" data-toggle="pill"> Edit Profile</a>
 				  	</li>

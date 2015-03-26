@@ -9,7 +9,9 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 	use UserTrait, RemindableTrait;
 
-	public $timestamps = false;
+	public function items()	{
+		return $this->hasMany('Item');
+	}
 
 	public static $auth_rules = [
 	'username' => 'required|exists:users',

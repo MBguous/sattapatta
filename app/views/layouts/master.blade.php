@@ -241,7 +241,7 @@ footer, .body-container:after {
              $.each(response.errors, function(index, value){
                var errorDiv = '#'+index+'_error';
                // console.log(errorDiv);
-               // $(errorDiv).addClass('required');
+               $(errorDiv).addClass('text-danger');
                $(errorDiv).empty().append(value);
              });
            }
