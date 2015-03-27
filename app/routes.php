@@ -34,18 +34,15 @@ Route::get('accounts/activate/{code}', array('as' => 'accounts.activate', 'uses'
 Route::get('mail/{email}', array('as'=>'mail', 'uses'=>'AccountController@sendMail'));
 
 Route::group(array('before'=>'auth'), function() {
-	Route::get('users/dashboard', array('as'=>'users.dashboard', 'uses'=>'UserController@showDashboard'));
+	Route::get('users/{username}/dashboard', array('as'=>'users.dashboard', 'uses'=>'UserController@showDashboard'));
 	Route::get('users/{username}/profile', array('as'=>'users.profile', 'uses'=>'UserController@showProfile'));
+	Route::post('users/profile/image', array('as'=>'post.users.profile', 'uses'=>'UserController@editProfileImage'));
 
-	// Route::get('users/{user}/profile', function(User $user){
-	// 	return View::make('users.profile');	
-	// });
+	Route::post('users/{username}/profile/info', array('as'=>'post.users.profile.info', 'uses'=>'UserController@editProfileInfo'));
 
-	Route::post('uses/profile/image', array('as'=>'post.users.profile', 'uses'=>'UserController@editProfileImage'));
-	Route::post('users/profile/info', array('as'=>'post.users.profile.info', 'uses'=>'UserController@editProfileInfo'));
-	Route::get('users/post', array('as'=>'users.post', 'uses'=>'ItemController@showPostItem'));
+	Route::get('users/{username}/post', array('as'=>'users.post', 'uses'=>'ItemController@showPostItem'));
 	Route::post('users/post', array('as'=>'post.users.post', 'uses'=>'ItemController@postItem'));
-	Route::get('users/listing', array('as'=>'users.listing', 'uses'=>'ItemController@showListing'));
+	Route::get('users/{username}/listing', array('as'=>'users.listing', 'uses'=>'ItemController@showListing'));
 });
 
 Route::get('items/browse', array('as'=>'items.browse', 'uses'=>'ItemController@browse'));

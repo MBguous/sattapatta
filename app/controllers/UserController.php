@@ -1,7 +1,7 @@
 <?php
 class UserController extends BaseController {
 
-	public function showDashboard() {
+	public function showDashboard($username) {
 		return View::make('users.dashboard');
 	}
 
@@ -30,9 +30,12 @@ class UserController extends BaseController {
 		return Redirect::back()->withMessage('Image upload failed. Please try again.');
 	}
 
-	public function editProfileInfo() {
+	public function editProfileInfo($username) {
+
+		// dd('wtf');
 
 	if (Request::ajax()) {
+		// dd('wtf');
 		$inputData = Input::get('formData');
 		parse_str($inputData, $formFields);
 		// dd($formFields['gender']);
@@ -53,8 +56,10 @@ class UserController extends BaseController {
 		// var_dump(Input::all());
 		// var_dump($inputData);
 
+		$id = Auth::user()->id;
+
 		$rules = [
-		'username'	=> 'max:20|min:3|unique:users',
+		'username'	=> 'max:20|min:3|unique:users,username, '.$id,
 		'email'			=> 'email|max:50|unique:users',
 		'firstName'	=> 'string',
 		'lastName'	=> 'string',

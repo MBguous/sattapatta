@@ -8,15 +8,15 @@
 	  <div id="sidebar-wrapper">
       <ul class="sidebar-nav">
         <li class="sidebar-brand"><a href="#"></a></li>
-        <li>{{ HTML::linkRoute('users.dashboard', 'Dashboard') }}</li>
-        <li>{{ HTML::linkRoute('users.post', 'Post Item') }}</li>
+        <li>{{ HTML::linkRoute('users.dashboard', 'Dashboard', Auth::user()->username) }}</li>
+        <li>{{ HTML::linkRoute('users.post', 'Post Item', Auth::user()->username) }}</li>
         <li>
         	<blockquote>
-        		{{ HTML::linkRoute('users.listing', 'My Listings', null, ['style'=>'background:#454545']) }}
+        		{{ HTML::linkRoute('users.listing', 'My Listings', Auth::user()->username, ['style'=>'background:#454545']) }}
       		</blockquote>
     		</li>
         <li><a href="#">Messages <span class="badge">3</span></a></li>
-        <li>{{ HTML::linkRoute('users.profile', 'Profile') }}</li>
+        <li>{{ HTML::linkRoute('users.profile', 'Profile', Auth::user()->username) }}</li>
       </ul>
     </div>
     <!-- /#sidebar-wrapper -->

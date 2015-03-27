@@ -12,13 +12,13 @@
                       {{-- HTML::image(Auth::user()->photoURL, 'profile-pic', ['height'=>'60px', 'class'=>'img-circle']) --}}
                     </a>
                 </li>
-                <li>{{ HTML::linkRoute('users.dashboard', 'Dashboard') }}</li>
-                <li>{{ HTML::linkRoute('users.post', 'Post Item') }}</li>
-                <li>{{ HTML::linkRoute('users.listing', 'My Listings') }}</li>
+                <li>{{ HTML::linkRoute('users.dashboard', 'Dashboard', Auth::user()->username) }}</li>
+                <li>{{ HTML::linkRoute('users.post', 'Post Item', Auth::user()->username) }}</li>
+                <li>{{ HTML::linkRoute('users.listing', 'My Listings', Auth::user()->username) }}</li>
                 <li>{{ HTML::link('#', 'Messages') }}</li>
                 <li>
                 	<blockquote>
-                		{{ HTML::linkRoute('users.profile', 'Profile', null, ['style'=>'background:#454545']) }}
+                		{{ HTML::linkRoute('users.profile', 'Profile', Auth::user()->username, ['style'=>'background:#454545']) }}
                 	</blockquote>
                 </li>
             </ul>
@@ -141,110 +141,112 @@
 			        			<td>{{ Auth::user()->country }}</td>
 			        		</tr>
 			        	</table>
-			        	{{ HTML::link('#edit-profile', 'Edit', ['data-toggle'=>'modal', ]) }}
+			        	{{ HTML::link('#edit-profile', 'Edit', ['data-toggle'=>'modal']) }}
 				    	</div>
 				    		
-				    		<div class="modal fade" id="edit-profile">
-								  <div class="modal-dialog">
-								    <div class="modal-content">
-								      <div class="modal-header">
-								        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-								        <h4 class="modal-title">Edit profile details</h4>
-								      </div>
-								      {{ Form::model(Auth::user(), array('url'=>'users/profile/info', 'class'=>'form-horizontal', 'id'=>'infoForm')) }}
+			    		<div class="modal fade" id="edit-profile">
+						  <div class="modal-dialog">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+						        <h4 class="modal-title">Edit profile details</h4>
+						      </div>
+
+						      {{ Form::model(Auth::user(), array('url'=>array('users/profile/info', Auth::user()->username), 'class'=>'form-horizontal', 'id'=>'infoForm', 'method'=>'put')) }}
+      {{-- Form::model(Auth::user(), array('route'=>array('users.profile.info'=>Auth::user()->id, 'method'=>'put'), 'class'=>'form-horizontal', 'id'=>'infoForm')) --}}
 								      <!-- <form action="#" id="infoForm" class="form-horizontal"> -->
-								      <div class="modal-body">
+						      <div class="modal-body">
 
-												    <div class="form-group">
-												    	{{ Form::label('username', 'Username', ['class'=>'col-md-3 control-label']) }}
-												    	<div class="col-md-9">
-													    	{{ Form::text('username', null, ['class'=>'form-control']) }}
-													    	<div id="username_error"></div>
-												    	</div>
-												    </div>
+						    <div class="form-group">
+						    	{{ Form::label('username', 'Username', ['class'=>'col-md-3 control-label']) }}
+						    	<div class="col-md-9">
+							    	{{ Form::text('username', null, ['class'=>'form-control']) }}
+							    	<div id="username_error"></div>
+						    	</div>
+						    </div>
 
-												    <div class="form-group">
-												    	{{ Form::label('firstName', 'First Name', ['class'=>'col-md-3 control-label']) }}
-												    	<div class="col-md-9">
-													    	{{ Form::text('firstName', null, ['class'=>'form-control']) }}
-													    	<div id="firstName_error"></div>
-												    	</div>
-												    </div>
+							    <div class="form-group">
+							    	{{ Form::label('firstName', 'First Name', ['class'=>'col-md-3 control-label']) }}
+							    	<div class="col-md-9">
+								    	{{ Form::text('firstName', null, ['class'=>'form-control']) }}
+								    	<div id="firstName_error"></div>
+							    	</div>
+							    </div>
 
-												    <div class="form-group">
-												    	{{ Form::label('lastName', 'Last Name', ['class'=>'col-md-3 control-label']) }}
-												    	<div class="col-md-9">
-													    	{{ Form::text('lastName', null, ['class'=>'form-control']) }}
-													    	<div id="lastName_error"></div>
-												    	</div>
-												    </div>
+							    <div class="form-group">
+							    	{{ Form::label('lastName', 'Last Name', ['class'=>'col-md-3 control-label']) }}
+							    	<div class="col-md-9">
+								    	{{ Form::text('lastName', null, ['class'=>'form-control']) }}
+								    	<div id="lastName_error"></div>
+							    	</div>
+							    </div>
 
-												    <div class="form-group">
-												      <label class="col-lg-3 control-label">Gender</label>
-												      <div class="col-lg-9">
-												        <div class="radio">
-												          <label>
-												            <input type="radio" name="gender" id="male" value="male" checked="">
-												            Male
-												          </label>
-												        </div>
-												        <div class="radio">
-												          <label>
-												            <input type="radio" name="gender" id="female" value="female">
-												            Female
-												          </label>
-												        </div>
-												        <div id="gender_error"></div>
-												      </div>
-												    </div>
+							    <div class="form-group">
+							      <label class="col-lg-3 control-label">Gender</label>
+							      <div class="col-lg-9">
+							        <div class="radio">
+							          <label>
+							            <input type="radio" name="gender" id="male" value="male" checked="">
+							            Male
+							          </label>
+							        </div>
+							        <div class="radio">
+							          <label>
+							            <input type="radio" name="gender" id="female" value="female">
+							            Female
+							          </label>
+							        </div>
+							        <div id="gender_error"></div>
+							      </div>
+							    </div>
 
-												    <div class="form-group">
-												    	{{ Form::label('birthDay', 'Birth Day', ['class'=>'col-md-3 control-label']) }}
-												    	<div class="col-md-9">
-													    	{{ Form::text('birthDay', null, ['class'=>'form-control']) }}
-													    	<div id="birthDay_error"></div>
-												    	</div>
-												    </div>
+							    <div class="form-group">
+							    	{{ Form::label('birthDay', 'Birth Day', ['class'=>'col-md-3 control-label']) }}
+							    	<div class="col-md-9">
+								    	{{ Form::text('birthDay', null, ['class'=>'form-control']) }}
+								    	<div id="birthDay_error"></div>
+							    	</div>
+							    </div>
 
-												    <div class="form-group">
-												    	{{ Form::label('birthMonth', 'Birth Month', ['class'=>'col-md-3 control-label']) }}
-												    	<div class="col-md-9">
-													    	{{ Form::text('birthMonth', null, ['class'=>'form-control']) }}
-													    	<div id="birthMonth_error"></div>
-												    	</div>
-												    </div>
+							    <div class="form-group">
+							    	{{ Form::label('birthMonth', 'Birth Month', ['class'=>'col-md-3 control-label']) }}
+							    	<div class="col-md-9">
+								    	{{ Form::text('birthMonth', null, ['class'=>'form-control']) }}
+								    	<div id="birthMonth_error"></div>
+							    	</div>
+							    </div>
 
-												    <div class="form-group">
-												    	{{ Form::label('birthYear', 'Birth Year', ['class'=>'col-md-3 control-label']) }}
-												    	<div class="col-md-9">
-													    	{{ Form::text('birthYear', null, ['class'=>'form-control']) }}
-													    	<div id="birthYear_error"></div>
-												    	</div>
-												    </div>
+							    <div class="form-group">
+							    	{{ Form::label('birthYear', 'Birth Year', ['class'=>'col-md-3 control-label']) }}
+							    	<div class="col-md-9">
+								    	{{ Form::text('birthYear', null, ['class'=>'form-control']) }}
+								    	<div id="birthYear_error"></div>
+							    	</div>
+							    </div>
 
-												    <div class="form-group">
-												    	{{ Form::label('phone', 'Phone', ['class'=>'col-md-3 control-label']) }}
-												    	<div class="col-md-9">
-													    	{{ Form::text('phone', null, ['class'=>'form-control']) }}
-												    	</div>
-												    	<div id="phone_error"></div>
-												    </div>
+							    <div class="form-group">
+							    	{{ Form::label('phone', 'Phone', ['class'=>'col-md-3 control-label']) }}
+							    	<div class="col-md-9">
+								    	{{ Form::text('phone', null, ['class'=>'form-control']) }}
+							    	</div>
+							    	<div id="phone_error"></div>
+							    </div>
 
-												    <div class="form-group">
-												    	{{ Form::label('address', 'Address', ['class'=>'col-md-3 control-label']) }}
-												    	<div class="col-md-9">
-													    	{{ Form::text('address', null, ['class'=>'form-control']) }}
-												    	</div>
-												    	<div id="address_error"></div>
-												    </div>
+							    <div class="form-group">
+							    	{{ Form::label('address', 'Address', ['class'=>'col-md-3 control-label']) }}
+							    	<div class="col-md-9">
+								    	{{ Form::text('address', null, ['class'=>'form-control']) }}
+							    	</div>
+							    	<div id="address_error"></div>
+							    </div>
 
-												    <div class="form-group">
-												    	{{ Form::label('country', 'Country', ['class'=>'col-md-3 control-label']) }}
-												    	<div class="col-md-9">
-													    	{{ Form::text('country', null, ['class'=>'form-control']) }}
-												    	</div>
-												    	<div id="country_error"></div>
-												    </div>
+							    <div class="form-group">
+							    	{{ Form::label('country', 'Country', ['class'=>'col-md-3 control-label']) }}
+							    	<div class="col-md-9">
+								    	{{ Form::text('country', null, ['class'=>'form-control']) }}
+							    	</div>
+							    	<div id="country_error"></div>
+							    </div>
 								        
 								      </div>
 								      <div class="modal-footer">

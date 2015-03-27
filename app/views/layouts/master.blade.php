@@ -134,11 +134,11 @@
                   <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
-                  <li>{{ HTML::linkRoute('users.dashboard', 'Dashboard') }}</li>
-                  <li>{{ HTML::linkRoute('users.post', 'Post item') }}</li>
-                  <li>{{ HTML::linkRoute('users.listing', 'My listings') }}</li>
+                  <li>{{ HTML::linkRoute('users.dashboard', 'Dashboard', Auth::user()->username) }}</li>
+                  <li>{{ HTML::linkRoute('users.post', 'Post item'), Auth::user()->username }}</li>
+                  <li>{{ HTML::linkRoute('users.listing', 'My listings', Auth::user()->username) }}</li>
                   <li>{{ HTML::link('#', 'Messages') }}</li>
-                  <li>{{ HTML::linkRoute('users.profile', 'Profile') }}</li>
+                  <li>{{ HTML::linkRoute('users.profile', 'Profile', Auth::user()->username) }}</li>
                   <li>{{ HTML::linkRoute('logout', 'Log out') }}</li>
                  </ul>
               </li>

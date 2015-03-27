@@ -7,14 +7,14 @@ class ItemController extends BaseController {
 		$items = Item::all();
 		return View::make('browse', compact('items'));
 	}
-	
-	public function showListing() {
+
+	public function showListing($username) {
 
 		$items = Item::where('user_id', Auth::user()->id)->get();
 		return View::make('users.listing', compact('items'));
 	}
 
-	public function showPostItem() {
+	public function showPostItem($username) {
 		return View::make('users.post');
 	}
 
