@@ -32,13 +32,13 @@
     html {
       font-family: 'OpenSans';
     }
-    body, html{
+    /*body, html{
       min-height: 100%;
       height: 100%;
     }
     body {
       overflow-x: hidden;
-    }
+    }*/
     a i{
       outline: none;
     }
@@ -50,16 +50,37 @@
       content: "";
       display: block;
     }
-    footer, .body-container:after {
+    .body-container:after {
       height: 100px; 
     }
-    footer {
+    /*footer {
       border-top: 3px solid #222222;
       background-color: #1c1e2a;
       height: 100px;
       position: relative;
       margin-bottom: 0;
       margin-top: -100px;
+    }*/
+    /* Sticky footer styles
+-------------------------------------------------- */
+    html {
+      position: relative;
+      min-height: 100%;
+    }
+    body {
+      /* Margin bottom by footer height */
+      margin-bottom: 60px;
+    }
+    .footer {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      /* Set the fixed height of the footer here */
+      height: 72px;
+      background-color: #222222;
+    }
+    .footer>.container {
+      padding: 20px;
     }
   </style>
 
@@ -135,7 +156,7 @@
                 </a>
                 <ul class="dropdown-menu">
                   <li>{{ HTML::linkRoute('users.dashboard', 'Dashboard', Auth::user()->username) }}</li>
-                  <li>{{ HTML::linkRoute('users.post', 'Post item'), Auth::user()->username }}</li>
+                  <li>{{ HTML::linkRoute('users.post', 'Post item', Auth::user()->username) }}</li>
                   <li>{{ HTML::linkRoute('users.listing', 'My listings', Auth::user()->username) }}</li>
                   <li>{{ HTML::link('#', 'Messages') }}</li>
                   <li>{{ HTML::linkRoute('users.profile', 'Profile', Auth::user()->username) }}</li>
@@ -178,19 +199,28 @@
 
 
 </div>
+    
 
     <!-- Footer -->
-    <footer>
+    <!-- <footer>
       <div class="row text-center">
         <div class="col-md-4 col-md-offset-4">
           <br>
-          <p>Copyright &copy; SattaPatta 2015</p>
+          <p class="navbar-text">Copyright &copy; SattaPatta 2015</p>
         </div>
       </div>
-    </footer>
+    </footer> -->
+
+    
 
   </div>
   <!-- /.container -->
+
+    <div class="footer">
+      <div class="container">
+        <p class="text-muted text-center">Copyright &copy; SattaPatta {{ date('Y') }}</p>
+      </div>
+    </div>
 
   <!-- jQuery -->
   <!-- // <script src="js/jquery.js"></script> -->
