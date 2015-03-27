@@ -82,6 +82,20 @@
     .footer>.container {
       padding: 20px;
     }
+    .thumbnail > .caption > p, 
+    .thumbnail > .caption > h6 {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    /**/
+    .tooltip.top .tooltip-inner {
+      background-color: #eeeeee;
+      color: #0f0f0f;
+    }
+    .tooltip.top .tooltip-arrow {
+      border-top-color: #eeeeee;
+    }
   </style>
 
 </head>
@@ -237,6 +251,8 @@
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
     });
+
+    $('[data-toggle="tooltip"]').tooltip({'placement': 'top'});
 
  /*   $(document).ready(function(){
       $('#get').click(function(e){

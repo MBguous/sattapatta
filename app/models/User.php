@@ -13,6 +13,10 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $this->hasMany('Item');
 	}
 
+	public function messages() {
+		return $this->belongsToMany('Message', 'messages_users');
+	}
+
 	public static $auth_rules = [
 	'username' => 'required|exists:users',
 	'password' => 'required'

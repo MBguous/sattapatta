@@ -43,6 +43,8 @@ Route::group(array('before'=>'auth'), function() {
 	Route::get('users/{username}/post', array('as'=>'users.post', 'uses'=>'ItemController@showPostItem'));
 	Route::post('users/post', array('as'=>'post.users.post', 'uses'=>'ItemController@postItem'));
 	Route::get('users/{username}/listing', array('as'=>'users.listing', 'uses'=>'ItemController@showListing'));
+
+	Route::get('messages/{username}', array('as'=>'compose.message', 'uses'=>'MessageController@composeMessage'));
 });
 
 Route::get('items/browse', array('as'=>'items.browse', 'uses'=>'ItemController@browse'));
