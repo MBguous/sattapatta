@@ -13,7 +13,7 @@
                 <li><blockquote>{{ HTML::linkRoute('users.post', 'Post Item', null, ['style'=>'background:#454545']) }}</blockquote></li>
                 <li>{{ HTML::linkRoute('users.listing', 'My Listings') }}</li>
                 <li>{{ HTML::link('#', 'Messages') }}</li>
-                <li>{{ HTML::linkRoute('users.profile', 'Profile') }}</li>
+                <li>{{ HTML::linkRoute('users.profile', 'Profile', Auth::user()->username) }}</li>
             </ul>
         </div>
         <!-- /#sidebar-wrapper -->

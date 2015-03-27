@@ -12,236 +12,33 @@
     <!-- /.row -->
 
     <!-- Page Features -->
-    <div class="row text-center">
-
+    @foreach ($items as $item)
       <div class="col-md-3 col-sm-6 hero-feature">
         <div class="thumbnail">
+          <div style="position:relative; padding:0 10px">
+            <h6>By {{ HTML::link('#', $item->user->username) }} <span class="pull-right">{{ $item->created_at->diffForHumans() }}</span></h6>
+          </div>
           <!-- <img src="http://placehold.it/800x500" alt=""> -->
-          <img src="images/iphone.jpg" alt="">
-          <div class="caption">
-            <h4>iPhone 5s</h4>
-            <p>Recently purchased 2 months ago.</p>
-            <p>
-              <a href="#" class="btn btn-primary">Contact User!</a> <a href="#" class="btn btn-default">More Info</a>
-            </p>
+          <div style="text-align:center">
+            {{ HTML::image($item->photoURL, null, ['height'=>'150px']) }}
           </div>
+          <div class="caption">
+            <strong>{{ $item->name }}</strong>
+            <h6>
+              @if (strlen($item->description)>75)
+                {{ substr($item->description, 0,75) }}...
+              @else
+                {{ $item->description }}
+              @endif
+            </h6>
+            <div style="position:absolute; bottom:10px">
+              
+              <a href="#" class="btn btn-primary btn-xs">Contact User!</a> <a href="#" class="btn btn-default btn-xs">Add to Wishlist</a>
+            </div>
+          </div>
+          
         </div>
       </div>
-
-      <div class="col-md-3 col-sm-6 hero-feature">
-        <div class="thumbnail">
-          <img src="images/fender.jpg" alt="">
-          <div class="caption">
-            <h4>Fender Strat</h4>
-            <p>Classic SRV-esque stratocaster.</p>
-            <p>
-              <a href="#" class="btn btn-primary">Contact User!</a> <a href="#" class="btn btn-default">More Info</a>
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-3 col-sm-6 hero-feature">
-        <div class="thumbnail">
-          <img src="images/ticket.jpg" alt="">
-          <div class="caption">
-            <h4>Concert ticket</h4>
-            <p>Ticket for one to the awesome metal mayhem concert.</p>
-            <p>
-              <a href="#" class="btn btn-primary">Contact User!</a> <a href="#" class="btn btn-default">More Info</a>
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-3 col-sm-6 hero-feature">
-        <div class="thumbnail">
-          <img src="images/book.jpg" alt="">
-          <div class="caption">
-            <h4>Richard Branson Autobiography</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-            <p>
-              <a href="#" class="btn btn-primary">Contact User!</a> <a href="#" class="btn btn-default">More Info</a>
-            </p>
-          </div>
-        </div>
-      </div>
-
-    </div>
-    <!-- /.row -->
-
-    <div class="row text-center">
-
-      <div class="col-md-3 col-sm-6 hero-feature">
-        <div class="thumbnail">
-          <!-- <img src="http://placehold.it/800x500" alt=""> -->
-          <img src="images/iphone.jpg" alt="">
-          <div class="caption">
-            <h4>iPhone 5s</h4>
-            <p>Recently purchased 2 months ago.</p>
-            <p>
-              <a href="#" class="btn btn-primary">Contact User!</a> <a href="#" class="btn btn-default">More Info</a>
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-3 col-sm-6 hero-feature">
-        <div class="thumbnail">
-          <img src="images/fender.jpg" alt="">
-          <div class="caption">
-            <h4>Fender Strat</h4>
-            <p>Classic SRV-esque stratocaster.</p>
-            <p>
-              <a href="#" class="btn btn-primary">Contact User!</a> <a href="#" class="btn btn-default">More Info</a>
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-3 col-sm-6 hero-feature">
-        <div class="thumbnail">
-          <img src="images/ticket.jpg" alt="">
-          <div class="caption">
-            <h4>Concert ticket</h4>
-            <p>Ticket for one to the awesome metal mayhem concert.</p>
-            <p>
-              <a href="#" class="btn btn-primary">Contact User!</a> <a href="#" class="btn btn-default">More Info</a>
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-3 col-sm-6 hero-feature">
-        <div class="thumbnail">
-          <img src="images/book.jpg" alt="">
-          <div class="caption">
-            <h4>Richard Branson Autobiography</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-            <p>
-              <a href="#" class="btn btn-primary">Contact User!</a> <a href="#" class="btn btn-default">More Info</a>
-            </p>
-          </div>
-        </div>
-      </div>
-
-    </div>
-    <!-- /.row -->
-
-    <div class="row text-center">
-
-      <div class="col-md-3 col-sm-6 hero-feature">
-        <div class="thumbnail">
-          <!-- <img src="http://placehold.it/800x500" alt=""> -->
-          <img src="images/iphone.jpg" alt="">
-          <div class="caption">
-            <h4>iPhone 5s</h4>
-            <p>Recently purchased 2 months ago.</p>
-            <p>
-              <a href="#" class="btn btn-primary">Contact User!</a> <a href="#" class="btn btn-default">More Info</a>
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-3 col-sm-6 hero-feature">
-        <div class="thumbnail">
-          <img src="images/fender.jpg" alt="">
-          <div class="caption">
-            <h4>Fender Strat</h4>
-            <p>Classic SRV-esque stratocaster.</p>
-            <p>
-              <a href="#" class="btn btn-primary">Contact User!</a> <a href="#" class="btn btn-default">More Info</a>
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-3 col-sm-6 hero-feature">
-        <div class="thumbnail">
-          <img src="images/ticket.jpg" alt="">
-          <div class="caption">
-            <h4>Concert ticket</h4>
-            <p>Ticket for one to the awesome metal mayhem concert.</p>
-            <p>
-              <a href="#" class="btn btn-primary">Contact User!</a> <a href="#" class="btn btn-default">More Info</a>
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-3 col-sm-6 hero-feature">
-        <div class="thumbnail">
-          <img src="images/book.jpg" alt="">
-          <div class="caption">
-            <h4>Richard Branson Autobiography</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-            <p>
-              <a href="#" class="btn btn-primary">Contact User!</a> <a href="#" class="btn btn-default">More Info</a>
-            </p>
-          </div>
-        </div>
-      </div>
-
-    </div>
-    <!-- /.row -->
-
-    <div class="row text-center">
-
-      <div class="col-md-3 col-sm-6 hero-feature">
-        <div class="thumbnail">
-          <!-- <img src="http://placehold.it/800x500" alt=""> -->
-          <img src="images/iphone.jpg" alt="">
-          <div class="caption">
-            <h4>iPhone 5s</h4>
-            <p>Recently purchased 2 months ago.</p>
-            <p>
-              <a href="#" class="btn btn-primary">Contact User!</a> <a href="#" class="btn btn-default">More Info</a>
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-3 col-sm-6 hero-feature">
-        <div class="thumbnail">
-          <img src="images/fender.jpg" alt="">
-          <div class="caption">
-            <h4>Fender Strat</h4>
-            <p>Classic SRV-esque stratocaster.</p>
-            <p>
-              <a href="#" class="btn btn-primary">Contact User!</a> <a href="#" class="btn btn-default">More Info</a>
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-3 col-sm-6 hero-feature">
-        <div class="thumbnail">
-          <img src="images/ticket.jpg" alt="">
-          <div class="caption">
-            <h4>Concert ticket</h4>
-            <p>Ticket for one to the awesome metal mayhem concert.</p>
-            <p>
-              <a href="#" class="btn btn-primary">Contact User!</a> <a href="#" class="btn btn-default">More Info</a>
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-3 col-sm-6 hero-feature">
-        <div class="thumbnail">
-          <img src="images/book.jpg" alt="">
-          <div class="caption">
-            <h4>Richard Branson Autobiography</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
-            <p>
-              <a href="#" class="btn btn-primary">Contact User!</a> <a href="#" class="btn btn-default">More Info</a>
-            </p>
-          </div>
-        </div>
-      </div>
-
-    </div>
-    <!-- /.row -->
+    @endforeach
 
 @stop

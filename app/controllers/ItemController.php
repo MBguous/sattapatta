@@ -7,7 +7,7 @@ class ItemController extends BaseController {
 		$items = Item::all();
 		return View::make('browse', compact('items'));
 	}
-
+	
 	public function showListing() {
 
 		$items = Item::where('user_id', Auth::user()->id)->get();
@@ -28,7 +28,7 @@ class ItemController extends BaseController {
 		];
 
 		$messages = array(
-			'price.required' => 'If you don\'t remember the price, enter the approximate value.' ,
+		'price.required' => 'If you don\'t remember the price, enter the approximate value.' ,
 	    'photoURL.required' => 'Please upload an image of the item.',
 	    'photoURL.image' => 'You need to upload an image of filetypes: jpeg, jpg, bmp, gif or png.'
 		);

@@ -20,8 +20,10 @@ Route::group(array('before'=>'csrf'), function(){
 	Route::post('login', array('as' => 'login.post', 'uses' => 'AuthController@postLogin'));
 	Route::post('accounts/create', array('as' => 'accounts.create.post', 'uses' => 'AccountController@postRegister'));
 });
-Route::get('login', array('as' => 'login','uses' => 'AuthController@getLogin'));
 
+// Route::model('user', 'User');
+
+Route::get('login', array('as' => 'login','uses' => 'AuthController@getLogin'));
 
 Route::get('hybridauth/{auth?}', array('as' =>'hybridauth', 'uses' => 'AuthController@getSocialLogin'));
 
@@ -33,8 +35,13 @@ Route::get('mail/{email}', array('as'=>'mail', 'uses'=>'AccountController@sendMa
 
 Route::group(array('before'=>'auth'), function() {
 	Route::get('users/dashboard', array('as'=>'users.dashboard', 'uses'=>'UserController@showDashboard'));
-	Route::get('users/profile', array('as'=>'users.profile', 'uses'=>'UserController@showProfile'));
-	Route::post('users/profile/image', array('as'=>'post.users.profile', 'uses'=>'UserController@editProfileImage'));
+	Route::get('users/{username}/profile', array('as'=>'users.profile', 'uses'=>'UserController@showProfile'));
+
+	// Route::get('users/{user}/profile', function(User $user){
+	// 	return View::make('users.profile');	
+	// });
+
+	Route::post('uses/profile/image', array('as'=>'post.users.profile', 'uses'=>'UserController@editProfileImage'));
 	Route::post('users/profile/info', array('as'=>'post.users.profile.info', 'uses'=>'UserController@editProfileInfo'));
 	Route::get('users/post', array('as'=>'users.post', 'uses'=>'ItemController@showPostItem'));
 	Route::post('users/post', array('as'=>'post.users.post', 'uses'=>'ItemController@postItem'));

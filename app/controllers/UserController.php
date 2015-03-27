@@ -5,7 +5,7 @@ class UserController extends BaseController {
 		return View::make('users.dashboard');
 	}
 
-	public function showProfile() {
+	public function showProfile($username) {
 		return View::make('users.profile');
 	}
 

@@ -5009,13 +5009,14 @@ a.badge:focus {
   }
 }
 .thumbnail {
-  height: 350px;
+  height: 300px;
   display: block;
   /*padding: 2px;*/
   /*margin-bottom: 21px;*/
   line-height: 1.42857143;
   background-color: #222222;
   border: 1px solid #464545;
+  color: #EEEEEE;
   /*border-radius: 4px;*/
   -webkit-transition: border 0.2s ease-in-out;
   -o-transition: border 0.2s ease-in-out;
