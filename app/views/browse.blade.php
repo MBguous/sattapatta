@@ -31,10 +31,12 @@
               {{ $item->description }}
             </h6>
             <div style="position:absolute; bottom:10px">
-            {{ Form::open() }}
-              {{ HTML::linkRoute('compose.message', 'Contact User', $item->user->username, ['class'=>'btn btn-primary btn-xs']) }}
-              {{ HTML::link('#', 'Add to Wishlist', ['class'=>'btn btn-default btn-xs']) }}
-            {{ Form::close() }}
+            
+              @if(Auth::user()->username != $item->user->username)
+                {{ HTML::linkRoute('compose.message', 'Contact User', $item->user->username, ['class'=>'btn btn-primary btn-xs']) }}
+                {{ HTML::link('#', 'Add to Wishlist', ['class'=>'btn btn-default btn-xs']) }}
+              @endif
+            
             </div>
           </div>
           

@@ -4,7 +4,7 @@ class ItemController extends BaseController {
 
 	public function browse() {
 
-		$items = Item::all();
+		$items = Item::orderBy('created_at', 'desc')->get();
 		return View::make('browse', compact('items'));
 	}
 

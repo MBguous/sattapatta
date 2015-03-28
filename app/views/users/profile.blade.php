@@ -203,7 +203,7 @@
 							    <div class="form-group">
 							    	{{ Form::label('birthDay', 'Birth Day', ['class'=>'col-md-3 control-label']) }}
 							    	<div class="col-md-9">
-								    	{{ Form::text('birthDay', null, ['class'=>'form-control']) }}
+								    	{{ Form::selectRange('birthDay', 1, 31, null, ['class'=>'form-control']) }}
 								    	<div id="birthDay_error"></div>
 							    	</div>
 							    </div>
@@ -211,7 +211,7 @@
 							    <div class="form-group">
 							    	{{ Form::label('birthMonth', 'Birth Month', ['class'=>'col-md-3 control-label']) }}
 							    	<div class="col-md-9">
-								    	{{ Form::text('birthMonth', null, ['class'=>'form-control']) }}
+								    	{{ Form::selectMonth('birthMonth', null, ['class'=>'form-control']) }}
 								    	<div id="birthMonth_error"></div>
 							    	</div>
 							    </div>
@@ -219,7 +219,7 @@
 							    <div class="form-group">
 							    	{{ Form::label('birthYear', 'Birth Year', ['class'=>'col-md-3 control-label']) }}
 							    	<div class="col-md-9">
-								    	{{ Form::text('birthYear', null, ['class'=>'form-control']) }}
+								    	{{ Form::selectYear('birthYear', 1950, 2015, 1980, ['class'=>'form-control']) }}
 								    	<div id="birthYear_error"></div>
 							    	</div>
 							    </div>
