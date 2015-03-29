@@ -12,7 +12,7 @@ class MessageController extends BaseController {
 											->orderBy('date', 'desc')
 											->orderBy('time', 'desc')
 											->get();
-return View::make('users.message')->withMessages($messages);
+		return View::make('users.message')->withMessages($messages);
 	}
 
 	public function showMessage(){
@@ -22,6 +22,19 @@ return View::make('users.message')->withMessages($messages);
 			// dd($messageID);
 			$content = Message::where('id', $messageID)->pluck('content');
 			$title = Message::where('id', $messageID)->pluck('title');
+			$message = Message::where('id', $messageID)->first();
+			$read_status = $message->read_status;
+
+			if($read_status == 0) {
+				$message->read_status = 1;
+				$message->save();
+				return Response::json(array(
+					'title' => $title,
+					'content' => $content,
+					'update' => true
+				));
+			}
+
 			// return Response::json(Input::get('data'));
 			return Response::json(array(
 					'title' => $title,

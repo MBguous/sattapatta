@@ -6,7 +6,15 @@ class UserController extends BaseController {
 	}
 
 	public function showProfile($username) {
-		return View::make('users.profile');
+
+		if(Auth::user() == $username) {
+			$user = Auth::user();
+		}
+		else {
+			$user = User::where('username', $username)->first();
+		}
+		// dd($user);
+		return View::make('users.profile')->withUser($user);
 	}
 
 	public function editProfileImage() {

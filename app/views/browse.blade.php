@@ -17,7 +17,7 @@
         <div class="thumbnail">
           <div style="position:relative; padding:0 10px">
             <h6>
-              By {{ HTML::linkRoute('users.dashboard', $item->user->username, $item->user->username) }} 
+              By {{ HTML::linkRoute('users.profile', $item->user->username, $item->user->username) }} 
               <span class="pull-right">{{ $item->created_at->diffForHumans() }}</span>
             </h6>
           </div>
@@ -33,8 +33,8 @@
             <div style="position:absolute; bottom:10px">
             
               @if(Auth::user()->username != $item->user->username)
-                {{ HTML::linkRoute('compose.message', 'Contact User', $item->user->username, ['class'=>'btn btn-primary btn-xs']) }}
-                {{ HTML::link('#', 'Add to Wishlist', ['class'=>'btn btn-default btn-xs']) }}
+                {{-- HTML::linkRoute('compose.message', 'Contact User', $item->user->username, ['class'=>'btn btn-primary btn-xs']) --}}
+                {{ HTML::link('#', 'Add to Wishlist', ['class'=>'btn btn-primary btn-xs']) }}
               @endif
             
             </div>

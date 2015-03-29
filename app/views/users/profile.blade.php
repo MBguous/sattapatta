@@ -2,7 +2,7 @@
 
 @section ('content')
 
-	<div id="wrapper">
+	<div id="wrapper" class="toggled">
    
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
@@ -49,7 +49,7 @@
 		    	<div class="panel panel-heading">Profile Image</div>
 		    	<div class="panel panel-body">
 		    		<a href="#profile-image" data-toggle="modal" title="Change profile picture">
-		    			{{ HTML::image(Auth::user()->photoURL, 'profile-pic', ['height'=>'200px', 'class'=>'img-circle']) }}
+		    			{{ HTML::image($user->photoURL, 'profile-pic', ['height'=>'200px', 'class'=>'img-circle']) }}
 		    		</a>
 		    		<div class="modal fade" id="profile-image">
 						  <div class="modal-dialog">
@@ -90,12 +90,12 @@
 		    <div role="tabpanel">
 
 				  <!-- Nav tabs -->
-				  <ul class="nav nav-pills nav-justified" role="tablist">
+				  <ul class="nav nav-tabs" role="tablist">
 				    <li role="presentation" class="active">
-				    	<a href="#profile" aria-controls="profile" role="tab" data-toggle="pill"> Edit Profile</a>
+				    	<a href="#profile" aria-controls="profile" role="tab" data-toggle="tab"> Basic info</a>
 				  	</li>
-				    <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="pill">Messages</a></li>
-				    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="pill">Settings</a></li>
+				    <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Messages</a></li>
+				    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
 				  </ul>
 
 				  <!-- Tab panes -->

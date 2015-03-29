@@ -16,7 +16,7 @@
 
   <!-- Bootstrap Core CSS -->
   {{ HTML::style('css/darkly.bootstrap.css') }}
-  {{ HTML::style('font-awesome/css/font-awesome.min.css') }}
+  {{ HTML::style('font-awesome/css/font-awesome.css') }}
 
   <!-- Custom CSS -->
   {{ HTML::style('css/heroic-features.css') }}
@@ -321,7 +321,7 @@
     var link = event.relatedTarget; // Button that triggered the modal
     var id = link.id;
     var modal = $(this);
-    var spinner = $('<i></i>').addClass('fa fa-circle-o-notch fa-spin fa-3x');
+    var spinner = $('<i></i>').addClass('fa fa-circle-o-notch fa-spin fa-2x');
 
     modal.find('.modal-title').text('');
     modal.find('.modal-body').text('');
@@ -330,11 +330,11 @@
     // var messageId = link.data('messageId'); // Extract info from data-* attributes
     // var productname = button.data('productname')
 
-    // var title = 'Confirm Delete #' + productid
+    var label = '#span'+id;
     // var content = 'Are you sure want to delete ' + productname + '?'
     // alert(id);
     $.post('messages/show', {data:id}, function(response){
-      console.log(response);
+      console.log(label);
       // $('#'.msgId).empty().append('wateva');
       // if(response.success) {
       //   console.log(response);
@@ -344,8 +344,10 @@
       //   console.log('wtf');
       // }
       var title = response.title;
-       var content = response.content;
-       
+      var content = response.content;
+      if(response.update) {
+        $(label).empty();
+      }
 
     // Update the modal's content.
     

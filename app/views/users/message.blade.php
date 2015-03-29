@@ -2,7 +2,7 @@
 
 @section ('content')
 
-<div id="wrapper">
+<div id="wrapper" class="toggled">
 
     
   <!-- Sidebar -->
@@ -39,7 +39,7 @@
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
               <li role="presentation" class="active"><a href="#messages" aria-controls="home" role="tab" data-toggle="tab">Messages</a></li>
-              <li role="presentation"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Compose</a></li>
+              <!-- <li role="presentation"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Compose</a></li> -->
               <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Sent messages</a></li>
             </ul>
 
@@ -62,11 +62,14 @@
                     <th>Date</th>
                     <th>Time</th>
                   </tr>
-                  @foreach($messages as $message)
+                  @forelse($messages as $message)
                   <tr>
                     <td>{{ User::where('id', $message->sender_id)->pluck('username') }}</td>
-                    <td id="{{$message->id}}">
-                      {{ HTML::link('#messageModal', $message->title, ['id'=>$message->id, 'data-toggle'=>'modal', 'data-messageId'=>$message->id]) }}
+                    <td>
+                      @if($message->read_status == 0)
+                        <span class="label label-danger" id="span{{ $message->id }}">New</span>
+                      @endif
+                      {{ HTML::link('#messageModal', $message->title, ['id'=>$message->id, 'data-toggle'=>'modal']) }}
                     </td>
                     <td>{{ $message->date }}</td>
                     <td>{{ $message->time }}</td>
@@ -90,7 +93,10 @@
   </div>
 </div>
 
-                  @endforeach
+                  @empty
+                  <tr><td>{{ 'You currently don\'t have any messages.' }}</td></tr>
+
+                  @endforelse
 
                 </table>
               <!-- </div> -->

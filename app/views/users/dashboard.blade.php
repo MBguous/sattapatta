@@ -2,7 +2,7 @@
 
 @section ('content')
 
-    <div id="wrapper">
+    <div id="wrapper" class="toggled">
 
     
         <!-- Sidebar -->
