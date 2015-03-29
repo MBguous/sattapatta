@@ -339,12 +339,14 @@ var modal = $(this);
       // }
       var title = response.title;
        var content = response.content;
+       var spinner = '<i class="fa fa-spinner fa-spin"></i>';
 
     // Update the modal's content.
     
     // var modal = event.target;
     // modal.find('.modal-title').text(title);
     modal.find('.modal-title').empty().text(title);
+    modal.find('.modal-body').empty().html(spinner);
     modal.find('.modal-body').empty().text(content);
     });
 
