@@ -4009,7 +4009,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .nav-tabs > li.active > a:hover,
 .nav-tabs > li.active > a:focus {
   color: #00bc8c;
-  background-color: #222222;
+  background-color: #222431;
   border: 1px solid #464545;
   border-bottom-color: transparent;
   cursor: default;

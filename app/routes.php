@@ -44,14 +44,34 @@ Route::group(array('before'=>'auth'), function() {
 	Route::post('users/post', array('as'=>'post.users.post', 'uses'=>'ItemController@postItem'));
 	Route::get('users/{username}/listing', array('as'=>'users.listing', 'uses'=>'ItemController@showListing'));
 
+	Route::get('users/messages', array('as'=>'users.messages', 'uses'=>'MessageController@message'));
 	Route::get('messages/{username}', array('as'=>'compose.message', 'uses'=>'MessageController@composeMessage'));
 	Route::post('messages/{username}', array('as'=>'send.message', 'uses'=>'MessageController@sendMessage'));
+	Route::post('users/messages/show', array('as'=>'show.message', 'uses'=>'MessageController@showMessage'));
+
+
+	// Route::post('show', array('as'=>'show.message', 'uses'=>'MessageController@showMessage'));
+	
+
 });
 
 Route::get('items/browse', array('as'=>'items.browse', 'uses'=>'ItemController@browse'));
 
-Route::get('jpt', function() {
+Route::get('msg', function() {
+	// $messageUsers = DB::table('messages_users')->where('receiver_id', Auth::user()->id)->lists('message_id');
+	// $messages = DB::table('messages')->whereIn('id',$messageUsers)->get();
+	// dd($messages);
+	// 	foreach($messageUsers as $messageUser) {
+	// 		// var_dump(DB::table('messages')->where('messages.id', $messageUser->message_id)->get());
+	// 		var_dump($mid = $messageUser->message_id);
+	// 	}
+		// 
 	return View::make('jpt');
+});
+Route::get('users/msg/show', function(){
+	if (Request::ajax()){
+		return 'blah blah blah';
+	}
 });
 Route::get('jpt/get', function(){
 	if (Request::ajax()){

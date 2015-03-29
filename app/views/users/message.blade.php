@@ -66,7 +66,7 @@
                   <tr>
                     <td>{{ User::where('id', $message->sender_id)->pluck('username') }}</td>
                     <td id="{{$message->id}}">
-                      {{ HTML::link('messages/show', $message->title, ['id'=>$message->id, 'data-toggle'=>'modal', 'data-messageId'=>$message->id]) }}
+                      {{ HTML::link('#messageModal', $message->title, ['id'=>$message->id, 'data-toggle'=>'modal', 'data-messageId'=>$message->id]) }}
                     </td>
                     <td>{{ $message->date }}</td>
                     <td>{{ $message->time }}</td>
@@ -77,10 +77,9 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+        <h4 class="modal-title" id="myModalLabel"></h4>
       </div>
       <div class="modal-body">
-        {{ $message->title }}
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -101,34 +100,7 @@
             </div>
             <!-- messages -->
 
-              <div role="tabpanel" class="tab-pane" id="home">
-              <br>
-                <div class="col-md-12">
-                  {{ Form::open(array('route'=>array('send.message', $username), 'class'=>'form-horizontal')) }}
-                  <div class="row">
-                    <div class="form-group">
-                      <div class="col-md-8">
-                        {{ Form::text('title', null, ['class'=>'form-control', 'placeholder'=>'Title']) }}
-                        <div class="text-danger" id="title_error">{{ $errors->first('title', ':message') }}</div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="row">
-                    <div class="form-group">
-                      <div class="col-md-8">
-                        {{ Form::textarea('content', null, ['class'=>'form-control', 'placeholder'=>'Message for '.$username]) }}
-                        <div class="text-danger" id="content_error">{{ $errors->first('content', ':message') }}</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    {{ Form::submit('Send message', array('class'=>'btn btn-default')) }}
-                  </div>
-                  {{ Form::close() }}
-                </div>
-                
-              </div>
+             
               
               <div role="tabpanel" class="tab-pane" id="settings">...</div>
             </div>

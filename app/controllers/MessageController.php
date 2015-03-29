@@ -2,8 +2,55 @@
 
 class MessageController extends BaseController {
 
+	public function message(){
+		$messageUsers = DB::table('messages_users')
+													->where('receiver_id', Auth::user()->id)
+													->lists('message_id');
+		$messages = DB::table('messages')
+											->whereIn('id',$messageUsers)
+											->orderBy('read_status')
+											->orderBy('date', 'desc')
+											->orderBy('time', 'desc')
+											->get();
+return View::make('users.message')->withMessages($messages);
+	}
+
+	public function showMessage(){
+
+		if(Request::ajax()) {
+			$messageID = Input::get('data');
+			// dd($messageID);
+			$content = Message::where('id', $messageID)->pluck('content');
+			$title = Message::where('id', $messageID)->pluck('title');
+			// return Response::json(Input::get('data'));
+			return Response::json(array(
+					'title' => $title,
+					'content' => $content
+				));
+		}
+		// return View::make('users.composeMessage');
+	}
+
 	public function composeMessage($username) {
-		return View::make('users.composeMessage')->withUsername($username);
+
+		$messageUsers = DB::table('messages_users')
+													->where('receiver_id', Auth::user()->id)
+													->lists('message_id');
+		$messages = DB::table('messages')
+											->whereIn('id',$messageUsers)
+											->orderBy('read_status')
+											->orderBy('date', 'desc')
+											->orderBy('time', 'desc')
+											->get();
+		// $messageUsers = DB::table('messages_users')->where('receiver_id', Auth::user()->id)->get();
+		// Message::whereIn('id',)->get();
+		// foreach($messageUsers as $messageUser) {
+		// 	var_dump(DB::table('messages')->where('messages.id', 'messages_users.id')->get());
+		// }
+		// echo '<pre>';
+		// dd($messages);
+		// exit;
+		return View::make('users.composeMessage')->withUsername($username)->withMessages($messages);
 	}
 
 	public function sendMessage($username)

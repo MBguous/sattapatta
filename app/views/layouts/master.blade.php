@@ -172,7 +172,7 @@
                   <li>{{ HTML::linkRoute('users.dashboard', 'Dashboard', Auth::user()->username) }}</li>
                   <li>{{ HTML::linkRoute('users.post', 'Post item', Auth::user()->username) }}</li>
                   <li>{{ HTML::linkRoute('users.listing', 'My listings', Auth::user()->username) }}</li>
-                  <li>{{ HTML::link('#', 'Messages') }}</li>
+                  <li>{{ HTML::linkRoute('users.messages', 'Messages') }}</li>
                   <li>{{ HTML::linkRoute('users.profile', 'Profile', Auth::user()->username) }}</li>
                   <li>{{ HTML::linkRoute('logout', 'Log out') }}</li>
                  </ul>
@@ -238,7 +238,7 @@
 
   <!-- jQuery -->
   <!-- // <script src="js/jquery.js"></script> -->
-  {{ HTML::script('js/jquery.js') }}
+  {{ HTML::script('js/jquery-2.1.3.js') }}
 
   <!-- Bootstrap Core JavaScript -->
   <!-- // <script src="js/bootstrap.min.js"></script> -->
@@ -291,9 +291,11 @@
              $.each(response.errors, function(index, value){
                var errorDiv = '#'+index+'_error';
                // console.log(errorDiv);
+               // console.log(response.errors);
                $(errorDiv).addClass('text-danger');
                $(errorDiv).empty().append(value);
              });
+
            }
            if(response.success) {
             $('#edit-profile').slideUp();
@@ -304,6 +306,72 @@
         });
       });
     });
+
+  
+
+  $('#get').click(function(e){
+    e.preventDefault();
+    $.get('messages/show', function(response){
+      console.log(response);
+    });
+  });
+
+  $('#messageModal').on('show.bs.modal', function (event) { // id of the modal with event
+    
+    var link = event.relatedTarget; // Button that triggered the modal
+    var id = link.id;
+var modal = $(this);
+    // var messageId = link.data('messageId'); // Extract info from data-* attributes
+    // var productname = button.data('productname')
+
+    // var title = 'Confirm Delete #' + productid
+    // var content = 'Are you sure want to delete ' + productname + '?'
+    // alert(id);
+    $.post('messages/show', {data:id}, function(response){
+      console.log(response);
+      // $('#'.msgId).empty().append('wateva');
+      // if(response.success) {
+      //   console.log(response);
+      //   alert(response);
+      // }
+      // if(response.fail) {
+      //   console.log('wtf');
+      // }
+      var title = response.title;
+       var content = response.content;
+
+    // Update the modal's content.
+    
+    // var modal = event.target;
+    // modal.find('.modal-title').text(title);
+    modal.find('.modal-title').empty().text(title);
+    modal.find('.modal-body').empty().text(content);
+    });
+
+    
+
+    // And if you wish to pass the productid to modal's 'Yes' button for further processing
+    // modal.find('button.btn-danger').val(productid)
+  });
+
+  // $('tabletr td').click(function() {
+  //   // e.preventDefault();
+  //   var msgId = this.id;
+  //   // alert(msgId);
+  //   $('#myModal').show();
+
+  //   $.get('show', {data: msgId}, function(response){
+  //     console.log(msgId);
+  //     $('#'.msgId).empty().append('wateva');
+  //     if(response.success) {
+  //       console.log(response.message);
+  //     }
+  //     if(response.fail) {
+  //       console.log('wtf');
+  //     }
+  //   });
+
+  // });
 
    
 /*    $(document).on('submit', '#infoForm', function(event) {

@@ -59,10 +59,10 @@ class UserController extends BaseController {
 		$id = Auth::user()->id;
 
 		$rules = [
-		'username'	=> 'max:20|min:3|unique:users,username, '.$id,
+		'username'	=> 'required|max:20|min:3|unique:users,username, '.$id,
 		'email'			=> 'email|max:50|unique:users',
-		'firstName'	=> 'string',
-		'lastName'	=> 'string',
+		'firstName'	=> 'required|string',
+		'lastName'	=> 'required|string',
 		'gender'		=> 'string',
 		'birthDay'	=> 'integer',
 		'birthMonth'=> 'integer',

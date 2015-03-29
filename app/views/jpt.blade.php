@@ -83,7 +83,7 @@
         e.preventDefault();
 
         // ajax get
-        $.get('jpt/get', function(data) {
+        $.get('msg/show', function(data) {
           console.log(data);
         });
       });
