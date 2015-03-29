@@ -320,7 +320,13 @@
     
     var link = event.relatedTarget; // Button that triggered the modal
     var id = link.id;
-var modal = $(this);
+    var modal = $(this);
+    var spinner = $('<i></i>').addClass('fa fa-circle-o-notch fa-spin fa-3x');
+
+    modal.find('.modal-title').text('');
+    modal.find('.modal-body').text('');
+    modal.find('.modal-body').append(spinner);
+
     // var messageId = link.data('messageId'); // Extract info from data-* attributes
     // var productname = button.data('productname')
 
@@ -339,15 +345,15 @@ var modal = $(this);
       // }
       var title = response.title;
        var content = response.content;
-       var spinner = '<i class="fa fa-spinner fa-spin"></i>';
+       
 
     // Update the modal's content.
     
     // var modal = event.target;
     // modal.find('.modal-title').text(title);
-    modal.find('.modal-title').empty().text(title);
-    modal.find('.modal-body').empty().html(spinner);
-    modal.find('.modal-body').empty().text(content);
+    
+     modal.find('.modal-title').text(title);
+    modal.find('.modal-body').text(content);
     });
 
     
