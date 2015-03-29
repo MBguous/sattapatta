@@ -24,7 +24,7 @@
             </ul>
         </div>
         <!-- /#sidebar-wrapper -->   
-
+<a href="#menu-toggle" id="menu-toggle"><i class='fa fa-align-justify fa-2x'></i></a>
         <!-- Page Content -->
         <div id="page-content-wrapper">
             <div class="container-fluid">
@@ -38,13 +38,14 @@
 				    <span><i class="fa fa-info-circle"></i>&nbsp;{{ Session::get('message') }}</span>
 				  </div>
 			  @endif
-                    <div class="col-lg-12">
-                        <a href="#menu-toggle" id="menu-toggle"><i class='fa fa-align-justify fa-2x'></i></a>
+
+                    <div class="col-md-offset-1 col-md-10">
+                        
                         
   <div id="messageDiv"></div>
   
   	<div class="row">
-  		<div class="col-md-4">
+  		<div class="col-md-3">
   			<div class="panel panel-success text-center">
 		    	<div class="panel panel-heading">Profile Image</div>
 		    	<div class="panel panel-body">
@@ -75,12 +76,63 @@
 						</div>
 						<!-- /modal -->
 		    		<br>
-		    		{{ Auth::user()->username }}
+		    		{{ $user->username }}
+		    		<p>
+				    	<i class="fa fa-calendar"></i> Joined on {{ date('M j, 20y',strtotime($user->created_at)); }}
+				    </p>
 		    	</div>
 		    </div>
+		    
+		    <p>
+		    	@if(Auth::user()->username != $user->username)
+			    	{{ HTML::link('#contactModal', 'Contact', ['data-toggle'=>'modal', 'class'=>'btn btn-default']) }}
+		    	@endif
+		    </p>
+		    <div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+				  <div class="modal-dialog">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				        <h4 class="modal-title" id="myModalLabel">To: {{ $user->username }}</h4>
+				      </div>
+				      <div class="modal-body">
+				        
+				      {{ Form::open(array('route'=>array('send.message', $user->username), 'class'=>'form-horizontal')) }}
+                  <div class="row">
+                    <div class="form-group">
+                      <div class="col-md-offset-1 col-md-10">
+                        {{ Form::text('title', null, ['class'=>'form-control', 'placeholder'=>'Title']) }}
+                        <div class="text-danger" id="title_error">{{ $errors->first('title', ':message') }}</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="form-group">
+                      <div class="col-md-offset-1 col-md-10">
+                        {{ Form::textarea('content', null, ['class'=>'form-control', 'placeholder'=>'Write your message']) }}
+                        <div class="text-danger" id="content_error">{{ $errors->first('content', ':message') }}</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="form-group">
+                      <div class="col-md-offset-1 col-md-10">
+                    {{ Form::submit('Send message', array('class'=>'btn btn-primary')) }}
+                    {{ HTML::link('#', 'Close', array('class'=>'btn btn-default', 'data-dismiss'=>'modal')) }}
+                  		</div>
+                  		</div>
+                  		</div>
+                  {{ Form::close() }}
+
+				      </div>
+				      
+				    </div>
+				  </div>
+				</div>
 			</div>
 			<!-- profile image div -->
-			<div class="col-md-8">
+			<div class="col-md-9">
   			<!-- <div class="panel panel-success text-center">
 		    	<div class="panel panel-heading">Edit info</div>
 		    	<div class="panel panel-body">
@@ -94,8 +146,8 @@
 				    <li role="presentation" class="active">
 				    	<a href="#profile" aria-controls="profile" role="tab" data-toggle="tab"> Basic info</a>
 				  	</li>
-				    <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Messages</a></li>
-				    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
+				    <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Wishlist</a></li>
+				    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Listings</a></li>
 				  </ul>
 
 				  <!-- Tab panes -->
@@ -106,42 +158,44 @@
 				    		<table class="table table-striped table-hover">
 			        		<tr>
 			        			<th>Username</th>
-			        			<td>{{ Auth::user()->username }}</td>
+			        			<td>{{ $user->username }}</td>
 			        		</tr>
 			        		<tr>
 			        			<th>Email</th>
-			        			<td>{{ Auth::user()->email }}</td>
+			        			<td>{{ $user->email }}</td>
 			        		</tr>
 			        		<tr>
 			        			<th>First Name</th>
-			        			<td>{{ Auth::user()->firstName }}</td>
+			        			<td>{{ $user->firstName }}</td>
 			        		</tr>
 			        		<tr>
 			        			<th>Last Name</th>
-			        			<td>{{ Auth::user()->lastName }}</td>
+			        			<td>{{ $user->lastName }}</td>
 			        		</tr>
 			        		<tr>
 			        			<th>Gender</th>
-			        			<td>{{ Auth::user()->gender }}</td>
+			        			<td>{{ $user->gender }}</td>
 			        		</tr>
 			        		<tr>
 			        			<th>Date of Birth</th>
-			        			<td>{{ Auth::user()->gender }}</td>
+			        			<td>{{ $user->gender }}</td>
 			        		</tr>
 			        		<tr>
 			        			<th>Phone</th>
-			        			<td>{{ Auth::user()->phone }}</td>
+			        			<td>{{ $user->phone }}</td>
 			        		</tr>
 			        		<tr>
 			        			<th>Address</th>
-			        			<td>{{ Auth::user()->address }}</td>
+			        			<td>{{ $user->address }}</td>
 			        		</tr>
 			        		<tr>
 			        			<th>Country</th>
-			        			<td>{{ Auth::user()->country }}</td>
+			        			<td>{{ $user->country }}</td>
 			        		</tr>
 			        	</table>
-			        	{{ HTML::link('#edit-profile', 'Edit', ['data-toggle'=>'modal']) }}
+			        	@if(Auth::user()->id == $user->id)
+				        	{{ HTML::link('#edit-profile', 'Edit', ['data-toggle'=>'modal']) }}
+			        	@endif
 				    	</div>
 				    		
 			    		<div class="modal fade" id="edit-profile">

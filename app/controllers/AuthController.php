@@ -42,7 +42,7 @@ class AuthController extends \BaseController implements UserInterface
 
 		if (Auth::attempt(array('username' => $data['username'], 'password' => $data['password'], 'active'=>1))){
       $username = Auth::user()->username;
-      return Redirect::route('users.dashboard', array($username))->withMessage('Login success!!');
+      return Redirect::route('users.profile', array($username))->withMessage('Login success!!');
     }
     // else{
     //   echo "<pre>";

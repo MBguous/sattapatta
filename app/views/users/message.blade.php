@@ -31,7 +31,7 @@
           </div>
         @endif
 
-        <div class="col-lg-12">
+        <div class="col-md-offset-1 col-md-10">
           <a href="#menu-toggle" id="menu-toggle"><i class='fa fa-align-justify fa-2x'></i></a>
           <!--  -->
           <div role="tabpanel">
@@ -57,7 +57,7 @@
                 <table class="table table-hover table-condensed" id="inbox">
                   
                   <tr class="success">
-                    <th>Sender</th>
+                    <th>From</th>
                     <th>Title</th>
                     <th>Date</th>
                     <th>Time</th>
@@ -83,18 +83,18 @@
         <h4 class="modal-title" id="myModalLabel"></h4>
       </div>
       <div class="modal-body">
-        <i class="fa fa-spinner fa-spin" style="margin:auto"></i>
+        <i class="fa fa-spinner fa-spin"></i>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
       </div>
     </div>
   </div>
 </div>
 
                   @empty
-                  <tr><td>{{ 'You currently don\'t have any messages.' }}</td></tr>
+                  <tr><td colspan="4" style="color:#999999">{{ 'You currently don\'t have any messages.' }}</td></tr>
 
                   @endforelse
 

@@ -17,7 +17,7 @@
             </ul>
         </div>
         <!-- /#sidebar-wrapper -->
-        
+<a href="#menu-toggle" id="menu-toggle"><i class='fa fa-align-justify fa-2x'></i></a>        
 
         <!-- Page Content -->
         <div id="page-content-wrapper">
@@ -31,8 +31,8 @@
                       <span><i class="fa fa-info-circle"></i>&nbsp;{{ Session::get('message') }}</span>
                     </div>
                   @endif
-                    <div class="col-lg-12">
-                        <a href="#menu-toggle" id="menu-toggle"><i class='fa fa-align-justify fa-2x'></i></a>
+                    <div class="col-md-offset-1 col-md-10">
+                        
 
                         <div class="well well-lg">
                           {{ Form::open(array('route'=>'post.users.post', 'class'=>'form-horizontal', 'files'=>true)) }}
