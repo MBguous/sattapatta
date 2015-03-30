@@ -11,19 +11,19 @@
         background-color: transparent;
         color: #ffffff;
       }*/
-      .panel {
-        border: none;
+      /*.panel {
+        /*border: none;*/
         position: relative;
         top: 80px;
-      }
+      }*/
     </style>
   </head>
   
   <div class="row">
     <div class="col-md-4 col-md-offset-4">
-      <div class="panel panel-default" style="background-color:#222431">
-        <div class="panel-heading" style="background:#222431">
-          <strong>Enter Details To Login</strong>  
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <!-- <strong>Enter Details To Login</strong>   -->
         </div>
         <div class="panel-body">
           <br>
@@ -31,45 +31,50 @@
         
           <!-- <div>{{ $errors->first('username', '<p class="error">:message</p>') }}
           </div>  -->       
-          <!-- <div class="form-group input-group">
-            <span class="input-group-addon"><i class="fa fa-user"  ></i></span> -->
+          <div class="form-group form-group-lg">
+            <!-- <span class="input-group-addon"><i class="fa fa-user"  ></i></span> -->
             @if($errors->has('username'))
               {{ Form::text('username', null, ['class'=>"form-control", 'placeholder'=>$errors->first('username', ':message')]) }}
             @else
               {{ Form::text('username', null, ['class'=>"form-control", 'placeholder'=>"Username"]) }}
             @endif
-          
-          <!-- </div> -->
-          <br>
-
-          @if($errors->has('password'))
-            @if (Session::get('password_error') == !NULL)
-              {{ Form::password('password', ['class'=>"form-control", 'placeholder'=>"Enter the correct password"]) }}
+          </div>
+          <!-- <br> -->
+          <div class="form-group form-group-lg">
+            @if($errors->has('password'))
+              @if (Session::get('password_error') == !NULL)
+                {{ Form::password('password', ['class'=>"form-control", 'placeholder'=>"Enter the correct password"]) }}
+              @else
+                {{ Form::password('password', ['class'=>"form-control", 'placeholder'=>$errors->first('password', ':message')]) }}
+              @endif
+                <!-- <span class="input-group-addon"><i class="fa fa-key"  ></i></span>   -->
             @else
-              {{ Form::password('password', ['class'=>"form-control", 'placeholder'=>$errors->first('password', ':message')]) }}
+                {{ Form::password('password', ['class'=>"form-control", 'placeholder'=>"Password"]) }}
             @endif
-          <!-- <div class="form-group input-group"> -->
-              <!-- <span class="input-group-addon"><i class="fa fa-key"  ></i></span>   -->
-          @else
-              {{ Form::password('password', ['class'=>"form-control", 'placeholder'=>"Password"]) }}
-          @endif
-          <!-- </div> -->
+          </div>
           
-          <br><br>  
-          <span class="pull-right"><button type="submit" class="btn btn-default btn-sm">Sign in</button></span>
+          <!-- <br><br>   -->
+          <div class="form-group form-group-lg">
+            {{ Form::submit('Sign in', ['class'=>'form-control btn btn-success']) }}
+          </div>
           
-          Not registered? {{ HTML::linkRoute('accounts.create', 'click here') }}
-          <br><br>
-          or sign in using
-          <div class="btn-group" role="group" aria-label="...">
-            <a href="hybridauth?provider=twitter" class="btn btn-info">
-              <i class="fa fa-twitter"></i>
+          <!-- <br><br> -->
+          <p class="text-center text-muted">
+            ------ or ------
+          </p>
+          <div class="col-md-4">
+            <a href="hybridauth?provider=twitter" class="btn btn-info form-control">
+              <i class="fa fa-twitter fa-2x"></i>
             </a>
-            <a href="hybridauth?provider=google" class="btn btn-danger">
-              <i class="fa fa-google"></i>
+          </div>
+          <div class="col-md-4">
+            <a href="hybridauth?provider=google" class="btn btn-danger form-control">
+              <i class="fa fa-google fa-2x"></i>
             </a>
-            <a href="hybridauth?provider=facebook" class="btn btn-primary">
-              <i class="fa fa-facebook"></i>
+          </div>
+          <div class="col-md-4">
+            <a href="hybridauth?provider=facebook" class="btn btn-primary form-control">
+              <i class="fa fa-facebook fa-2x"></i>
             </a>
           </div>
           <!-- <div>
@@ -93,6 +98,11 @@
           {{-- Form::token(); --}}
         {{ Form::close() }}
       </div>  <!-- panel-body -->
+      <div class="panel-footer">
+        <p>
+          Not registered? {{ HTML::linkRoute('accounts.create', 'click here') }}
+        </p>
+      </div>
     </div> <!-- panel-default -->
   </div>
 </div>

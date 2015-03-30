@@ -15,7 +15,7 @@
   <link rel="favicon" href="{{ asset('favicon.ico') }}">
 
   <!-- Bootstrap Core CSS -->
-  {{ HTML::style('css/darkly.bootstrap.css') }}
+  {{ HTML::style('css/lumen.bootstrap.css') }}
   {{ HTML::style('font-awesome/css/font-awesome.css') }}
 
   <!-- Custom CSS -->
@@ -25,13 +25,13 @@
 
 
   <style>
-    @font-face {
+    /*@font-face {
     font-family: 'OpenSans';
     src: url(fonts/OpenSans-Regular.ttf);
     }
     html {
       font-family: 'OpenSans';
-    }
+    }*/
     /*body, html{
       min-height: 100%;
       height: 100%;
@@ -104,7 +104,7 @@
 <div class="body-container">
 
   <!-- Navigation -->
-  <nav class="navbar navbar-inverse navbar-fixed-top" style="height:50px; border-bottom: 3px solid #0e0e14;">
+  <nav class="navbar navbar-inverse navbar-fixed-top" style="height:50px; border-bottom: 3px solid #0e0e14; background:#313344">
     <div class="container" style="height:50px;">
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header" style="position:relative">

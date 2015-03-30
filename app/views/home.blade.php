@@ -51,36 +51,57 @@
           </p>
         </div>
         <div class="col-md-4">
-          {{ Form::open(array('route' => 'accounts.create')) }}
+          {{ Form::open(array('route'=>'accounts.create', 'class'=>'form-horizontal')) }}
         
-          <div>{{ $errors->first('username', '<p class="error">:message</p>') }}
-          </div>        
-          <!-- <div class="form-group input-group">
-            <span class="input-group-addon"><i class="fa fa-user"  ></i></span> -->
+          {{ $errors->first('username', '<p class="error">:message</p>') }}        
+          <div class="form-group form-group-lg">
+            <!-- <span class="input-group-addon"><i class="fa fa-user"  ></i></span> -->
             {{ Form::text('username', null, ['class'=>"form-control", 'placeholder'=>"Username"]) }}
-          <!-- </div> -->
-          <br>
+          </div>
+          <!-- <br> -->
 
           {{ $errors->first('password', '<p class="error">:message</p>') }}
-          <!-- <div class="form-group input-group"> -->
+          <div class="form-group form-group-lg">
               <!-- <span class="input-group-addon"><i class="fa fa-key"  ></i></span>   -->
-          {{ Form::password('password', ['class'=>"form-control", 'placeholder'=>"Password"]) }}
+            {{ Form::password('password', ['class'=>"form-control", 'placeholder'=>"Password"]) }}
               <!-- <span class="input-group-addon"><i class="fa fa-key"  ></i></span>   -->
-          <!-- </div> -->
-          <br>
-          <div>
-            {{ $errors->first('password-again', '<p class="error">:message</p>') }}
+          </div>
+          <!-- <br> -->
+          
+          {{ $errors->first('password-again', '<p class="error">:message</p>') }}
+          <div class="form-group form-group-lg">
             {{ Form::password('password-again', ['class'=>"form-control", 'placeholder'=>"Re-enter your password"]) }}
           </div>
-          <br>
-          <div>
-            {{ $errors->first('email', '<p class="error">:message</p>') }}
+          <!-- <br> -->
+          
+          {{ $errors->first('email', '<p class="error">:message</p>') }}
+          <div class="form-group form-group-lg">
             {{ Form::email('email', '', ['class'=>'form-control', 'placeholder'=>'Email']) }}
           </div>
-          <br>
-          <div>
-            <button type="submit" class="btn btn-primary btn-lg" style="width:100%">Sign up for SattaPatta</button>
+          <!-- <br> -->
+          <div class="form-group form-group-lg">
+            <button type="submit" class="btn btn-primary btn-lg form-control">Sign up for SattaPatta</button>
           </div>
+
+          <p class="text-center text-muted">
+            or
+          </p>
+          <div class="col-md-4">
+            <a href="hybridauth?provider=twitter" class="btn btn-info form-control">
+              <i class="fa fa-twitter fa-2x"></i>
+            </a>
+          </div>
+          <div class="col-md-4">
+            <a href="hybridauth?provider=google" class="btn btn-danger form-control">
+              <i class="fa fa-google fa-2x"></i>
+            </a>
+          </div>
+          <div class="col-md-4">
+            <a href="hybridauth?provider=facebook" class="btn btn-primary form-control">
+              <i class="fa fa-facebook fa-2x"></i>
+            </a>
+          </div>
+
         </div>
       </div>
     </header>

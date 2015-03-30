@@ -17,7 +17,7 @@
             </ul>
         </div>
         <!-- /#sidebar-wrapper -->
-<a href="#menu-toggle" id="menu-toggle"><i class='fa fa-align-justify fa-2x'></i></a>        
+<!-- <a href="#menu-toggle" id="menu-toggle"><i class='fa fa-align-justify fa-2x'></i></a>         -->
 
         <!-- Page Content -->
         <div id="page-content-wrapper">

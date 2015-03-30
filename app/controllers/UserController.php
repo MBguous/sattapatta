@@ -14,7 +14,8 @@ class UserController extends BaseController {
 			$user = User::where('username', $username)->first();
 		}
 		// dd($user);
-		return View::make('users.profile')->withUser($user);
+		$items = Item::where('user_id', Auth::user()->id)->get();
+		return View::make('users.profile', compact('items'))->withUser($user);
 	}
 
 	public function editProfileImage() {

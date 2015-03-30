@@ -32,7 +32,7 @@
         @endif
 
         <div class="col-md-offset-1 col-md-10">
-          <a href="#menu-toggle" id="menu-toggle"><i class='fa fa-align-justify fa-2x'></i></a>
+          <!-- <a href="#menu-toggle" id="menu-toggle"><i class='fa fa-align-justify fa-2x'></i></a> -->
           <!--  -->
           <div role="tabpanel">
 

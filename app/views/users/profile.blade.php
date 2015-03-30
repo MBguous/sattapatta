@@ -24,7 +24,7 @@
             </ul>
         </div>
         <!-- /#sidebar-wrapper -->   
-<a href="#menu-toggle" id="menu-toggle"><i class='fa fa-align-justify fa-2x'></i></a>
+<!-- <a href="#menu-toggle" id="menu-toggle"><i class='fa fa-align-justify fa-2x'></i></a> -->
         <!-- Page Content -->
         <div id="page-content-wrapper">
             <div class="container-fluid">
@@ -47,8 +47,8 @@
   	<div class="row">
   		<div class="col-md-3">
   			<div class="panel panel-success text-center">
-		    	<div class="panel panel-heading">Profile Image</div>
-		    	<div class="panel panel-body">
+		    	<div class="panel-heading">Profile Image</div>
+		    	<div class="panel-body">
 		    		<a href="#profile-image" data-toggle="modal" title="Change profile picture">
 		    			{{ HTML::image($user->photoURL, 'profile-pic', ['height'=>'200px', 'class'=>'img-circle']) }}
 		    		</a>
@@ -75,8 +75,15 @@
 						  </div>
 						</div>
 						<!-- /modal -->
-		    		<br>
-		    		{{ $user->username }}
+		    		<!-- <br>
+		    		<hr> -->
+		    		
+		    	</div>
+		    	<div class="panel-footer">
+		    		<p>
+		    			{{ $user->username }}	
+		    		</p>
+		    		
 		    		<p>
 				    	<i class="fa fa-calendar"></i> Joined on {{ date('M j, 20y',strtotime($user->created_at)); }}
 				    </p>
@@ -146,8 +153,8 @@
 				    <li role="presentation" class="active">
 				    	<a href="#profile" aria-controls="profile" role="tab" data-toggle="tab"> Basic info</a>
 				  	</li>
-				    <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Wishlist</a></li>
-				    <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Listings</a></li>
+				    <li role="presentation"><a href="#wishlist" aria-controls="wishlist" role="tab" data-toggle="tab">Wishlist</a></li>
+				    <li role="presentation"><a href="#listings" aria-controls="listings" role="tab" data-toggle="tab">Listings</a></li>
 				  </ul>
 
 				  <!-- Tab panes -->
@@ -315,8 +322,60 @@
 								<!-- /modal -->
 				    	
 				    </div>
-				    <div role="tabpanel" class="tab-pane" id="messages">Messages</div>
-				    <div role="tabpanel" class="tab-pane" id="settings">Settings</div>
+				    <div role="tabpanel" class="tab-pane" id="wishlist">Wishlist</div>
+				    <div role="tabpanel" class="tab-pane" id="listings">
+
+				    	<!-- accordion -->
+						<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+						@foreach ($items as $item)
+							<div class="panel panel-primary">
+						    <div class="panel-heading" role="tab">
+						      <h4 class="panel-title">
+						      	{{ HTML::link('#'.$item->id, $item->name, ['class'=>'collapsed', 'data-toggle'=>'collapse', 'data-parent'=>'#accordion']) }}
+						        <!-- <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+						          Collapsible Group Item #1
+						        </a> -->
+						      </h4>
+						    </div>
+						    <div id={{ $item->id }} class="panel-collapse collapse" role="tabpanel">
+						      <div class="panel-body">
+						        <div class="col-md-4">
+						        	{{ HTML::image($item->photoURL, null, ['height'=>'200px']) }}
+						        </div>
+						        <div class="col-md-8">
+						        	<table class="table table-striped table-hover">
+						        		<tr>
+						        			<th>Name</th>
+						        			<td>{{ $item->name }}</td>
+						        		</tr>
+						        		<tr>
+						        			<th>Price</th>
+						        			<td>Rs. {{ $item->price }}</td>
+						        		</tr>
+						        		<tr>
+						        			<th>Description</th>
+						        			<td>{{ $item->description }}</td>
+						        		</tr>
+						        		<tr>
+						        			<th>Posted on</th>
+						        			<td>{{ $item->date }} {{ $item->time }}</td>
+						        		</tr>
+						        		<tr>
+						        			<th>Status</th>
+						        			<td>{{ $item->status }}</td>
+						        		</tr>
+						        	</table>
+						        </div>
+						      </div>
+						    </div>
+						  </div>
+						@endforeach
+
+						</div>
+						<!-- accordion -->
+
+				    </div>
 				  </div>
 				</div>
 			</div>
