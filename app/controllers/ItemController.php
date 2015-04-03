@@ -8,6 +8,16 @@ class ItemController extends BaseController {
 		return View::make('browse', compact('items'));
 	}
 
+	public function showItem($username, $itemname) {
+		
+		$swapItem = Item::where('name', $itemname)->first();
+		// dd($swapItem);
+		$items = Item::where('user_id', Auth::user()->id)->lists('name', 'id');
+		$user = User::where('username', $username)->first();
+
+		return View::make('items.show', compact('swapItem', 'items', 'user'));
+	}
+
 	public function showListing($username) {
 
 		$items = Item::where('user_id', Auth::user()->id)->get();

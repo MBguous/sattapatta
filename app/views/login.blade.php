@@ -13,7 +13,7 @@
       }*/
       /*.panel {
         /*border: none;*/
-        position: relative;
+        /*position: relative;
         top: 80px;
       }*/
     </style>
@@ -21,9 +21,9 @@
   
   <div class="row">
     <div class="col-md-4 col-md-offset-4">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <!-- <strong>Enter Details To Login</strong>   -->
+      <div class="panel panel-info">
+        <div class="panel-heading text-center">
+          <strong>Enter Details To Login</strong>  
         </div>
         <div class="panel-body">
           <br>
@@ -31,31 +31,39 @@
         
           <!-- <div>{{ $errors->first('username', '<p class="error">:message</p>') }}
           </div>  -->       
-          <div class="form-group form-group-lg">
+         
             <!-- <span class="input-group-addon"><i class="fa fa-user"  ></i></span> -->
             @if($errors->has('username'))
-              {{ Form::text('username', null, ['class'=>"form-control", 'placeholder'=>$errors->first('username', ':message')]) }}
+              <div class="form-group form-group-lg has-error">
+                {{ Form::text('username', null, ['class'=>"form-control", 'placeholder'=>$errors->first('username', ':message')]) }}
+              </div>
             @else
-              {{ Form::text('username', null, ['class'=>"form-control", 'placeholder'=>"Username"]) }}
+              <div class="form-group form-group-lg">
+                {{ Form::text('username', null, ['class'=>"form-control", 'placeholder'=>"Username"]) }}
+              </div>
             @endif
-          </div>
+
+          <!-- </div> -->
           <!-- <br> -->
-          <div class="form-group form-group-lg">
+          
             @if($errors->has('password'))
-              @if (Session::get('password_error') == !NULL)
-                {{ Form::password('password', ['class'=>"form-control", 'placeholder'=>"Enter the correct password"]) }}
-              @else
-                {{ Form::password('password', ['class'=>"form-control", 'placeholder'=>$errors->first('password', ':message')]) }}
-              @endif
+              <div class="form-group form-group-lg has-error">
+                @if (Session::get('password_error') == !NULL)
+                  {{ Form::password('password', ['class'=>"form-control", 'placeholder'=>"Enter the correct password"]) }}
+                @else
+                  {{ Form::password('password', ['class'=>"form-control", 'placeholder'=>$errors->first('password', ':message')]) }}
+                @endif
+              </div>
                 <!-- <span class="input-group-addon"><i class="fa fa-key"  ></i></span>   -->
             @else
+              <div class="form-group form-group-lg">
                 {{ Form::password('password', ['class'=>"form-control", 'placeholder'=>"Password"]) }}
+              </div>
             @endif
-          </div>
           
           <!-- <br><br>   -->
           <div class="form-group form-group-lg">
-            {{ Form::submit('Sign in', ['class'=>'form-control btn btn-success']) }}
+            {{ Form::submit('Sign in', ['class'=>'form-control btn btn-primary']) }}
           </div>
           
           <!-- <br><br> -->

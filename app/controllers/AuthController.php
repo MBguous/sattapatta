@@ -86,6 +86,7 @@ class AuthController extends \BaseController implements UserInterface
       // var_dump($profile);
       // exit();
 
+
       $oauthUser = User::where('provider', '=', $provider)
                           ->where('identifier', '=', $profile->identifier)->first();
       // dd($oauthUser);
@@ -111,12 +112,16 @@ class AuthController extends \BaseController implements UserInterface
         Auth::login($user);
         // $user1 = User::where('identifier', $profile->identifier)->get();
         // Auth::loginUsingId($user->getAuthIdentifier());
-        return Redirect::intended('dashboard')->withMessage('Welcome '.$user->username. '. You have successfully signed in with '.$provider); 
+        return Redirect::route('users.profile', array($user->username))
+          ->withMessage('Welcome '.$user->username. '. You have successfully signed in with '.$provider)
+          ->withUsername($user->username); 
       }
       else {
         // dd('user');
         Auth::login($oauthUser);
-        return Redirect::intended('dashboard')->withMessage('Welcome '.$oauthUser->username. '. You have successfully signed in with '.$provider);
+        return Redirect::route('users.profile', array($oauthUser->username))
+          ->withMessage('Welcome '.$oauthUser->username. '. You have successfully signed in with '.$provider)
+          ->withUsername($oauthUser->username);
       }
 
       //return Redirect::intended('home')->withMessage('Welcome '.$profile->firstName);

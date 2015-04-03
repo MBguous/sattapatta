@@ -35,7 +35,7 @@ Route::get('mail/{email}', array('as'=>'mail', 'uses'=>'AccountController@sendMa
 
 Route::group(array('before'=>'auth'), function() {
 	Route::get('users/{username}/dashboard', array('as'=>'users.dashboard', 'uses'=>'UserController@showDashboard'));
-	Route::get('users/{username}/profile', array('as'=>'users.profile', 'uses'=>'UserController@showProfile'));
+	
 	Route::post('users/profile/image', array('as'=>'post.users.profile', 'uses'=>'UserController@editProfileImage'));
 
 	Route::post('users/{username}/profile/info', array('as'=>'post.users.profile.info', 'uses'=>'UserController@editProfileInfo'));
@@ -49,13 +49,12 @@ Route::group(array('before'=>'auth'), function() {
 	Route::post('messages/{username}', array('as'=>'send.message', 'uses'=>'MessageController@sendMessage'));
 	Route::post('users/messages/show', array('as'=>'show.message', 'uses'=>'MessageController@showMessage'));
 
-
 	// Route::post('show', array('as'=>'show.message', 'uses'=>'MessageController@showMessage'));
-	
-
 });
 
+Route::get('users/{username}/profile', array('as'=>'users.profile', 'uses'=>'UserController@showProfile'));
 Route::get('items/browse', array('as'=>'items.browse', 'uses'=>'ItemController@browse'));
+Route::get('{username}/{itemname}', array('as'=>'items.show', 'uses'=>'ItemController@showItem'));
 
 Route::get('msg', function() {
 	// $messageUsers = DB::table('messages_users')->where('receiver_id', Auth::user()->id)->lists('message_id');
@@ -67,6 +66,14 @@ Route::get('msg', function() {
 	// 	}
 		// 
 	return View::make('jpt');
+});
+Route::get('jpt', function(){
+	// if(Session::has('_token')){
+	// 	dd('true');
+	// }else{
+	// 	dd('false');
+	// }
+	dd(User::all());
 });
 Route::get('users/msg/show', function(){
 	if (Request::ajax()){

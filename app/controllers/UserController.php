@@ -9,12 +9,14 @@ class UserController extends BaseController {
 
 		if(Auth::user() == $username) {
 			$user = Auth::user();
+			$items = Item::where('user_id', Auth::user()->id)->get();
 		}
 		else {
 			$user = User::where('username', $username)->first();
+			$items = Item::where('user_id', $user->id)->get();
 		}
 		// dd($user);
-		$items = Item::where('user_id', Auth::user()->id)->get();
+		
 		return View::make('users.profile', compact('items'))->withUser($user);
 	}
 

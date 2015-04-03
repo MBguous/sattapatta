@@ -12,13 +12,13 @@
                       {{-- HTML::image(Auth::user()->photoURL, 'profile-pic', ['height'=>'60px', 'class'=>'img-circle']) --}}
                     </a>
                 </li>
-                <li>{{ HTML::linkRoute('users.dashboard', 'Dashboard', Auth::user()->username) }}</li>
-                <li>{{ HTML::linkRoute('users.post', 'Post Item', Auth::user()->username) }}</li>
-                <li>{{ HTML::linkRoute('users.listing', 'My Listings', Auth::user()->username) }}</li>
-                <li>{{ HTML::link('#', 'Messages') }}</li>
+                <li>{{-- HTML::linkRoute('users.dashboard', 'Dashboard', Auth::user()->username) --}}</li>
+                <li>{{-- HTML::linkRoute('users.post', 'Post Item', Auth::user()->username) --}}</li>
+                <li>{{-- HTML::linkRoute('users.listing', 'My Listings', Auth::user()->username) --}}</li>
+                <li>{{-- HTML::link('#', 'Messages') --}}</li>
                 <li>
                 	<blockquote>
-                		{{ HTML::linkRoute('users.profile', 'Profile', Auth::user()->username, ['style'=>'background:#454545']) }}
+                		{{-- HTML::linkRoute('users.profile', 'Profile', Auth::user()->username, ['style'=>'background:#454545']) --}}
                 	</blockquote>
                 </li>
             </ul>
@@ -31,7 +31,7 @@
                 <div class="row">
                 @if (Session::has('message'))
 
-				  <div class="alert alert-warning alert-dismissible" id="messageDiv" role="alert">
+				  <div class="alert alert-info alert-dismissible" id="messageDiv" role="alert">
 				    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
 				      <span aria-hidden="true">&times;</span>
 				    </button>
@@ -46,11 +46,11 @@
   
   	<div class="row">
   		<div class="col-md-3">
-  			<div class="panel panel-success text-center">
+  			<div class="panel panel-warning text-center">
 		    	<div class="panel-heading">Profile Image</div>
 		    	<div class="panel-body">
 		    		<a href="#profile-image" data-toggle="modal" title="Change profile picture">
-		    			{{ HTML::image($user->photoURL, 'profile-pic', ['height'=>'200px', 'class'=>'img-circle']) }}
+		    			{{ HTML::image($user->photoURL, 'profile-pic', ['height'=>'200px', 'class'=>'img-circle img-responsive']) }}
 		    		</a>
 		    		<div class="modal fade" id="profile-image">
 						  <div class="modal-dialog">
@@ -91,10 +91,14 @@
 		    </div>
 		    
 		    <p>
-		    	@if(Auth::user()->username != $user->username)
-			    	{{ HTML::link('#contactModal', 'Contact', ['data-toggle'=>'modal', 'class'=>'btn btn-default']) }}
-		    	@endif
+		    	
+			    	@if(!Auth::check() or Auth::user()->username != $user->username)
+				    	{{ HTML::link('#contactModal', 'Contact', ['data-toggle'=>'modal', 'class'=>'btn btn-default']) }}
+			    	@endif
+			    
 		    </p>
+
+		    @if (Auth::check())
 		    <div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 				  <div class="modal-dialog">
 				    <div class="modal-content">
@@ -137,6 +141,24 @@
 				    </div>
 				  </div>
 				</div>
+				<!-- /.modal -->
+				@else
+					<div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					  <div class="modal-dialog">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					        <h4 class="modal-title" id="myModalLabel">
+					        	Please {{ HTML::linkRoute('login', 'log in') }}
+					        </h4>
+					      </div>
+					      <div class="modal-body">
+					      	<p>You must logged in to be able to send messages.</p>
+					      </div>
+				      </div>
+			      </div>
+		      </div>
+				@endif
 			</div>
 			<!-- profile image div -->
 			<div class="col-md-9">
@@ -159,7 +181,7 @@
 
 				  <!-- Tab panes -->
 				  <div class="tab-content">
-				    <div role="tabpanel" class="tab-pane active" id="profile">
+				    <div role="tabpanel" class="tab-pane fade in active" id="profile">
 				    	<br><br>
 				    	<div class="col-md-12">
 				    		<table class="table table-striped table-hover">
@@ -200,7 +222,8 @@
 			        			<td>{{ $user->country }}</td>
 			        		</tr>
 			        	</table>
-			        	@if(Auth::user()->id == $user->id)
+
+			        	@if(Auth::check() and Auth::user()->id == $user->id)
 				        	{{ HTML::link('#edit-profile', 'Edit', ['data-toggle'=>'modal']) }}
 			        	@endif
 				    	</div>
@@ -213,6 +236,7 @@
 						        <h4 class="modal-title">Edit profile details</h4>
 						      </div>
 
+						      @if(Auth::check() and Auth::user()->id == $user->id)
 						      {{ Form::model(Auth::user(), array('url'=>array('users/profile/info', Auth::user()->username), 'class'=>'form-horizontal', 'id'=>'infoForm', 'method'=>'put')) }}
       {{-- Form::model(Auth::user(), array('route'=>array('users.profile.info'=>Auth::user()->id, 'method'=>'put'), 'class'=>'form-horizontal', 'id'=>'infoForm')) --}}
 								      <!-- <form action="#" id="infoForm" class="form-horizontal"> -->
@@ -316,20 +340,21 @@
 								      </div>
 								      <!-- </form> -->
 								      {{ Form::close() }}
+								      @endif
 								    </div>
 								  </div>
 								</div>
 								<!-- /modal -->
 				    	
 				    </div>
-				    <div role="tabpanel" class="tab-pane" id="wishlist">Wishlist</div>
-				    <div role="tabpanel" class="tab-pane" id="listings">
-
+				    <div role="tabpanel" class="tab-pane fade" id="wishlist">Wishlist</div>
+				    <div role="tabpanel" class="tab-pane fade" id="listings">
+				    <br>
 				    	<!-- accordion -->
 						<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 
 						@foreach ($items as $item)
-							<div class="panel panel-primary">
+							<div class="panel panel-info">
 						    <div class="panel-heading" role="tab">
 						      <h4 class="panel-title">
 						      	{{ HTML::link('#'.$item->id, $item->name, ['class'=>'collapsed', 'data-toggle'=>'collapse', 'data-parent'=>'#accordion']) }}
@@ -341,7 +366,7 @@
 						    <div id={{ $item->id }} class="panel-collapse collapse" role="tabpanel">
 						      <div class="panel-body">
 						        <div class="col-md-4">
-						        	{{ HTML::image($item->photoURL, null, ['height'=>'200px']) }}
+						        	{{ HTML::image($item->photoURL, null, ['style'=>'display: lock; height:auto; max-width: 100%']) }}
 						        </div>
 						        <div class="col-md-8">
 						        	<table class="table table-striped table-hover">

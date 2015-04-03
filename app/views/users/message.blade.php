@@ -47,7 +47,7 @@
             <div class="tab-content">
 
             <!-- messages -->
-            <div role="tabpanel" class="tab-pane active" id="messages">
+            <div role="tabpanel" class="tab-pane fade in active" id="messages">
               <br>
               <!-- <div class="panel panel-default"> -->
                 <!-- Default panel contents -->
@@ -109,7 +109,7 @@
 
              
               
-              <div role="tabpanel" class="tab-pane" id="settings">...</div>
+              <div role="tabpanel" class="tab-pane fade" id="settings">...</div>
             </div>
 
           </div>

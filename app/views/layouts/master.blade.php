@@ -89,13 +89,22 @@
       text-overflow: ellipsis;
     }
     /**/
-    .tooltip.top .tooltip-inner {
+    /*.tooltip.top .tooltip-inner {
       background-color: #eeeeee;
       color: #0f0f0f;
     }
     .tooltip.top .tooltip-arrow {
       border-top-color: #eeeeee;
+    }*/
+    .dropdown:hover .dropdown-menu {
+        display: block;
     }
+    .popover-example .popover {
+      position: relative;
+      display: block;
+      /*margin: 20px;*/
+    }
+
   </style>
 
 </head>
@@ -212,8 +221,8 @@
   @yield('content')
 
 
-</div>
-    
+</div> 
+<!-- /.body-container -->
 
     <!-- Footer -->
     <!-- <footer>
@@ -227,7 +236,7 @@
 
     
 
-  </div>
+  <!-- </div> -->
   <!-- /.container -->
 
     <div class="footer">
@@ -237,8 +246,7 @@
     </div>
 
   <!-- jQuery -->
-  <!-- // <script src="js/jquery.js"></script> -->
-  {{ HTML::script('js/jquery-2.1.3.js') }}
+  {{ HTML::script('js/jquery.js') }}
 
   <!-- Bootstrap Core JavaScript -->
   <!-- // <script src="js/bootstrap.min.js"></script> -->
@@ -252,7 +260,14 @@
         $("#wrapper").toggleClass("toggled");
     });
 
-    $('[data-toggle="tooltip"]').tooltip({'placement': 'top'});
+    $('[data-toggle="tooltip"]').tooltip();
+
+    $(function () {
+      $('[data-toggle="popover"]').popover();
+    });
+
+    // $('#comment').popover(options);
+    // $('#comment').popover('show');
 
  /*   $(document).ready(function(){
       $('#get').click(function(e){
