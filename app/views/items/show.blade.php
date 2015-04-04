@@ -6,6 +6,16 @@
 		<div class="row">
 			<div class="col-md-offset-1 col-md-10">
 				<div class="row">
+
+				@if (Session::has('message'))
+		      <div class="alert alert-info alert-dismissible" role="alert">
+		        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		        <span><i class="fa fa-info-circle"></i>&nbsp;{{ Session::get('message') }}</span>
+		      </div>
+		    @endif
+
 					<div class="col-md-7">
 
 						<div class="panel panel-default">
@@ -60,6 +70,11 @@
 							</div>
 							<div class="panel-body">
 								{{ $swapItem->description }}
+								<p>
+									<strong>Price: </strong>Rs. {{ $swapItem->price }}<br>
+									<strong>Posted on: </strong>{{ $swapItem->date }}<br>
+									<strong>Status: </strong>{{ $swapItem->status }}
+								</p>
 							</div>
 						</div>
 
@@ -76,113 +91,51 @@
 							</div>
 						</div>
 
-
-
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								<h5><strong>Comments</strong></h5>	
-							</div>
-							<div class="panel-body">
-
-								<div class="media">
-								  <div class="media-left">
-								    <a href="#">
-								      <img class="media-object" src="..." alt="...">
-								    </a>
-								  </div>
-								  <div class="media-body">
-								    <h4 class="media-heading">Media heading</h4>
-								    <p>
-								    	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-								    	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-								    	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-								    	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-								    	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-								    	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-								    </p>
-								  </div>
-								</div>
-
-								<ul class="media-list">
-								  <li class="media">
-								    <div class="media-left">
-								      <a href="#">
-								        <img class="media-object" src="..." alt="...">
-								      </a>
-								    </div>
-								    <div class="media-body">
-								      <h4 class="media-heading">Media heading</h4>
-								      <p>
-								      	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-								      	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-								      	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-								      	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-								      	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-								      	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-								      </p>
-								      <ul class="media-list">
-											  <li class="media">
-											    <div class="media-left">
-											      <a href="#">
-											        <img class="media-object" src="..." alt="...">
-											      </a>
-											    </div>
-											    <div class="media-body">
-											      <h4 class="media-heading">Media heading</h4>
-											      <p>
-											      	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-											      	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-											      	quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-											      	consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-											      	cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-											      	proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-											      </p>
-											    </div>
-											  </li>
-											</ul>
-								    </div>
-								  </li>
-								</ul>
-
-							</div>
-						</div>
-
 						<hr/>
 						<!-- comment static popover -->
-						<blockquote>2 comments</blockquote>
-						{{ Form::open(array('url'=>array('users/profile/info', $swapItem->name), 'class'=>'form-horizontal')) }}
+						@if($comments->count() == 0)
+							<blockquote>No comments yet</blockquote>
+						@elseif($comments->count() == 1)
+							<blockquote>1 comment</blockquote>
+						@else
+							<blockquote>{{ $comments->count() }} comments</blockquote>
+						@endif
+
+						{{ Form::open(array('url'=>array('#', [$user->username,$swapItem->name, $swapItem->id]), 'class'=>'form-horizontal')) }}
 							<!-- <div class="row"> -->
 								<div class="form-group">
 						    	{{ HTML::image(Auth::user()->photoURL, 'profile-pic', ['height'=>'auto', 'class'=>'col-md-2 img-circle']) }}
 						    	<div class="col-md-10">
 							    	{{ Form::textArea('comment', null, ['class'=>'form-control', 'placeholder'=>'Have your say...']) }}
+							    	{{-- Form::hidden('itemid', $swapItem->id) --}}
+							    	<br/>
+								    {{ Form::submit('Post', ['class'=>'btn btn-default col-md-2 col-md-offset-10']) }}
 						    	</div>
 						    </div>
+
 						{{ Form::close() }}
 
-						{{ HTML::image(Auth::user()->photoURL, 'profile-pic', ['height'=>'auto', 'class'=>'col-md-2 img-circle img-responsive']) }}
-						<div class="popover-example col-md-10">
-							<div class="popover right" id="comment" style="max-width:none">
-					      <div class="arrow"></div>
-					      <h3 class="popover-title">Popover right</h3>
-					      <div class="popover-content">
-					        <p>Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.</p>
-					      </div>
-					    </div>
-						</div>
-						<div class="media">
-						  <div class="media-left">
-						    <a href="#">
-						    	<!-- <img class="media-object" src="{{Auth::user()->photoURL}}" alt="..."> -->
-						    
-						    </a>
-						  </div>
-						  <div class="media-body">
-						    <!-- <h4 class="media-heading">Media heading</h4> -->
-						    
-						  </div>
-						</div>								
+							@forelse($comments as $comment)
+							<div class="row" style="margin-bottom:5px">
+							{{ HTML::image($comment->user->photoURL, 'profile-pic', ['height'=>'auto', 'class'=>'col-md-2 img-circle img-responsive']) }}
+							<div class="popover-example col-md-10">
+								<div class="popover right" id="comment" style="max-width:none">
+						      <div class="arrow"></div>
+						      <h3 class="popover-title">
+						      	{{ $comment->user->username }}
+						      	<span class="pull-right">{{ $comment->created_at->diffForHumans() }}</span>
+						      </h3>
+						      <div class="popover-content">
+						        <p>{{ $comment->content }}</p>
+						      </div>
+						    </div>
+							</div>
+							</div>
 
+							@empty
+							<p class="text-muted"><em>Be the first to comment.</em></p>
+							@endforelse
+						
 						
 						<!-- /comment static popover-->
 

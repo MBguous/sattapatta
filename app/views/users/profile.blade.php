@@ -366,7 +366,9 @@
 						    <div id={{ $item->id }} class="panel-collapse collapse" role="tabpanel">
 						      <div class="panel-body">
 						        <div class="col-md-4">
-						        	{{ HTML::image($item->photoURL, null, ['style'=>'display: lock; height:auto; max-width: 100%']) }}
+						        	<a href="{{URL::route('items.show', [$item->user->username, $item->name, $item->id])}}">
+							        	{{ HTML::image($item->photoURL, null, ['style'=>'display: lock; height:auto; max-width: 100%']) }}
+						        	</a>
 						        </div>
 						        <div class="col-md-8">
 						        	<table class="table table-striped table-hover">

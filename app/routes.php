@@ -49,12 +49,14 @@ Route::group(array('before'=>'auth'), function() {
 	Route::post('messages/{username}', array('as'=>'send.message', 'uses'=>'MessageController@sendMessage'));
 	Route::post('users/messages/show', array('as'=>'show.message', 'uses'=>'MessageController@showMessage'));
 
+	Route::post('{username}/{itemname}/{itemid}', array('as'=>'post.comment', 'uses'=>'CommentController@postComment'));
+
 	// Route::post('show', array('as'=>'show.message', 'uses'=>'MessageController@showMessage'));
 });
 
 Route::get('users/{username}/profile', array('as'=>'users.profile', 'uses'=>'UserController@showProfile'));
 Route::get('items/browse', array('as'=>'items.browse', 'uses'=>'ItemController@browse'));
-Route::get('{username}/{itemname}', array('as'=>'items.show', 'uses'=>'ItemController@showItem'));
+Route::get('{username}/{itemname}/{itemid}', array('as'=>'items.show', 'uses'=>'ItemController@showItem'));
 
 Route::get('msg', function() {
 	// $messageUsers = DB::table('messages_users')->where('receiver_id', Auth::user()->id)->lists('message_id');

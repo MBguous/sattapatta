@@ -23,7 +23,7 @@
           </div>
           <!-- <img src="http://placehold.it/800x500" alt=""> -->
           <div style="text-align:center">
-            <a href="{{URL::route('items.show', [$item->user->username, $item->name])}}">
+            <a href="{{URL::route('items.show', [$item->user->username, $item->name, $item->id])}}">
               {{ HTML::image($item->photoURL, null, ['style'=>'height:150px', 'class'=>'img-responsive']) }}
             </a>
             {{-- HTML::linkRoute('items.show', HTML::image($item->photoURL, null, ['height'=>'150px']), $item->user->username, ['style'=>'height:150px']) --}}
