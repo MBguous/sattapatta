@@ -20,7 +20,11 @@
 
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								<h2><strong>{{ $swapItem->name }}</strong><small class="pull-right">2 requests</small></h2>
+								<h2>
+									<strong>{{ $swapItem->name }}</strong><small class="pull-right">
+																													<a href='#'>{{ $requestCount }} requests</a>
+																												</small>
+								</h2>
 							</div>
 							<div class="panel-body">
 								
@@ -145,10 +149,11 @@
 							<div class="panel-heading">Send request now</div>
 							
 							<div class="panel-body">
-								{{ Form::open(array('url'=>array('users/profile/info', $swapItem->name), 'class'=>'form-horizontal')) }}
+								{{ Form::open(array('url'=>array('post/request'), 'class'=>'form-horizontal')) }}
 									<!-- <div class="row"> -->
 										<div class="form-group">
 								    	{{ Form::label('itemname', 'Swap item with', ['class'=>'col-md-4 control-label']) }}
+								    	{{ Form::hidden('itemid', $swapItem->id) }}
 								    	<div class="col-md-8">
 									    	{{ Form::select('item', $items, null, ['class'=>'form-control']) }}
 								    	</div>
@@ -156,7 +161,7 @@
 								    
 							    <!-- </div> -->
 							    	<!-- <div> -->
-								    	{{ HTML::link('#', 'Request now', ['class'=>'btn btn-success form-control']) }}
+								    	{{ Form::submit('Request now', ['class'=>'btn btn-success form-control']) }}
 								    <!-- </div> -->
 
 								{{ Form::close() }}

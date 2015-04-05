@@ -1,23 +1,15 @@
 @extends ('layouts.master')
 
 @section('content')
-	<?php
-		//dd(Hash::make('123456'));
-	?>
-
-  <head>
-    <style>
-      /*.form-control {
-        background-color: transparent;
-        color: #ffffff;
-      }*/
-      /*.panel {
-        /*border: none;*/
-        /*position: relative;
-        top: 80px;
-      }*/
-    </style>
-  </head>
+	
+  @if (Session::has('message'))
+    <div class="alert alert-info alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <span><i class="fa fa-info-circle"></i>&nbsp;{{ Session::get('message') }}</span>
+    </div>
+  @endif
   
   <div class="row">
     <div class="col-md-4 col-md-offset-4">

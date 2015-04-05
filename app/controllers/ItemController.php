@@ -15,10 +15,11 @@ class ItemController extends BaseController {
 		$items = Item::where('user_id', Auth::user()->id)->lists('name', 'id');
 		$user = User::where('username', $username)->first();
 		$comments = Comment::where('item_id', $itemid)->get();
-		// $commentsCount = $comments->count();
-		// dd($comments);
+		// $request = Request::where('item_id', $itemid)->first();
+		$requestCount = DB::table('requests')->where('item_id', '=', $itemid)->count();
+		// dd($request);
 
-		return View::make('items.show', compact('swapItem', 'items', 'user', 'comments'));
+		return View::make('items.show', compact('swapItem', 'items', 'user', 'comments', 'requestCount'));
 	}
 
 	public function showListing($username) {

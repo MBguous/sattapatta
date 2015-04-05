@@ -14,6 +14,12 @@
 App::before(function($request)
 {
 	//
+	$bag = Session::getMetadataBag();
+	$max = Config::get('session.lifetime') * 60;
+	if ($bag && $max < (time() - $bag->getLastUsed())) {
+	    // Event::fire('idle.too-long');
+	    return Redirect::route('login')->withMessage('Your session has expired. Please log in again.');
+	}
 });
 
 
@@ -87,4 +93,20 @@ Route::filter('csrf', function()
 	{
 		throw new Illuminate\Session\TokenMismatchException;
 	}
+});
+
+// Custom session filter
+Route::filter('session', function() {
+	// $bag = Session::getMetadataBag();
+	// if ((time() - $bag->getLastUsed()) > (Config::get('session.lifetime') * 60)) {
+	// 	return Redirect::route('login')->withMessage('Your session has expired. Please log in again.');
+	// }
+
+	$bag = Session::getMetadataBag();
+	$max = Config::get('session.lifetime') * 60;
+	if ($bag && $max < (time() - $bag->getLastUsed())) {
+	    // Event::fire('idle.too-long');
+	    return Redirect::route('login')->withMessage('Your session has expired. Please log in again.');
+	}
+	
 });

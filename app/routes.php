@@ -13,6 +13,7 @@
 
 Route::get('home', array('as'=>'home', 'uses'=>'HomeController@home'));
 Route::get('/', function(){
+	// dd(Session::token());
 	return Redirect::route('home');
 });
 
@@ -33,7 +34,7 @@ Route::get('accounts/create', array('as' => 'accounts.create', 'uses' => 'Accoun
 Route::get('accounts/activate/{code}', array('as' => 'accounts.activate', 'uses' => 'AccountController@activate'));
 Route::get('mail/{email}', array('as'=>'mail', 'uses'=>'AccountController@sendMail'));
 
-Route::group(array('before'=>'auth'), function() {
+Route::group(array('before'=>'auth|session'), function() {
 	Route::get('users/{username}/dashboard', array('as'=>'users.dashboard', 'uses'=>'UserController@showDashboard'));
 	
 	Route::post('users/profile/image', array('as'=>'post.users.profile', 'uses'=>'UserController@editProfileImage'));
@@ -50,13 +51,21 @@ Route::group(array('before'=>'auth'), function() {
 	Route::post('users/messages/show', array('as'=>'show.message', 'uses'=>'MessageController@showMessage'));
 
 	Route::post('{username}/{itemname}/{itemid}', array('as'=>'post.comment', 'uses'=>'CommentController@postComment'));
+	Route::post('post/request', array('as'=>'post.request', 'uses'=>'RequestController@postRequest'));
 
 	// Route::post('show', array('as'=>'show.message', 'uses'=>'MessageController@showMessage'));
 });
 
-Route::get('users/{username}/profile', array('as'=>'users.profile', 'uses'=>'UserController@showProfile'));
-Route::get('items/browse', array('as'=>'items.browse', 'uses'=>'ItemController@browse'));
-Route::get('{username}/{itemname}/{itemid}', array('as'=>'items.show', 'uses'=>'ItemController@showItem'));
+
+// Route::group(array('before'=>'session'), function() {
+
+	Route::get('users/{username}/profile', array('as'=>'users.profile', 'uses'=>'UserController@showProfile'));
+	Route::get('items/browse', array('as'=>'items.browse', 'uses'=>'ItemController@browse'));
+	Route::get('{username}/{itemname}/{itemid}', array('as'=>'items.show', 'uses'=>'ItemController@showItem'));
+
+// });
+
+
 
 Route::get('msg', function() {
 	// $messageUsers = DB::table('messages_users')->where('receiver_id', Auth::user()->id)->lists('message_id');
