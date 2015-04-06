@@ -99,6 +99,9 @@
     .dropdown:hover .dropdown-menu {
         display: block;
     }
+    #offers > li > a {
+      display: table-cell;
+    }
     .popover-example .popover {
       position: relative;
       display: block;
@@ -150,7 +153,21 @@
             <li>
               <form class="navbar-form navbar-left" id="search" role="search">
                 <div class="form-group">
-                  <input type="text" class="form-control" placeholder="Search">
+                  <input type="text" id="search-input" class="form-control" placeholder="Search" list="languages">
+                  <datalist id="languages">
+                    <option value="HTML">
+                    <option value="CSS">
+                    <option value="JavaScript">
+                    <option value="Java">
+                    <option value="Ruby">
+                    <option value="PHP">
+                    <option value="Go">
+                    <option value="Erlang">
+                    <option value="Python">
+                    <option value="C">
+                    <option value="C#">
+                    <option value="C++">
+                  </datalist>
                 </div>
                 <!-- <button type="submit" class="btn btn-default">Submit</button> -->
               </form>
@@ -183,6 +200,7 @@
                   <li>{{ HTML::linkRoute('users.listing', 'My listings', Auth::user()->username) }}</li>
                   <li>{{ HTML::linkRoute('users.messages', 'Messages') }}</li>
                   <li>{{ HTML::linkRoute('users.profile', 'Profile', Auth::user()->username) }}</li>
+                  <li class="divider"></li>
                   <li>{{ HTML::linkRoute('logout', 'Log out') }}</li>
                  </ul>
               </li>
@@ -251,7 +269,7 @@
   <!-- Bootstrap Core JavaScript -->
   <!-- // <script src="js/bootstrap.min.js"></script> -->
   {{ HTML::script('js/bootstrap.min.js') }}
- 
+  {{ HTML::script('js/search.js') }}
 
     <!-- Menu Toggle Script -->
     <script>
@@ -259,6 +277,9 @@
         e.preventDefault();
         $("#wrapper").toggleClass("toggled");
     });
+
+    // $('.dropdown-toggle').dropdown();
+    // $('[data-toggle="dropdown"]').dropdown();
 
     $('[data-toggle="tooltip"]').tooltip();
 

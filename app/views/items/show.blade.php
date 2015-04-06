@@ -20,12 +20,43 @@
 
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								<h2>
-									<strong>{{ $swapItem->name }}</strong><small class="pull-right">
-																													<a href='#'>{{ $requestCount }} requests</a>
-																												</small>
-								</h2>
-							</div>
+								<h4>
+									<strong>{{ $swapItem->name }}</strong>
+									<!-- <div class="pull-right">
+										<a href="#">
+											<i class="fa fa-suitcase"></i> <small>{{ $offers->count() }} offers</small>
+										</a>
+									</div> -->
+
+									<div class="dropdown pull-right">
+										<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+											<i class="fa fa-suitcase"></i>
+											<span class="caret"></span>
+										</a>
+										<ul class="dropdown-menu" id="offers">
+
+											<li class="dropdown-header">{{ $offers->count() }} offers</li>
+											<li class="divider"></li>
+											@forelse ($offers as $offer)
+											<li>
+												<a href="{{URL::route('items.show', [$offer->user->username, $offer->offerItems->first()->name, $offer->offerItems->first()->id])}}">
+													{{ $offer->user->username.' offered '.$offer->offerItems->first()->name }}
+												</a>
+
+												@if ($swapItem->user->username == Auth::user()->username)
+												{{ HTML::linkRoute('offer.response', 'Accept', ['response'=>'accepted',$offer->user_id, $offer->item_id], ['class'=>'btn btn-default btn-sm']) }}
+												{{ HTML::linkRoute('offer.response', 'Reject', ['response'=>'rejected',$offer->user_id, $offer->item_id]) }}
+												@endif
+
+											</li>
+											@empty
+												<p class="text-muted">No offers</p>
+											@endforelse
+										</ul>
+								</div>
+
+							</h4>
+						</div>
 							<div class="panel-body">
 								
 
@@ -90,20 +121,24 @@
 							
 								
 
-						    <button type="button" class="btn btn-lg btn-danger" data-toggle="popover" title="Popover title" data-content="And here's some amazing content. It's very engaging. Right?">Click to toggle popover</button>
+						    
 
 							</div>
 						</div>
 
 						<hr/>
 						<!-- comment static popover -->
-						@if($comments->count() == 0)
-							<blockquote>No comments yet</blockquote>
-						@elseif($comments->count() == 1)
-							<blockquote>1 comment</blockquote>
-						@else
-							<blockquote>{{ $comments->count() }} comments</blockquote>
-						@endif
+						<blockquote>
+							<i class="fa fa-comments-o"></i>
+							@if($comments->count() == 0)
+								No comments yet
+							@elseif($comments->count() == 1)
+								1 comment
+							@else
+								{{ $comments->count() }} comments
+							@endif
+						</blockquote>
+						
 
 						{{ Form::open(array('url'=>array('#', [$user->username,$swapItem->name, $swapItem->id]), 'class'=>'form-horizontal')) }}
 							<!-- <div class="row"> -->
@@ -142,7 +177,7 @@
 						
 						
 						<!-- /comment static popover-->
-
+					
 					</div>
 					<div class="col-md-5">
 						<div class="panel panel-default">
@@ -161,7 +196,7 @@
 								    
 							    <!-- </div> -->
 							    	<!-- <div> -->
-								    	{{ Form::submit('Request now', ['class'=>'btn btn-success form-control']) }}
+								    	{{ Form::submit('Request now', ['class'=>'btn btn-success btn-block']) }}
 								    <!-- </div> -->
 
 								{{ Form::close() }}

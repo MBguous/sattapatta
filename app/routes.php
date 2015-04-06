@@ -51,7 +51,9 @@ Route::group(array('before'=>'auth|session'), function() {
 	Route::post('users/messages/show', array('as'=>'show.message', 'uses'=>'MessageController@showMessage'));
 
 	Route::post('{username}/{itemname}/{itemid}', array('as'=>'post.comment', 'uses'=>'CommentController@postComment'));
-	Route::post('post/request', array('as'=>'post.request', 'uses'=>'RequestController@postRequest'));
+	Route::post('post/request', array('as'=>'post.request', 'uses'=>'OfferController@postOffer'));
+
+	Route::get('offer/{userid}/{itemid}/{response}', array('as'=>'offer.response', 'uses'=>'OfferController@getResponse'));
 
 	// Route::post('show', array('as'=>'show.message', 'uses'=>'MessageController@showMessage'));
 });

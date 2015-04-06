@@ -6,7 +6,7 @@
     <!-- Title -->
     <div class="row">
       <!-- <div class="col-lg-12"> -->
-        <h4>Postings by latest time</h4>
+        <h4>Recent listings</h4>
       <!-- </div> -->
     <!-- </div> -->
     <!-- /.row -->
@@ -38,7 +38,9 @@
               
                 @if(Auth::check() and Auth::user()->username != $item->user->username)
                   {{-- HTML::linkRoute('compose.message', 'Contact User', $item->user->username, ['class'=>'btn btn-primary btn-xs']) --}}
-                  {{ HTML::link('#', 'Add to Wishlist', ['class'=>'btn btn-primary btn-xs']) }}
+                  <a href="#">
+                    <i class="fa fa-thumb-tack"></i>
+                  </a>
                 @endif
               
             

@@ -12,7 +12,8 @@ class Item extends Eloquent {
 		return $this->hasMany('Comment');
 	}
 	
-	public function request() {
-		return $this->hasMany('Items');
+	public function offers() {
+		return $this->hasMany('Offer');
 	}
+
 }

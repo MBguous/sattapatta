@@ -21,8 +21,8 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $this->hasMany('Comment');
 	}
 
-	public function requests() {
-		return $this->hasMany('Request');
+	public function offers() {
+		return $this->hasMany('Offer');
 	}
 
 	public static $auth_rules = [

@@ -16,7 +16,7 @@ class CreateRequestsTable extends Migration {
 			$table->increments('id');
 			$table->date('date');
 			$table->time('time');
-			$table->string('status')->default('available');
+			$table->string('status')->default('pending');
 			$table->unsignedInteger('user_id');
 			$table->unsignedInteger('item_id');
 			$table->timestamps();
