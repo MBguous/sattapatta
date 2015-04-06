@@ -151,11 +151,13 @@
               <a href="#">WANTS</a>
             </li>
             <li>
-              <form class="navbar-form navbar-left" id="search" role="search">
+              <!-- <form class="navbar-form navbar-left" id="search" role="search"> -->
+              {{ Form::open(array('route'=>'search.results', 'class'=>'navbar-form navbar-left', 'id'=>'search', 'method'=>'get')) }}
                 <div class="form-group">
-                  <input type="text" id="search-input" class="form-control" placeholder="Search" list="languages">
-                  <datalist id="languages">
-                    <option value="HTML">
+                  <input type="text" id="search-input" class="form-control" placeholder="Search" list="search-results">
+                  <datalist id="search-results"></datalist>
+                  <!-- <datalist id="search-results">
+                    <option value="HTML"></option>
                     <option value="CSS">
                     <option value="JavaScript">
                     <option value="Java">
@@ -167,10 +169,11 @@
                     <option value="C">
                     <option value="C#">
                     <option value="C++">
-                  </datalist>
+                  </datalist> -->
                 </div>
                 <!-- <button type="submit" class="btn btn-default">Submit</button> -->
-              </form>
+              {{ Form::close() }}
+              <!-- </form> -->
             </li>
             <!-- <div class="btn-group">
               <a href="#" class="btn btn-default">8</a>

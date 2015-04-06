@@ -34,6 +34,9 @@ Route::get('accounts/create', array('as' => 'accounts.create', 'uses' => 'Accoun
 Route::get('accounts/activate/{code}', array('as' => 'accounts.activate', 'uses' => 'AccountController@activate'));
 Route::get('mail/{email}', array('as'=>'mail', 'uses'=>'AccountController@sendMail'));
 
+Route::post('/', array('as'=>'search', 'uses'=>'SearchController@search'));
+Route::get('/search/results', array('as'=>'search.results', 'uses'=>'SearchController@showSearchResults'));
+
 Route::group(array('before'=>'auth|session'), function() {
 	Route::get('users/{username}/dashboard', array('as'=>'users.dashboard', 'uses'=>'UserController@showDashboard'));
 	
@@ -65,6 +68,7 @@ Route::group(array('before'=>'auth|session'), function() {
 	Route::get('items/browse', array('as'=>'items.browse', 'uses'=>'ItemController@browse'));
 	Route::get('{username}/{itemname}/{itemid}', array('as'=>'items.show', 'uses'=>'ItemController@showItem'));
 
+
 // });
 
 
@@ -86,7 +90,7 @@ Route::get('jpt', function(){
 	// }else{
 	// 	dd('false');
 	// }
-	dd(User::all());
+	dd(User::all()->lists('username'));
 });
 Route::get('users/msg/show', function(){
 	if (Request::ajax()){
