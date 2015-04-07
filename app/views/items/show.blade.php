@@ -50,7 +50,7 @@
 
 											</li>
 											@empty
-												<p class="text-muted">No offers</p>
+												<li class="text-muted"><a>No offers</a></li>
 											@endforelse
 										</ul>
 								</div>
@@ -108,7 +108,13 @@
 								<p>
 									<strong>Price: </strong>Rs. {{ $swapItem->price }}<br>
 									<strong>Posted on: </strong>{{ $swapItem->date }}<br>
-									<strong>Status: </strong>{{ $swapItem->status }}
+									<strong>Status: </strong>{{ $swapItem->status }}<br>
+									<strong>Tags:</strong>
+										@forelse ($swapItem->tags as $tag)
+											<span class="label label-warning">{{ $tag->name }}</span>
+										@empty
+											none
+										@endforelse
 								</p>
 							</div>
 						</div>

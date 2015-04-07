@@ -49,6 +49,7 @@
             data-show-faces="true">
           </div>
           </p>
+          Find the project at <a href="https://github.com/MBguous/sattapatta"><i class="fa fa-github fa-lg"></i></a>
         </div>
         <div class="col-md-4">
           {{ Form::open(array('route'=>'accounts.create', 'class'=>'form-horizontal')) }}
@@ -155,6 +156,7 @@
    
     <div class="container">
     <hr>
+
 
   <div id="disqus_thread"></div>
   </div>

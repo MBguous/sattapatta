@@ -4,10 +4,14 @@
 
 	<div class="container">
 		<div class="row">
-			<h3><strong>Search results</strong></h3>
-			<div class="col-md-4"></div>
-			<div class="col-md-8">
-				
+			<!-- <div class="form-group"> -->
+				{{ Form::text('keywords', null, ['class'=>'form-control', 'id'=>'ajax-search', 'placeholder'=>'Make a quick search .......', 'onkeydown'=>'down()', 'onkeyup'=>'up()']) }}
+			<!-- </div> -->
+			
+			<h4><strong>Search results</strong></h4>
+				<div id="search-results">
+					@include ('partials.showItems')
+				</div>
 			</div>
 		</div>
 	</div>

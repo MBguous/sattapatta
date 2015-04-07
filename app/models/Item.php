@@ -16,4 +16,8 @@ class Item extends Eloquent {
 		return $this->hasMany('Offer');
 	}
 
+	public function tags() {
+		return $this->belongsToMany('Tag');
+	}
+
 }

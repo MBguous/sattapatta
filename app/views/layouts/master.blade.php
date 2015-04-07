@@ -16,7 +16,9 @@
 
   <!-- Bootstrap Core CSS -->
   {{ HTML::style('css/lumen.bootstrap.css') }}
+
   {{ HTML::style('font-awesome/css/font-awesome.css') }}
+  {{ HTML::style('css/typicons/typicons.css') }}
 
   <!-- Custom CSS -->
   {{ HTML::style('css/heroic-features.css') }}
@@ -154,8 +156,8 @@
               <!-- <form class="navbar-form navbar-left" id="search" role="search"> -->
               {{ Form::open(array('route'=>'search.results', 'class'=>'navbar-form navbar-left', 'id'=>'search', 'method'=>'get')) }}
                 <div class="form-group">
-                  <input type="text" id="search-input" class="form-control" placeholder="Search" list="search-results">
-                  <datalist id="search-results"></datalist>
+                  <input type="text" name="search" id="search-input" class="form-control" placeholder="Search" list="search-results">
+                  <datalist id="search-datalist"></datalist>
                   <!-- <datalist id="search-results">
                     <option value="HTML"></option>
                     <option value="CSS">

@@ -36,6 +36,7 @@ Route::get('mail/{email}', array('as'=>'mail', 'uses'=>'AccountController@sendMa
 
 Route::post('/', array('as'=>'search', 'uses'=>'SearchController@search'));
 Route::get('/search/results', array('as'=>'search.results', 'uses'=>'SearchController@showSearchResults'));
+Route::post('/search/results', array('uses'=>'SearchController@quickSearch'));
 
 Route::group(array('before'=>'auth|session'), function() {
 	Route::get('users/{username}/dashboard', array('as'=>'users.dashboard', 'uses'=>'UserController@showDashboard'));
@@ -90,7 +91,14 @@ Route::get('jpt', function(){
 	// }else{
 	// 	dd('false');
 	// }
-	dd(User::all()->lists('username'));
+	// dd(User::all()->lists('username'));
+	// $tag = new Tag(array('name'=>'sunglass'));
+	$tag = Tag::find(3);
+	// $item->tags()->save($tag);
+	foreach($tag->items as $item){
+		echo $item->name;
+	}
+	// return $tag->items->name;
 });
 Route::get('users/msg/show', function(){
 	if (Request::ajax()){
