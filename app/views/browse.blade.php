@@ -41,6 +41,10 @@
                   <a href="#">
                     <i class="fa fa-thumb-tack"></i>
                   </a>
+                @else
+                  <a href="#">
+                    <i class="fa fa-edit"></i>
+                  </a>
                 @endif
               
             

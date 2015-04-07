@@ -3,7 +3,7 @@ var timer;
 // $('#search-input').focus(function(){
 
 // populate nav searchbar datalist
-$.post('/', {keywords: keywords}, function(response) {
+$.post('/', {}, function(response) {
 
 	
 	var responseToString = JSON.stringify(response.items);
@@ -29,7 +29,7 @@ function up() {
 		if(keywords.length > 0) {
 			$.post('results', {keywords: keywords}, function(markup) {
 
-				$('#search-results').empty().html(markup)
+				$('#search-results').empty().html(markup);
 			});
 		}
 	}, 500);

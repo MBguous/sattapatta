@@ -93,11 +93,28 @@ Route::get('jpt', function(){
 	// }
 	// dd(User::all()->lists('username'));
 	// $tag = new Tag(array('name'=>'sunglass'));
-	$tag = Tag::find(3);
-	// $item->tags()->save($tag);
-	foreach($tag->items as $item){
-		echo $item->name;
-	}
+	// $tag = Tag::find(3);
+	// // $item->tags()->save($tag);
+	// foreach($tag->items as $item){
+	// 	echo $item->name;
+		$tags = 'macbook,laptop';
+		$tagsarray = explode(',', $tags);
+		$item = Item::find(9);
+
+		for ($i=0; $i<sizeOf($tagsarray); $i++) {
+			$tagName = $tagsarray[$i];
+			$tagQuery = Tag::where('name', $tagName)->pluck('id');
+			// dd($tagQuery);
+
+			if ( $tagQuery == null) {
+				$tag = new Tag(array('name'=>$tagName));
+				$item->tags()->save($tag);
+			}
+			else {
+				$item->tags()->attach($tagQuery);
+			}
+		}
+	
 	// return $tag->items->name;
 });
 Route::get('users/msg/show', function(){

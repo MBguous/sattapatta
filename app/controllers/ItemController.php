@@ -41,11 +41,16 @@ class ItemController extends BaseController {
 
 	public function postItem() {
 		
+		$tags = Input::get('tag');
+		$tagsarray = explode(',', $tags);
+		// dd(count($tagsarray));
+
 		$rules = [
 		'name'        => 'required|max:60',
-		'description' =>'required',
+		'description' => 'required',
 		'price'       => 'required|numeric',
 		'photoURL'    => 'required|image|mimes:jpeg,jpg,bmp,gif,png'
+		// 'tag'					=> 'unique:tags'
 		];
 
 		$messages = array(
@@ -66,6 +71,8 @@ class ItemController extends BaseController {
 		$path = public_path().'/images/items/';
 		$image->move($path, $filename);
 
+
+
 		$item              = new Item;
 		$item->name        = Input::get('name');
 		$item->description = Input::get('description');
@@ -75,6 +82,19 @@ class ItemController extends BaseController {
 		$item->time        = date('H:i:s');
 		$item->user_id     = Auth::user()->id;
 		$item->save();
+
+		for ($i=0; $i<sizeOf($tagsarray); $i++) {
+			$tagName = $tagsarray[$i];
+			$tagQuery = Tag::where('name', $tagName)->pluck('id');
+			if ( $tagQuery == null) {
+				$tag = new Tag(array('name'=>$tagName));
+				$item->tags()->save($tag);
+			}
+			else {
+				$item->tags()->attach($tagQuery);
+			}
+		}
+
 		return Redirect::back()->withMessage('Item posted successfully.');
 	}
 }

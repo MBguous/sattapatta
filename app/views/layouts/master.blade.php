@@ -24,6 +24,7 @@
   {{ HTML::style('css/heroic-features.css') }}
   {{ HTML::style('css/search.css') }}
   {{ HTML::style('css/sidebar.css') }}
+  {{ HTML::style('css/bootstrap-tagsinput.css') }}
 
 
   <style>
@@ -275,6 +276,7 @@
   <!-- // <script src="js/bootstrap.min.js"></script> -->
   {{ HTML::script('js/bootstrap.min.js') }}
   {{ HTML::script('js/search.js') }}
+  {{ HTML::script('js/bootstrap-tagsinput.js') }}
 
     <!-- Menu Toggle Script -->
     <script>

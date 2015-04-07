@@ -26,6 +26,7 @@
                   {{-- HTML::linkRoute('compose.message', 'Contact User', $item->user->username, ['class'=>'btn btn-primary btn-xs']) --}}
                   <a href="#">
                     <i class="fa fa-thumb-tack"></i>
+                    <i class="typcn typcn-pin-outline" style="font-size:14px"></i>
                   </a>
                 @endif
               
