@@ -3,7 +3,7 @@ var timer;
 // $('#search-input').focus(function(){
 
 // populate nav searchbar datalist
-$.post('/', {}, function(response) {
+$.post('/test', {}, function(response) {
 
 	
 	var responseToString = JSON.stringify(response.items);

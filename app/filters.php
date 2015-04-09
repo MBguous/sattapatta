@@ -13,6 +13,11 @@
 
 App::before(function($request)
 {
+	// if( ! Request::secure() )
+ //    {
+ //        return Redirect::secure( Request::path() );
+ //    }
+	
 	//
 	$bag = Session::getMetadataBag();
 	$max = Config::get('session.lifetime') * 60;

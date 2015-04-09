@@ -2,6 +2,14 @@
 
 @section ('content')
 
+  @section ('home-class')
+  "active"
+  @endsection
+
+  @section ('browse-class')
+  ""
+  @endsection
+
   <script>
   window.fbAsyncInit = function() {
     FB.init({

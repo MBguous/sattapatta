@@ -12,7 +12,8 @@
 		"barryvdh/laravel-dompdf": "0.4.*",
 		"zizaco/entrust": "1.2.*@dev",
 		"hybridauth/hybridauth": "dev-master",
-		"intervention/image": "dev-master"
+		"intervention/image": "dev-master",
+		"barryvdh/laravel-debugbar": "~1.8"
 	},
 	"autoload": {
 		"classmap": [

@@ -124,7 +124,8 @@ return array(
 		'Way\Generators\GeneratorsServiceProvider',
 		'Barryvdh\DomPDF\ServiceProvider',
 		'Zizaco\Entrust\EntrustServiceProvider',
-		'Intervention\Image\ImageServiceProvider'
+		// 'Intervention\Image\ImageServiceProvider',
+		'Barryvdh\Debugbar\ServiceProvider',
 
 	),
 
@@ -192,10 +193,11 @@ return array(
 		'URL'               => 'Illuminate\Support\Facades\URL',
 		'Validator'         => 'Illuminate\Support\Facades\Validator',
 		'View'              => 'Illuminate\Support\Facades\View',
-		'Carbon' 			=> 'Carbon\Carbon',
-		'PDF' 				=> 'Barryvdh\DomPDF\Facade',
-		'Entrust' 			=> 'Zizaco\Entrust\EntrustFacade',
-		'Image' 			=> 'Intervention\Image\Facades\Image'
+		'Carbon'   => 'Carbon\Carbon',
+		'PDF'      => 'Barryvdh\DomPDF\Facade',
+		'Entrust'  => 'Zizaco\Entrust\EntrustFacade',
+		// 'Image'    => 'Intervention\Image\Facades\Image',
+		'Debugbar' => 'Barryvdh\Debugbar\Facade',
 
 	),
 

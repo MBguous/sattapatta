@@ -149,9 +149,13 @@
 						{{ Form::open(array('url'=>array('#', [$user->username,$swapItem->name, $swapItem->id]), 'class'=>'form-horizontal')) }}
 							<!-- <div class="row"> -->
 								<div class="form-group">
-						    	{{ HTML::image(Auth::user()->photoURL, 'profile-pic', ['height'=>'auto', 'class'=>'col-md-2 img-circle']) }}
+									@if (Auth::check())
+							    	{{ HTML::image(Auth::user()->photoURL, 'profile-pic', ['height'=>'auto', 'class'=>'col-md-2 img-circle']) }}
+						    	@else
+							    	{{ HTML::image('/images/male.png', 'profile-pic', ['height'=>'auto', 'class'=>'col-md-2 img-circle']) }}
+							    @endif
 						    	<div class="col-md-10">
-							    	{{ Form::textArea('comment', null, ['class'=>'form-control', 'placeholder'=>'Have your say...']) }}
+							    	{{ Form::textArea('comment', null, ['class'=>'form-control', 'placeholder'=>'Have your say...', 'rows'=>'3']) }}
 							    	{{-- Form::hidden('itemid', $swapItem->id) --}}
 							    	<br/>
 								    {{ Form::submit('Post', ['class'=>'btn btn-default col-md-2 col-md-offset-10']) }}
@@ -187,7 +191,7 @@
 					</div>
 					<div class="col-md-5">
 						<div class="panel panel-default">
-							<div class="panel-heading">Send request now</div>
+							<div class="panel-heading">Send offer now</div>
 							
 							<div class="panel-body">
 								{{ Form::open(array('url'=>array('post/request'), 'class'=>'form-horizontal')) }}
@@ -196,13 +200,21 @@
 								    	{{ Form::label('itemname', 'Swap item with', ['class'=>'col-md-4 control-label']) }}
 								    	{{ Form::hidden('itemid', $swapItem->id) }}
 								    	<div class="col-md-8">
-									    	{{ Form::select('item', $items, null, ['class'=>'form-control']) }}
+												@if (Auth::check())
+									    		{{ Form::select('item', $items, null, ['class'=>'form-control']) }}
+									    	@else
+									    		{{-- Form::select('item', null, null, ['class'=>'form-control-static']) --}}
+									    		<select id="disabledSelect" class="form-control" disabled>
+										        <option><p class="text-muted">Please login to send offer</p></option>
+										      </select>
+													<!--  -->
+									    	@endif
 								    	</div>
 								    </div>
 								    
 							    <!-- </div> -->
 							    	<!-- <div> -->
-								    	{{ Form::submit('Request now', ['class'=>'btn btn-success btn-block']) }}
+								    	{{ Form::submit('Offer', ['class'=>'btn btn-success btn-block']) }}
 								    <!-- </div> -->
 
 								{{ Form::close() }}

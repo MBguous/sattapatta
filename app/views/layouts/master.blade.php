@@ -25,6 +25,8 @@
   {{ HTML::style('css/search.css') }}
   {{ HTML::style('css/sidebar.css') }}
   {{ HTML::style('css/bootstrap-tagsinput.css') }}
+  {{ HTML::style('css/chats.css') }}
+  {{ HTML::style('css/fileinput.css') }}
 
 
   <style>
@@ -85,6 +87,16 @@
     .footer>.container {
       padding: 20px;
     }
+    #search .input-group-addon {
+      background-color: transparent;
+      color: #909090;
+      border-radius: 0;
+      border: 0;
+      border-bottom: 1px solid #e7e7e7;
+    }
+    /*.nav .navbar-nav > li > a .active > i{
+      color: #ffffff;
+    }*/
     .thumbnail > .caption > p, 
     .thumbnail > .caption > h6 {
       overflow: hidden;
@@ -140,23 +152,37 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav" style="float:right;">
-            <li>
-              {{ HTML::linkRoute('home', 'HOME','', ['class'=>'active']) }}
-              <!-- <a href="#" class="active">HOME</a> -->
+            <li class=@yield('home-class')>
+              <a href="{{ URL::route('home') }}" data-toggle="tooltip" data-placement="bottom" title="home">
+                <i class="typcn typcn-home-outline" style="font-size:x-large"></i>
+              </a>
             </li>
-            <li>
-              {{ HTML::linkRoute('items.browse', 'BROWSE') }}
+            <li class=@yield('browse-class')>
+              <a href="{{ URL::route('items.browse') }}" data-toggle="tooltip" data-placement="bottom" title="browse">
+                <i class="typcn typcn-th-small" style="font-size:x-large"></i>
+              </a>
+              {{-- HTML::linkRoute('items.browse', 'BROWSE') --}}
             </li>
-            <li>
-              <a href="#">HAVES</a>
+            @if(Auth::check())
+            <li class="dropdown">
+              <a href="#" title="notification">
+                <i class="dropdown-toggle typcn typcn-bell" data-toggle="dropdown" data-target="#notif-menu" style="font-size:x-large"></i>
+                <span class="badge" id="notif-badge">{{ $notifications->count() }}</span>
+              </a>
+              <ul class="dropdown-menu" id="notif-menu">
+                @forelse ($notifications as $notification)
+                <li>{{ $notification->notification }}</li>
+                @empty
+                @endforelse
+              </ul>
             </li>
-            <li>
-              <a href="#">WANTS</a>
-            </li>
+            @endif
+
             <li>
               <!-- <form class="navbar-form navbar-left" id="search" role="search"> -->
               {{ Form::open(array('route'=>'search.results', 'class'=>'navbar-form navbar-left', 'id'=>'search', 'method'=>'get')) }}
-                <div class="form-group">
+                <div class="form-group input-group">
+                  <span class="input-group-addon"><i class="typcn typcn-zoom-outline" style="font-size:large"></i></span>
                   <input type="text" name="search" id="search-input" class="form-control" placeholder="Search" list="search-results">
                   <datalist id="search-datalist"></datalist>
                   <!-- <datalist id="search-results">
@@ -197,15 +223,16 @@
                 <li>{{ HTML::image(Auth::user()->photoURL, 'profile-pic', ['height'=>'47px', 'class'=>'img-circle']) }}</li>
                 <li>
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                  {{ Auth::user()->username }}
+                  <span id="username">{{ Auth::user()->username }}</span>
                   <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
                   <li>{{ HTML::linkRoute('users.dashboard', 'Dashboard', Auth::user()->username) }}</li>
-                  <li>{{ HTML::linkRoute('users.post', 'Post item', Auth::user()->username) }}</li>
+                  <li>{{ HTML::linkRoute('items.post', 'Post item', Auth::user()->username) }}</li>
                   <li>{{ HTML::linkRoute('users.listing', 'My listings', Auth::user()->username) }}</li>
                   <li>{{ HTML::linkRoute('users.messages', 'Messages') }}</li>
                   <li>{{ HTML::linkRoute('users.profile', 'Profile', Auth::user()->username) }}</li>
+                  <li>{{ HTML::linkRoute('chats', 'chat', Auth::user()->username) }}</li>
                   <li class="divider"></li>
                   <li>{{ HTML::linkRoute('logout', 'Log out') }}</li>
                  </ul>
@@ -277,6 +304,9 @@
   {{ HTML::script('js/bootstrap.min.js') }}
   {{ HTML::script('js/search.js') }}
   {{ HTML::script('js/bootstrap-tagsinput.js') }}
+  {{ HTML::script('js/chats.js') }}
+  {{ HTML::script('js/notification.js') }}
+  {{ HTML::script('js/fileinput.js') }}
 
     <!-- Menu Toggle Script -->
     <script>
@@ -341,9 +371,18 @@
 
            }
            if(response.success) {
+            
             $('#edit-profile').slideUp();
             var successMessage = 'Profile info updated successfully';
-              $('#messageDiv').empty().append(successMessage);
+            // $('#messageDiv').empty().append(
+            //   '<div class="alert alert-info alert-dismissible"><button></button>'
+            //     +successMessage+
+            //   '</div>');
+            $('#messageDiv').empty().append('<div class="alert alert-info alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span>&times;</span></button><span><i class="fa fa-info-circle"></i>Profile info updated successfully. Refreshing......</span></div>');
+
+            var url = '{{ route("users.profile", ":username") }}';
+            url = url.replace(':username', response.username);
+            window.location=url;
            }
           // console.log(response.errors);
         });

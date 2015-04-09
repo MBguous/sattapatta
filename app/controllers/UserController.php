@@ -25,13 +25,13 @@ class UserController extends BaseController {
 		$validator = Validator::make(Input::all(), User::$image_rules);
 
 		if($validator->passes()) {
-			$user = Auth::user();
-			$image = Input::file('photoURL');
-			$filename = date('Y-m-d-H-i-s').'-'.$image->getClientOriginalName();
+			$user           = Auth::user();
+			$image          = Input::file('photoURL');
+			$filename       = date('Y-m-d-H-i-s').'-'.$image->getClientOriginalName();
 			
-			$path = public_path().'/images/users/';
+			$path           = public_path().'/images/users/';
 			$image->move($path, $filename);
-
+			
 			$user->photoURL = 'images/users/'.$filename;
 			$user->save();
 
@@ -51,17 +51,17 @@ class UserController extends BaseController {
 		parse_str($inputData, $formFields);
 		// dd($formFields['gender']);
 		$userData = array(
-			'username' => $formFields['username'],
-			// 'email' => $formFields['email'],
-			'firstName' => $formFields['firstName'],
-			'lastName' => $formFields['lastName'],
-			// 'gender' => $formFields['gender'],
-			'birthDay' => $formFields['birthDay'],
+			'username'   => $formFields['username'],
+			// 'email'   => $formFields['email'],
+			'firstName'  => $formFields['firstName'],
+			'lastName'   => $formFields['lastName'],
+			// 'gender'  => $formFields['gender'],
+			'birthDay'   => $formFields['birthDay'],
 			'birthMonth' => $formFields['birthMonth'],
-			'birthYear' => $formFields['birthYear'],
-			'phone' => $formFields['phone'],
-			'address' => $formFields['address'],
-			'country' => $formFields['country'],
+			'birthYear'  => $formFields['birthYear'],
+			'phone'      => $formFields['phone'],
+			'address'    => $formFields['address'],
+			'country'    => $formFields['country'],
 		);
 		// dd($userData);
 		// var_dump(Input::all());
@@ -94,7 +94,8 @@ class UserController extends BaseController {
 			// dd('validator passed');
 	 		if(Auth::user()->update($userData)) {
 	 			return Response::json(array(
-	 				'success' => true
+						'success'  => true,
+						'username' => Auth::user()->username
 	 				));
 	 		}
 

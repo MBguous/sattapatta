@@ -39,10 +39,9 @@
 				</div>
 				@endif
 
+				<div id="messageDiv"></div>
+
 				<div class="col-md-offset-1 col-md-10">
-
-
-					<div id="messageDiv"></div>
 
 					<div class="row">
 						<div class="col-md-3">
@@ -95,12 +94,14 @@
 		    
 		    <p>
 		    	
-		    	@if(!Auth::check() or Auth::user()->username != $user->username)
-		    	{{ HTML::link('#contactModal', 'Contact', ['data-toggle'=>'modal', 'class'=>'btn btn-default']) }}
+		    	@if(!Auth::check() or $loggedUser->username != $user->username)
+		    	{{ HTML::link('#contactModal', 'Contact', ['data-toggle'=>'modal', 'class'=>'btn btn-default btn-block']) }}
+		    	{{ HTML::link('#chatModal', 'Chat (user offline)', ['data-toggle'=>'modal', 'class'=>'btn btn-default btn-block']) }}
 		    	@endif
 
 		    </p>
 
+				<!-- #contactModal -->
 		    @if (Auth::check())
 		    <div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		    	<div class="modal-dialog">
@@ -162,6 +163,46 @@
 		    	</div>
 		    </div>
 		    @endif
+		    <!-- /#contactModal -->
+
+				<!-- #chatModal -->
+				@if (Auth::check())
+		    <div class="modal fade" id="chatModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		    	<div class="modal-dialog">
+		    		<div class="modal-content">
+		    			<div class="modal-header">
+		    				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		    				<h4 class="modal-title" id="myModalLabel">Chat request to {{ $user->username }}</h4>
+		    			</div>
+		    			<div class="modal-body">
+								<p>Are you sure want to send chat request to this user?</p>
+								{{ HTML::linkRoute('chat.request', 'Go ahead', [$loggedUser->username, $user->username], ['class'=>'btn btn-primary']) }}
+								{{ HTML::link('#', 'No', array('class'=>'btn btn-default', 'data-dismiss'=>'modal')) }}
+		    			</div>
+
+		    		</div>
+		    	</div>
+		    </div>
+		    <!-- /.modal -->
+		    @else
+		    <div class="modal fade" id="chatModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		    	<div class="modal-dialog">
+		    		<div class="modal-content">
+		    			<div class="modal-header">
+		    				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		    				<h4 class="modal-title" id="myModalLabel">
+		    					Please {{ HTML::linkRoute('login', 'log in') }}
+		    				</h4>
+		    			</div>
+		    			<div class="modal-body">
+		    				<p>You must logged in to be able to send chat requests.</p>
+		    			</div>
+		    		</div>
+		    	</div>
+		    </div>
+		    @endif
+				<!-- /#chatModal -->
+
 		</div>
 		<!-- profile image div -->
 		<div class="col-md-9">

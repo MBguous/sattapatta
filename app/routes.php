@@ -34,7 +34,7 @@ Route::get('accounts/create', array('as' => 'accounts.create', 'uses' => 'Accoun
 Route::get('accounts/activate/{code}', array('as' => 'accounts.activate', 'uses' => 'AccountController@activate'));
 Route::get('mail/{email}', array('as'=>'mail', 'uses'=>'AccountController@sendMail'));
 
-Route::post('/', array('as'=>'search', 'uses'=>'SearchController@search'));
+Route::post('/test', array('as'=>'search', 'uses'=>'SearchController@search'));
 Route::get('/search/results', array('as'=>'search.results', 'uses'=>'SearchController@showSearchResults'));
 Route::post('/search/results', array('uses'=>'SearchController@quickSearch'));
 
@@ -45,8 +45,11 @@ Route::group(array('before'=>'auth|session'), function() {
 
 	Route::post('users/{username}/profile/info', array('as'=>'post.users.profile.info', 'uses'=>'UserController@editProfileInfo'));
 
-	Route::get('users/{username}/post', array('as'=>'users.post', 'uses'=>'ItemController@showPostItem'));
+	// post, edit, update, show items
+	Route::get('users/{username}/post', array('as'=>'items.post', 'uses'=>'ItemController@showPostItem'));
 	Route::post('users/post', array('as'=>'post.users.post', 'uses'=>'ItemController@postItem'));
+	Route::get('{username}/{itemname}/{itemid}/edit', array('as'=>'item.edit', 'uses'=>'ItemController@editItem'));
+	Route::post('update/item/{itemid}', array('as'=>'item.update', 'uses'=>'ItemController@updateItem'));
 	Route::get('users/{username}/listing', array('as'=>'users.listing', 'uses'=>'ItemController@showListing'));
 
 	Route::get('users/messages', array('as'=>'users.messages', 'uses'=>'MessageController@message'));
@@ -59,6 +62,8 @@ Route::group(array('before'=>'auth|session'), function() {
 
 	Route::get('offer/{userid}/{itemid}/{response}', array('as'=>'offer.response', 'uses'=>'OfferController@getResponse'));
 
+	Route::post('/', array('uses'=>'NotificationController@getNotification'));
+
 	// Route::post('show', array('as'=>'show.message', 'uses'=>'MessageController@showMessage'));
 });
 
@@ -68,6 +73,16 @@ Route::group(array('before'=>'auth|session'), function() {
 	Route::get('users/{username}/profile', array('as'=>'users.profile', 'uses'=>'UserController@showProfile'));
 	Route::get('items/browse', array('as'=>'items.browse', 'uses'=>'ItemController@browse'));
 	Route::get('{username}/{itemname}/{itemid}', array('as'=>'items.show', 'uses'=>'ItemController@showItem'));
+	
+
+	// chat routes
+	Route::get('chats/request/{user1}/{user2}', array('as'=>'chat.request', 'uses'=>'ChatController@chatRequest'));
+	Route::get('chats/{username}', array('as'=>'chats', 'uses'=>'ChatController@chats'));
+	Route::post('chats/sendMessage', array('uses'=>'ChatController@sendMessage'));
+	Route::post('chats/isTyping', array('uses'=>'ChatController@isTyping'));
+	Route::post('chats/notTyping', array('uses'=>'ChatController@notTyping'));
+	Route::post('chats/retrieveChatMessages', array('uses'=>'ChatController@retrieveChatMessages'));
+	Route::post('chats/retrieveTypingStatus', array('uses'=>'ChatController@retrieveTypingStatus'));
 
 
 // });
@@ -85,7 +100,7 @@ Route::get('msg', function() {
 		// 
 	return View::make('jpt');
 });
-Route::get('jpt', function(){
+Route::get('test', function(){
 	// if(Session::has('_token')){
 	// 	dd('true');
 	// }else{
@@ -97,26 +112,38 @@ Route::get('jpt', function(){
 	// // $item->tags()->save($tag);
 	// foreach($tag->items as $item){
 	// 	echo $item->name;
-		$tags = 'macbook,laptop';
-		$tagsarray = explode(',', $tags);
-		$item = Item::find(9);
+	
+		// $tags = 'macbook,laptop';
+		// $tagsarray = explode(',', $tags);
+		// $item = Item::find(9);
 
-		for ($i=0; $i<sizeOf($tagsarray); $i++) {
-			$tagName = $tagsarray[$i];
-			$tagQuery = Tag::where('name', $tagName)->pluck('id');
-			// dd($tagQuery);
+		// for ($i=0; $i<sizeOf($tagsarray); $i++) {
+		// 	$tagName = $tagsarray[$i];
+		// 	$tagQuery = Tag::where('name', $tagName)->pluck('id');
+		// 	// dd($tagQuery);
 
-			if ( $tagQuery == null) {
-				$tag = new Tag(array('name'=>$tagName));
-				$item->tags()->save($tag);
-			}
-			else {
-				$item->tags()->attach($tagQuery);
-			}
-		}
+		// 	if ( $tagQuery == null) {
+		// 		$tag = new Tag(array('name'=>$tagName));
+		// 		$item->tags()->save($tag);
+		// 	}
+		// 	else {
+		// 		$item->tags()->attach($tagQuery);
+		// 	}
+		
+		// $chat = Chat::find(2);
+		// dd($chat->username);
 	
 	// return $tag->items->name;
+	
+		$username = 'Dawson.Glover';
+		$id = User::where('username', $username)->first()->id;
+		$notifications = Notification::where('user_id', $id)->where('read', false)->first();
+		dd($notifications->notification);
 });
+
+
+
+
 Route::get('users/msg/show', function(){
 	if (Request::ajax()){
 		return 'blah blah blah';
