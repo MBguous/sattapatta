@@ -29,7 +29,8 @@ class AccountController extends BaseController {
 				));
 			if ($user) {
 				//send email
-				Mail::send('emails.auth.activate', array('link'=>URL::route('accounts.activate', $code), 'username'=>$username), function($message) use($user) {
+				Mail::send('emails.auth.activate', array('link'=>URL::route('accounts.activate', $code), 'username'=>$username), function($message) use($user) 
+				{
 					$message->to($user->email, $user->username)->subject('Activate your account');
 				});
 

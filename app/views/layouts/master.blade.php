@@ -125,11 +125,11 @@
 
   </style>
   
-  @yield('script')
+  @yield('styleScript')
 
 </head>
 
-<body>
+<body data-spy="scroll" data-target="#nav-show">
 <div class="body-container">
 
   <!-- Navigation -->
@@ -309,6 +309,8 @@
   {{ HTML::script('js/chats.js') }}
   {{ HTML::script('js/notification.js') }}
   {{ HTML::script('js/fileinput.js') }}
+
+  @yield('script')
 
     <!-- Menu Toggle Script -->
     <script>

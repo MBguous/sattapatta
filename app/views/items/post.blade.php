@@ -38,6 +38,10 @@
 
             {{ Form::open(array('route'=>'post.users.post', 'class'=>'form-horizontal', 'files'=>true)) }}
               @include ('partials.itemForm')
+              <div>
+                <button type="reset" class="btn btn-default">Clear</button>
+                <button type="submit" class="btn btn-primary">Post item</button>
+              </div>
             {{ Form::close() }}
           </div>
 

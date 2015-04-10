@@ -1,6 +1,6 @@
 <div class="form-group">
   {{ Form::label('name', 'Item name', ['class'=>'col-md-2 control-label']) }}
-  <div class="col-md-6">
+  <div class="col-md-8">
     {{ Form::text('name', null, ['class'=>'form-control']) }}
     <div class="text-danger" id="name_error">{{ $errors->first('name', ':message') }}</div>
   </div>
@@ -8,8 +8,8 @@
 
 <div class="form-group">
   {{ Form::label('description', 'Description', ['class'=>'col-md-2 control-label']) }}
-  <div class="col-md-6">
-    {{ Form::textarea('description', null, ['class'=>'form-control']) }}
+  <div class="col-md-8">
+    {{ Form::textarea('description', null, ['class'=>'form-control', 'data-provide'=>'markdown', 'data-iconlibrary'=>'fa']) }}
     <div class="text-danger" id="description_error">{{ $errors->first('description', ':message') }}</div>
   </div>
 </div>
@@ -61,7 +61,3 @@
   </div>
 </div>
 
-<div>
-  <button type="reset" class="btn btn-default">Clear</button>
-  <button type="submit" class="btn btn-primary">Post item</button>
-</div>

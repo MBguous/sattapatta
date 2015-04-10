@@ -74,8 +74,7 @@ class ItemController extends BaseController {
 
 	public function postItem() {
 		
-		$tags = Input::get('tag');
-		$tagsarray = explode(',', $tags);
+		
 		// dd(count($tagsarray));
 
 		$rules = [
@@ -110,6 +109,8 @@ class ItemController extends BaseController {
 		$item->save();
 		$itemId = $item->id;
 
+
+		// add images
 		$photos    = Input::file('images');
 		foreach($photos as $photo)
 		{
@@ -136,6 +137,10 @@ class ItemController extends BaseController {
 			$image->save();
 		}
 
+
+		// add tags
+		$tags = Input::get('tag');
+		$tagsarray = explode(',', $tags);
 
 		for ($i=0; $i<sizeOf($tagsarray); $i++) {
 			$tagName = $tagsarray[$i];
@@ -187,30 +192,53 @@ class ItemController extends BaseController {
 		$item->save();
 
 		// images
-		$photos    = Input::file('images');
-		foreach($photos as $photo)
+		if (Input::hasFile('images'))
 		{
-			$imageRules = ['imageUrl' => 'required|image|mimes:jpeg,jpg,bmp,gif,png'];
-			$message = array(
-				'images.required' => 'Please upload an image of the item.',
-				'images.image'    => 'You need to upload an image of filetypes: jpeg, jpg, bmp, gif or png.'
-			);
-			$imageValidator = Validator::make(['imageUrl'=>$photo], $imageRules, $message);
+			$photos    = Input::file('images');
 
-			if($imageValidator->fails())
+			foreach($photos as $photo)
 			{
-				return Redirect::back()->withErrors($imageValidator)->withInput();
+				$imageRules = ['imageUrl' => 'required|image|mimes:jpeg,jpg,bmp,gif,png'];
+				$message = array(
+					'images.required' => 'Please upload an image of the item.',
+					'images.image'    => 'You need to upload an image of filetypes: jpeg, jpg, bmp, gif or png.'
+				);
+				$imageValidator = Validator::make(['imageUrl'=>$photo], $imageRules, $message);
+
+				if($imageValidator->fails())
+				{
+					return Redirect::back()->withErrors($imageValidator)->withInput();
+				}
+
+				$filename = date('Y-m-d-His').'-'.$photo->getClientOriginalName();
+
+				$path = public_path().'/images/items/';
+				$photo->move($path, $filename);
+
+				$image = new Image();
+				$image->imageUrl = 'images/items/'.$filename;
+
+				$item->images()->save($image);
 			}
+		}
 
-			$filename = date('Y-m-d-His').'-'.$photo->getClientOriginalName();
-
-			$path = public_path().'/images/items/';
-			$photo->move($path, $filename);
-
-			$image = new Image();
-			$image->imageUrl = 'images/items/'.$filename;
-
-			$item->images()->update($image);
+		// if tags were edited
+		if (Input::has('tag'))
+		{
+			$tags = Input::get('tag');
+			$tagsarray = explode(',', $tags);
+			
+			for ($i=0; $i<sizeOf($tagsarray); $i++) {
+			$tagName = $tagsarray[$i];
+			$tagQuery = Tag::where('name', $tagName)->pluck('id');
+			if ( $tagQuery == null) {
+				$tag = new Tag(array('name'=>$tagName));
+				$item->tags()->save($tag);
+			}
+			else {
+				$item->tags()->attach($tagQuery);
+			}
+		}
 		}
 
 		return Redirect::back()->withMessage('Item updated successfully');

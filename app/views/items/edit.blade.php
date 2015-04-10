@@ -1,5 +1,13 @@
 @extends ('layouts.master')
 
+@section ('styleScript')
+{{ HTML::style('css/bootstrap-markdown.min.css') }}
+{{ HTML::script('js/jquery.js') }}
+{{ HTML::script('js/bootstrap-markdown.js') }}
+{{ HTML::script('js/to-markdown.js') }}
+{{ HTML::script('js/markdown.js') }}
+@endsection('styleScript')
+
 @section ('content')
 
 	<div class="container-fluid">
@@ -24,6 +32,10 @@
 	            {{-- Form::model(array('route'=>'post.users.post', 'class'=>'form-horizontal', 'files'=>true)) --}}
 	            {{ Form::model($item, array('url'=>array('update/item', $item->id), 'class'=>'form-horizontal', 'files'=>true)) }}
 	              @include ('partials.itemForm')
+	              <div>
+								  <button type="reset" class="btn btn-default">Clear</button>
+								  <button type="submit" class="btn btn-primary">Save changes</button>
+								</div>
 	            {{ Form::close() }}
 	          </div>
 

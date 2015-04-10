@@ -417,7 +417,11 @@
 							<div class="panel-body">
 								<div class="col-md-4">
 									<a href="{{URL::route('items.show', [$item->user->username, $item->name, $item->id])}}">
+										@if($item->photoURL == null)
+										{{ HTML::image($item->images->first()->imageUrl, null, ['style'=>'display: lock; height:auto; max-width: 100%']) }}
+										@else
 										{{ HTML::image($item->photoURL, null, ['style'=>'display: lock; height:auto; max-width: 100%']) }}
+										@endif
 									</a>
 								</div>
 								<div class="col-md-8">

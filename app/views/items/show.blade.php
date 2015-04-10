@@ -1,39 +1,71 @@
 @extends ('layouts.master')
 
-@section ('script')
+@section ('styleScript')
+{{ HTML::style('css/bootstrap-tabs-x.css') }}
 {{ HTML::script('js/jquery.js') }}
+{{ HTML::script('js/bootstrap-tabs-x.js') }}
+<style>
+	#nav-show > ul > li > a{
+		background-color: #ffffff;
+	}
+	#nav-show > ul > li.active > a{
+		background-color: #eeeeee;
+		font-size: larger;
+	}
+	#nav-scrollspy {
+		position: fixed;
+	  z-index: 1;
+	  top: 40px;
+	}
+</style>
 <script>
 	$(document).ready(function(){
 		// var spinner = $('<i></i>').addClass('fa fa-circle-o-notch fa-spin fa-2x');
 		// $('#image').find('.item').append(spinner);
-    $("#imageCount").children().first().addClass('active');
-    $("#image").children().first().addClass('active');
+		$("#imageCount").children().first().addClass('active');
+		$("#image").children().first().addClass('active');
+
 	});
 </script>
 @endsection
 
 @section ('content')
 
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-md-offset-1 col-md-10">
-				<div class="row">
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-offset-1 col-md-10">
+			<div class="row">
+				
+				<div class="col-md-12" id="nav-scrollspy">
+					<nav id="nav-show" class="tabs-x tabs-below">
+				    <ul class="nav nav-tabs">
+				    	<li><a href="#overview">Overview</a></li>
+				    	<li><a href="#description">Description</a></li>
+				    	<li><a href="#wants">Wants</a></li>
+				    	<li><a href="#comments">Comments</a></li>
+				    </ul>
+				  </nav>
+				</div>
+				<br>
+				<br>
 
 				@if (Session::has('message'))
-		      <div class="alert alert-info alert-dismissible" role="alert">
-		        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-		          <span aria-hidden="true">&times;</span>
-		        </button>
-		        <span><i class="fa fa-info-circle"></i>&nbsp;{{ Session::get('message') }}</span>
-		      </div>
-		    @endif
+				<div class="alert alert-info alert-dismissible" role="alert">
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<span><i class="fa fa-info-circle"></i>&nbsp;{{ Session::get('message') }}</span>
+				</div>
+				@endif
 
-					<div class="col-md-7">
+				
 
-						<div class="panel panel-default">
-							<div class="panel-heading">
-								<h4>
-									<strong>{{ $swapItem->name }}</strong>
+				<div class="col-md-7" id="left-col">
+
+					<div class="panel panel-default" id="overview">
+						<div class="panel-heading">
+							<h4>
+								<strong>{{ $swapItem->name }}</strong>
 									<!-- <div class="pull-right">
 										<a href="#">
 											<i class="fa fa-suitcase"></i> <small>{{ $offers->count() }} offers</small>
@@ -62,22 +94,22 @@
 
 											</li>
 											@empty
-												<li class="text-muted"><a>No offers</a></li>
+											<li class="text-muted"><a>No offers</a></li>
 											@endforelse
 										</ul>
-								</div>
+									</div>
 
-							</h4>
-						</div>
+								</h4>
+							</div>
 							<div class="panel-body">
 								
 
 								<div id="carousel-example-generic" class="carousel slide" data-ride="carousel" data-interval="false">
-								  <!-- Indicators -->
-								  <ol class="carousel-indicators" id="imageCount">
-								  	@for ($i=0; $i<$swapItem->images->count(); $i++)
-									    <li data-target="#carousel-example-generic" data-slide-to="{{$i}}"></li>
-									  @endfor
+									<!-- Indicators -->
+									<ol class="carousel-indicators" id="imageCount" style="background:rgba(169, 169, 169, 0.51)">
+										@for ($i=0; $i<$swapItem->images->count(); $i++)
+										<li data-target="#carousel-example-generic" data-slide-to="{{$i}}"></li>
+										@endfor
 								    <!-- <li data-target="#carousel-example-generic" data-slide-to="1"></li>
 								    <li data-target="#carousel-example-generic" data-slide-to="2"></li> -->
 								  </ol>
@@ -85,19 +117,19 @@
 								  <!-- Wrapper for slides -->
 								  <div class="carousel-inner" id="image" role="listbox" style="height:450px">
 								  	@foreach ($swapItem->images as $image)
-								    <div class="item">
-								    	<div style="display:table">
-								    		<div style="height:450px; display:table-cell; vertical-align:middle">
-								    			{{ HTML::image($image->imageUrl, 'item image', ['class'=>'img-responsive']) }}
-								    		</div>
-								    		
-								    	</div>
-							    		
-								    	
-								      <div class="carousel-caption">
-								      </div>
-								    </div>
-								    @endforeach
+								  	<div class="item">
+								  		<div style="display:table; margin:auto">
+								  			<div style="height:450px; display:table-cell; vertical-align:middle">
+								  				{{ HTML::image($image->imageUrl, 'item image', ['class'=>'img-responsive', 'style'=>'max-height:100%; margin:auto']) }}
+								  			</div>
+
+								  		</div>
+
+
+								  		<div class="carousel-caption">
+								  		</div>
+								  	</div>
+								  	@endforeach
 								    <!-- <div class="item">
 								      <img src="..." alt="...">
 								      <div class="carousel-caption">
@@ -109,19 +141,19 @@
 
 								  <!-- Controls -->
 								  <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-								    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-								    <span class="sr-only">Previous</span>
+								  	<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+								  	<span class="sr-only">Previous</span>
 								  </a>
 								  <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-								    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-								    <span class="sr-only">Next</span>
+								  	<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+								  	<span class="sr-only">Next</span>
 								  </a>
 								</div>
 
 							</div>
 						</div>
 
-						<div class="panel panel-default">
+						<div class="panel panel-default" id="description">
 							<div class="panel-heading">
 								<h5><strong>Description</strong></h5>	
 							</div>
@@ -132,84 +164,82 @@
 									<strong>Posted on: </strong>{{ $swapItem->date }}<br>
 									<strong>Status: </strong>{{ $swapItem->status }}<br>
 									<strong>Tags:</strong>
-										@forelse ($swapItem->tags as $tag)
-											<span class="label label-warning">{{ $tag->name }}</span>
-										@empty
-											none
-										@endforelse
+									@forelse ($swapItem->tags as $tag)
+									<span class="label label-warning">{{ $tag->name }}</span>
+									@empty
+									none
+									@endforelse
 								</p>
 							</div>
 						</div>
 
-						<div class="panel panel-default">
+						<div class="panel panel-default" id="wants">
 							<div class="panel-heading">
 								<h5><strong>Wants for this item</strong></h5>	
 							</div>
 							<div class="panel-body">
-							
-								
 
-						    
+							
 
 							</div>
 						</div>
 
 						<hr/>
 						<!-- comment static popover -->
-						<blockquote>
+						<blockquote id="comments">
 							<i class="fa fa-comments-o"></i>
 							@if($comments->count() == 0)
-								No comments yet
+							No comments yet
 							@elseif($comments->count() == 1)
-								1 comment
+							1 comment
 							@else
-								{{ $comments->count() }} comments
+							{{ $comments->count() }} comments
 							@endif
 						</blockquote>
 						
 
 						{{ Form::open(array('url'=>array('#', [$user->username,$swapItem->name, $swapItem->id]), 'class'=>'form-horizontal')) }}
-							<!-- <div class="row"> -->
-								<div class="form-group">
-									@if (Auth::check())
-							    	{{ HTML::image(Auth::user()->photoURL, 'profile-pic', ['height'=>'auto', 'class'=>'col-md-2 img-circle']) }}
-						    	@else
-							    	{{ HTML::image('/images/male.png', 'profile-pic', ['height'=>'auto', 'class'=>'col-md-2 img-circle']) }}
-							    @endif
-						    	<div class="col-md-10">
-							    	{{ Form::textArea('comment', null, ['class'=>'form-control', 'placeholder'=>'Have your say...', 'rows'=>'3']) }}
-							    	{{-- Form::hidden('itemid', $swapItem->id) --}}
-							    	<br/>
-								    {{ Form::submit('Post', ['class'=>'btn btn-default col-md-2 col-md-offset-10']) }}
-						    	</div>
-						    </div>
+						<!-- <div class="row"> -->
+						<div class="form-group">
+							@if (Auth::check())
+							{{ HTML::image(Auth::user()->photoURL, 'profile-pic', ['height'=>'auto', 'class'=>'col-md-2 img-circle']) }}
+							@else
+							{{ HTML::image('/images/male.png', 'profile-pic', ['height'=>'auto', 'class'=>'col-md-2 img-circle']) }}
+							@endif
+							<div class="col-md-10">
+								{{ Form::textArea('comment', null, ['class'=>'form-control', 'placeholder'=>'Have your say...', 'rows'=>'3']) }}
+								{{-- Form::hidden('itemid', $swapItem->id) --}}
+								<br/>
+								{{ Form::submit('Post', ['class'=>'btn btn-default col-md-2 col-md-offset-10']) }}
+							</div>
+						</div>
 
 						{{ Form::close() }}
 
-							@forelse($comments as $comment)
-							<div class="row" style="margin-bottom:5px">
+						@forelse($comments as $comment)
+						<div class="row" style="margin-bottom:5px">
 							{{ HTML::image($comment->user->photoURL, 'profile-pic', ['height'=>'auto', 'class'=>'col-md-2 img-circle img-responsive']) }}
 							<div class="popover-example col-md-10">
 								<div class="popover right" id="comment" style="max-width:none">
-						      <div class="arrow"></div>
-						      <h3 class="popover-title">
-						      	{{ $comment->user->username }}
-						      	<span class="pull-right">{{ $comment->created_at->diffForHumans() }}</span>
-						      </h3>
-						      <div class="popover-content">
-						        <p>{{ $comment->content }}</p>
-						      </div>
-						    </div>
+									<div class="arrow"></div>
+									<h3 class="popover-title">
+										{{ $comment->user->username }}
+										<span class="pull-right">{{ $comment->created_at->diffForHumans() }}</span>
+									</h3>
+									<div class="popover-content">
+										<p>{{ $comment->content }}</p>
+									</div>
+								</div>
 							</div>
-							</div>
+						</div>
 
-							@empty
-							<p class="text-muted"><em>Be the first to comment.</em></p>
-							@endforelse
+						@empty
+						<p class="text-muted"><em>Be the first to comment.</em></p>
+						@endforelse
 						
 						
 						<!-- /comment static popover-->
-					
+
 					</div>
 					<div class="col-md-5">
 						<div class="panel panel-default">
@@ -217,27 +247,27 @@
 							
 							<div class="panel-body">
 								{{ Form::open(array('url'=>array('post/request'), 'class'=>'form-horizontal')) }}
-									<!-- <div class="row"> -->
-										<div class="form-group">
-								    	{{ Form::label('itemname', 'Swap item with', ['class'=>'col-md-4 control-label']) }}
-								    	{{ Form::hidden('itemid', $swapItem->id) }}
-								    	<div class="col-md-8">
-												@if (Auth::check())
-									    		{{ Form::select('item', $items, null, ['class'=>'form-control']) }}
-									    	@else
-									    		{{-- Form::select('item', null, null, ['class'=>'form-control-static']) --}}
-									    		<select id="disabledSelect" class="form-control" disabled>
-										        <option><p class="text-muted">Please login to send offer</p></option>
-										      </select>
-													<!--  -->
-									    	@endif
-								    	</div>
-								    </div>
-								    
-							    <!-- </div> -->
-							    	<!-- <div> -->
-								    	{{ Form::submit('Offer', ['class'=>'btn btn-success btn-block']) }}
-								    <!-- </div> -->
+								<!-- <div class="row"> -->
+								<div class="form-group">
+									{{ Form::label('itemname', 'Swap item with', ['class'=>'col-md-4 control-label']) }}
+									{{ Form::hidden('itemid', $swapItem->id) }}
+									<div class="col-md-8">
+										@if (Auth::check())
+										{{ Form::select('item', $items, null, ['class'=>'form-control']) }}
+										@else
+										{{-- Form::select('item', null, null, ['class'=>'form-control-static']) --}}
+										<select id="disabledSelect" class="form-control" disabled>
+											<option><p class="text-muted">Please login to send offer</p></option>
+										</select>
+										<!--  -->
+										@endif
+									</div>
+								</div>
+
+								<!-- </div> -->
+								<!-- <div> -->
+								{{ Form::submit('Offer', ['class'=>'btn btn-success btn-block']) }}
+								<!-- </div> -->
 
 								{{ Form::close() }}
 							</div>
@@ -252,10 +282,10 @@
 							<div class="panel-body text-center">
 								{{ HTML::image($user->photoURL, 'profile-pic', ['class'=>'img-circle img-responsive center-block', 'style'=>'height:200px']) }}
 								<h3>{{ $user->username }}	</h3>
-				    		<span class="text-muted">
-					    		<p>From: {{ $user->address }}</p>
-						    	<i class="fa fa-calendar"></i> Joined on {{ date('M j, 20y',strtotime($user->created_at)); }}
-						    </span>
+								<span class="text-muted">
+									<p>From: {{ $user->address }}</p>
+									<i class="fa fa-calendar"></i> Joined on {{ date('M j, 20y',strtotime($user->created_at)); }}
+								</span>
 							</div>
 							<div class="panel-footer">
 								{{ HTML::linkRoute('users.profile', 'Contact me', $user->username, ['class'=>'btn btn-danger']) }} 
@@ -268,10 +298,34 @@
 		</div>
 	</div>
 
-	<script>
-		$('#myCarousel').on('slide.bs.carousel', function () {
-		  $('#image').find('item').empty();
-		})
-	</script>
+	
 
-@stop
+	@stop
+
+@section ('script')
+
+<script>
+
+	$('#myCarousel').on('slide.bs.carousel', function () {
+		$('#image').find('item').empty();
+	});
+
+	$('#left-col').scrollspy({ target: '#nav-show' })
+
+	// smooth scroll 
+	$('#nav-show').find('a').click(function(){
+		$(this).parent().addClass('active');
+		$(this).parent().siblings().removeClass('active');
+    $('html, body').animate({
+        scrollTop: $( $.attr(this, 'href') ).offset().top
+    }, 500);
+    return false;
+	});
+
+	$('#nav-show').find('a').blur(function(){
+		$(this).parent().removeClass('active');
+	});
+
+</script>
+
+@endsection

@@ -1,5 +1,11 @@
 @extends ('layouts.master')
 
+@section ('styleScript')
+  {{ HTML::style('css/strength-meter.css') }}
+  {{ HTML::script('js/jquery.js') }}
+  {{ HTML::script('js/strength-meter.js') }}
+@endsection
+
 @section ('content')
 
   @section ('home-class')
