@@ -35,7 +35,7 @@
             @if($item->photoURL != null)
               {{ HTML::image($item->photoURL, null, ['style'=>'height:150px', 'class'=>'img-responsive']) }}
             @else
-              {{ HTML::image($item->images()->imageUrl->first(), null, ['style'=>'height:150px', 'class'=>'img-responsive']) }}
+              {{ HTML::image($item->images->first()->imageUrl, null, ['style'=>'height:150px', 'class'=>'img-responsive']) }}
             @endif
           </a>
           {{-- HTML::linkRoute('items.show', HTML::image($item->photoURL, null, ['height'=>'150px']), $item->user->username, ['style'=>'height:150px']) --}}

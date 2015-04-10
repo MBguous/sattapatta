@@ -1,5 +1,17 @@
 @extends ('layouts.master')
 
+@section ('script')
+{{ HTML::script('js/jquery.js') }}
+<script>
+	$(document).ready(function(){
+		// var spinner = $('<i></i>').addClass('fa fa-circle-o-notch fa-spin fa-2x');
+		// $('#image').find('.item').append(spinner);
+    $("#imageCount").children().first().addClass('active');
+    $("#image").children().first().addClass('active');
+	});
+</script>
+@endsection
+
 @section ('content')
 
 	<div class="container-fluid">
@@ -62,27 +74,37 @@
 
 								<div id="carousel-example-generic" class="carousel slide" data-ride="carousel" data-interval="false">
 								  <!-- Indicators -->
-								  <ol class="carousel-indicators">
-								    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-								    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-								    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+								  <ol class="carousel-indicators" id="imageCount">
+								  	@for ($i=0; $i<$swapItem->images->count(); $i++)
+									    <li data-target="#carousel-example-generic" data-slide-to="{{$i}}"></li>
+									  @endfor
+								    <!-- <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+								    <li data-target="#carousel-example-generic" data-slide-to="2"></li> -->
 								  </ol>
 
 								  <!-- Wrapper for slides -->
-								  <div class="carousel-inner" role="listbox">
-								    <div class="item active">
-								    	{{ HTML::image($swapItem->photoURL, 'item image', ['class'=>'img-responsive']) }}
+								  <div class="carousel-inner" id="image" role="listbox" style="height:450px">
+								  	@foreach ($swapItem->images as $image)
+								    <div class="item">
+								    	<div style="display:table">
+								    		<div style="height:450px; display:table-cell; vertical-align:middle">
+								    			{{ HTML::image($image->imageUrl, 'item image', ['class'=>'img-responsive']) }}
+								    		</div>
+								    		
+								    	</div>
+							    		
+								    	
 								      <div class="carousel-caption">
-								        ...
 								      </div>
 								    </div>
-								    <div class="item">
+								    @endforeach
+								    <!-- <div class="item">
 								      <img src="..." alt="...">
 								      <div class="carousel-caption">
 								        ...
 								      </div>
-								    </div>
-								    ...
+								    </div> -->
+								    
 								  </div>
 
 								  <!-- Controls -->
@@ -245,5 +267,11 @@
 			</div>
 		</div>
 	</div>
+
+	<script>
+		$('#myCarousel').on('slide.bs.carousel', function () {
+		  $('#image').find('item').empty();
+		})
+	</script>
 
 @stop

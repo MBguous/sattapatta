@@ -124,6 +124,8 @@
     }
 
   </style>
+  
+  @yield('script')
 
 </head>
 
