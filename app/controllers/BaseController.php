@@ -6,7 +6,9 @@ class BaseController extends Controller {
 	public function __construct(){
 		if(Auth::check()){
 			$this->loggedUser = Auth::user();
-			$this->notifications = Notification::where('user_id', Auth::user()->id)->where('read', false)->get();
+			$this->notifications = Notification::where('user_id', Auth::user()->id)->where('read', false);
+			if ($this->notifications->count())
+				$this->notifications = $this->notifications->get();
 		}
 		View::share(array('loggedUser'=>$this->loggedUser, 'notifications'=>$this->notifications));
 	}

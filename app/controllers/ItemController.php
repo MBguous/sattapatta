@@ -17,20 +17,22 @@ class ItemController extends BaseController {
 	 */
 	public function showItem($username, $itemname, $itemid) {
 		
-		$swapItem     = Item::where('id', $itemid)->first();
+		$swapItem = Item::where('id', $itemid)->first();
+		$id       = User::where('username', $username)->pluck('id');
+		$items    = Item::where('user_id', $id)->where('id', '!=', $swapItem->id)->get();
 
 		if(Auth::check())
-			$items        = Item::where('user_id', Auth::user()->id)->lists('name', 'id');	
+			$itemList = Item::where('user_id', Auth::user()->id)->lists('name', 'id');	
 		else
-			$items = null;
+			$itemList = null;
 		
-		$user         = User::where('username', $username)->first();
-		$comments     = Comment::where('item_id', $itemid)->orderBy('created_at', 'desc')->get();
+		$user            = User::where('username', $username)->first();
+		$comments        = Comment::where('item_id', $itemid)->orderBy('created_at', 'desc')->get();
 		// $requestCount = DB::table('offers')->where('item_id', '=', $itemid)->count();
-		$offers = Offer::where('item_id', $itemid)->where('status', 'pending')->get();
+		$offers          = Offer::where('item_id', $itemid)->where('status', 'pending')->get();
 		// dd(Offer::find(3)->offerItems->first()->name);
 
-		return View::make('items.show', compact('swapItem', 'items', 'user', 'comments', 'offers'));
+		return View::make('items.show', compact('swapItem', 'items', 'itemList', 'user', 'comments', 'offers'));
 	}
 
 	public function editItem($username, $itemname, $itemid) {
@@ -227,7 +229,7 @@ class ItemController extends BaseController {
 		{
 			$tags = Input::get('tag');
 			$tagsarray = explode(',', $tags);
-			
+
 			for ($i=0; $i<sizeOf($tagsarray); $i++) {
 			$tagName = $tagsarray[$i];
 			$tagQuery = Tag::where('name', $tagName)->pluck('id');

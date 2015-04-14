@@ -40,7 +40,7 @@ class AuthController extends \BaseController implements UserInterface
 			return Redirect::back()->withErrors($validator);
 		}
 
-		if (Auth::attempt(array('username' => $data['username'], 'password' => $data['password'], 'active'=>1))){
+		if (Auth::attempt(array('username' => $data['username'], 'password' => $data['password'], 'active'=>1), true)){
       $username = Auth::user()->username;
       return Redirect::route('users.profile', array($username))->withMessage('Login success!!');
     }

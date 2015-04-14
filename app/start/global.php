@@ -51,6 +51,15 @@ App::error(function(Exception $exception, $code)
 	Log::error($exception);
 });
 
+/**
+ * 404 Errors
+ */
+App::error(function(\Symfony\Component\HttpKernel\Exception\NotFoundHttpException $exception, $code)
+{
+   // handle the exception and show view or redirect to a diff route
+    return View::make('errors.404');
+});
+
 /*
 |--------------------------------------------------------------------------
 | Maintenance Mode Handler

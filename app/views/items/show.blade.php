@@ -1,5 +1,9 @@
 @extends ('layouts.master')
 
+@section ('title')
+{{ $swapItem->name }} - Sattapatta
+@stop
+
 @section ('styleScript')
 {{ HTML::style('css/bootstrap-tabs-x.css') }}
 {{ HTML::script('js/jquery.js') }}
@@ -9,13 +13,18 @@
 		background-color: #ffffff;
 	}
 	#nav-show > ul > li.active > a{
-		background-color: #eeeeee;
-		font-size: larger;
+		color: #455432;
+	}
+	#nav-show > ul > li.active{
+		color: #455432;
+		border-bottom: 4px solid #3da98d;
 	}
 	#nav-scrollspy {
+		background-color: #ffffff;
 		position: fixed;
+	  border: 1px solid #eeeeee;
+	  top: 50px;
 	  z-index: 1;
-	  top: 40px;
 	}
 </style>
 <script>
@@ -27,7 +36,7 @@
 
 	});
 </script>
-@endsection
+@stop
 
 @section ('content')
 
@@ -36,9 +45,9 @@
 		<div class="col-md-offset-1 col-md-10">
 			<div class="row">
 				
-				<div class="col-md-12" id="nav-scrollspy">
-					<nav id="nav-show" class="tabs-x tabs-below">
-				    <ul class="nav nav-tabs">
+				<div class="col-md-10" id="nav-scrollspy">
+					<nav id="nav-show">
+				    <ul class="nav nav-pills">
 				    	<li><a href="#overview">Overview</a></li>
 				    	<li><a href="#description">Description</a></li>
 				    	<li><a href="#wants">Wants</a></li>
@@ -72,12 +81,13 @@
 										</a>
 									</div> -->
 
-									<div class="dropdown pull-right">
+
+									<div class="pull-right dropdown">
 										<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 											<i class="fa fa-suitcase"></i>
 											<span class="caret"></span>
 										</a>
-										<ul class="dropdown-menu" id="offers">
+										<ul class="dropdown-menu">
 
 											<li class="dropdown-header">{{ $offers->count() }} offers</li>
 											<li class="divider"></li>
@@ -189,11 +199,11 @@
 						<blockquote id="comments">
 							<i class="fa fa-comments-o"></i>
 							@if($comments->count() == 0)
-							No comments yet
+								No comments yet
 							@elseif($comments->count() == 1)
-							1 comment
+								1 comment
 							@else
-							{{ $comments->count() }} comments
+								{{ $comments->count() }} comments
 							@endif
 						</blockquote>
 						
@@ -220,7 +230,7 @@
 						<div class="row" style="margin-bottom:5px">
 							{{ HTML::image($comment->user->photoURL, 'profile-pic', ['height'=>'auto', 'class'=>'col-md-2 img-circle img-responsive']) }}
 							<div class="popover-example col-md-10">
-								<div class="popover right" id="comment" style="max-width:none">
+								<div class="popover right" id="comment" style="max-width:none; z-index:0">
 									<div class="arrow"></div>
 									<h3 class="popover-title">
 										{{ $comment->user->username }}
@@ -246,20 +256,21 @@
 							<div class="panel-heading">Send offer now</div>
 							
 							<div class="panel-body">
-								{{ Form::open(array('url'=>array('post/request'), 'class'=>'form-horizontal')) }}
+								{{ Form::open(array('url'=>array('post/offer'), 'class'=>'form-horizontal')) }}
 								<!-- <div class="row"> -->
 								<div class="form-group">
 									{{ Form::label('itemname', 'Swap item with', ['class'=>'col-md-4 control-label']) }}
 									{{ Form::hidden('itemid', $swapItem->id) }}
 									<div class="col-md-8">
+
 										@if (Auth::check())
-										{{ Form::select('item', $items, null, ['class'=>'form-control']) }}
+											{{ Form::select('item', $itemList, null, ['class'=>'form-control']) }}
 										@else
-										{{-- Form::select('item', null, null, ['class'=>'form-control-static']) --}}
-										<select id="disabledSelect" class="form-control" disabled>
-											<option><p class="text-muted">Please login to send offer</p></option>
-										</select>
-										<!--  -->
+											{{-- Form::select('item', null, null, ['class'=>'form-control-static']) --}}
+											<select id="disabledSelect" class="form-control" disabled>
+												<option><p class="text-muted">Please login to send offer</p></option>
+											</select>
+											<!--  -->
 										@endif
 									</div>
 								</div>
@@ -293,6 +304,62 @@
 						</div>
 
 					</div>
+
+					<div class="col-md-12">
+						<hr>
+						<h3>Other items by {{$swapItem->user->username}}</h3>
+						@forelse ($items as $item)
+					    <div class="col-md-3 col-sm-6">
+					      <div class="thumbnail">
+					        <div style="position:relative; padding:0 10px">
+					          <h6>
+					            By {{ HTML::linkRoute('users.profile', $item->user->username, $item->user->username) }} 
+					            <span class="pull-right">{{ $item->created_at->diffForHumans() }}</span>
+					          </h6>
+					        </div>
+					        <!-- <img src="http://placehold.it/800x500" alt=""> -->
+					        <div style="text-align:center">
+					          <a href="{{URL::route('items.show', [$item->user->username, $item->name, $item->id])}}">
+					            @if($item->photoURL != null)
+					              {{ HTML::image($item->photoURL, null, ['style'=>'height:150px', 'class'=>'img-responsive']) }}
+					            @else
+					              {{ HTML::image($item->images->first()->imageUrl, null, ['style'=>'height:150px', 'class'=>'img-responsive']) }}
+					            @endif
+					          </a>
+					          {{-- HTML::linkRoute('items.show', HTML::image($item->photoURL, null, ['height'=>'150px']), $item->user->username, ['style'=>'height:150px']) --}}
+
+					        </div>
+					        <div class="caption">
+					          <p><strong>{{ $item->name }}</strong></p> 
+					          <h6 data-toggle="tooltip" data-placement="bottom" title="{{ $item->description }}">
+					            {{ $item->description }}
+					          </h6>
+					          <div style="bottom:10px">
+
+					            @if(Auth::check())
+					            @if(Auth::user()->username != $item->user->username)
+					            <a href="#">
+					              <i class="fa fa-thumb-tack"></i>
+					            </a>
+					            @else
+					            <a href="{{URL::route('item.edit', [$item->user->username, $item->name, $item->id])}}">
+					              <i class="fa fa-edit"></i>
+					            </a>
+					            @endif
+					            @endif
+					            
+					          </div>
+					        </div>
+
+					      </div>
+					    </div>
+					    <!-- /.col -->
+
+							@empty
+								<p class="text-muted">No items</p>
+					    @endforelse
+					</div>
+
 				</div>
 			</div>
 		</div>
@@ -300,7 +367,7 @@
 
 	
 
-	@stop
+@stop
 
 @section ('script')
 
@@ -314,18 +381,18 @@
 
 	// smooth scroll 
 	$('#nav-show').find('a').click(function(){
-		$(this).parent().addClass('active');
-		$(this).parent().siblings().removeClass('active');
+		// $(this).parent().addClass('active');
+		// $(this).parent().siblings().removeClass('active');
     $('html, body').animate({
         scrollTop: $( $.attr(this, 'href') ).offset().top
     }, 500);
     return false;
 	});
 
-	$('#nav-show').find('a').blur(function(){
-		$(this).parent().removeClass('active');
-	});
+	// $('#nav-show').find('a').blur(function(){
+	// 	$(this).parent().removeClass('active');
+	// });
 
 </script>
 
-@endsection
+@stop

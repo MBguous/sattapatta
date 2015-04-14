@@ -1,20 +1,24 @@
 @extends ('layouts.master')
 
+@section('title')
+Sattapatta - online barter platform
+@stop
+
 @section ('styleScript')
   {{ HTML::style('css/strength-meter.css') }}
   {{ HTML::script('js/jquery.js') }}
   {{ HTML::script('js/strength-meter.js') }}
-@endsection
+@stop
 
 @section ('content')
 
   @section ('home-class')
   "active"
-  @endsection
+  @stop
 
   @section ('browse-class')
   ""
-  @endsection
+  @stop
 
   <script>
   window.fbAsyncInit = function() {
@@ -50,7 +54,11 @@
     <header class="jumbotron hero-spacer">
       <div class="row">
         <div class="col-md-8">
-          <h1><strong>Your only place to trade and swap!</strong></h1>
+          <h1><strong>
+                <i class="fa fa-quote-left pull-left fa-border"></i>
+                Your only place to trade and swap!
+              </strong>
+          </h1>
           <p>
             Don't worry if you have unused stuffs cluttering up your space. Get rid of them and get something in return.
             Do it all without any cost at SattaPatta.
@@ -168,13 +176,12 @@
     <!-- /.how-it-works -->
 
    
-    <div class="container">
-    <hr>
+    <!-- <div class="container">
 
 
   <div id="disqus_thread"></div>
-  </div>
-<script type="text/javascript">
+  </div> -->
+<!-- <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES * * */
     var disqus_shortname = 'sattapatta';
     
@@ -185,6 +192,6 @@
         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
     })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript> -->
 
 @stop

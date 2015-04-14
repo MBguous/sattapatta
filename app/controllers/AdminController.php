@@ -1,31 +1,33 @@
 <?php
 
-class NotificationController extends \BaseController {
+class AdminController extends \BaseController {
 
 	/**
 	 * Display a listing of the resource.
-	 * GET /notification
+	 * GET /admin
 	 *
 	 * @return Response
 	 */
-	public function getNotification()
-
+	public function index()
 	{
-		$username      = Input::get('username');
-		$id            = User::where('username', $username)->first()->id;
-		$notifications = Notification::where('user_id', $id)->where('read', false)->first();
-		$count         = count($notifications);
-		
-		if ($count > 0) {
-			$notification = $notifications->content;
-			return Response::json(array('notification'=>$notification, 'count'=>$count));
-		}
-		// return Response::json(array('notifications'=>$notifications));
+		return View::make('admin.home');
 	}
+
+	public function getUsers()
+	{
+		$users = User::paginate(5);
+		return View::make('admin.users', compact('users'));
+	}
+
+	// public function paginateUsers()
+	// {
+	// 	$users = User::paginage(5);
+	// 	return View::make('admin.users', compact('users'))->render();
+	// }
 
 	/**
 	 * Show the form for creating a new resource.
-	 * GET /notification/create
+	 * GET /admin/create
 	 *
 	 * @return Response
 	 */
@@ -36,7 +38,7 @@ class NotificationController extends \BaseController {
 
 	/**
 	 * Store a newly created resource in storage.
-	 * POST /notification
+	 * POST /admin
 	 *
 	 * @return Response
 	 */
@@ -47,7 +49,7 @@ class NotificationController extends \BaseController {
 
 	/**
 	 * Display the specified resource.
-	 * GET /notification/{id}
+	 * GET /admin/{id}
 	 *
 	 * @param  int  $id
 	 * @return Response
@@ -59,7 +61,7 @@ class NotificationController extends \BaseController {
 
 	/**
 	 * Show the form for editing the specified resource.
-	 * GET /notification/{id}/edit
+	 * GET /admin/{id}/edit
 	 *
 	 * @param  int  $id
 	 * @return Response
@@ -71,7 +73,7 @@ class NotificationController extends \BaseController {
 
 	/**
 	 * Update the specified resource in storage.
-	 * PUT /notification/{id}
+	 * PUT /admin/{id}
 	 *
 	 * @param  int  $id
 	 * @return Response
@@ -83,7 +85,7 @@ class NotificationController extends \BaseController {
 
 	/**
 	 * Remove the specified resource from storage.
-	 * DELETE /notification/{id}
+	 * DELETE /admin/{id}
 	 *
 	 * @param  int  $id
 	 * @return Response

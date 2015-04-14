@@ -9,16 +9,15 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SattaPatta - Online Barter</title>
+  <title>@yield('title')</title>
 
   <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
   <link rel="favicon" href="{{ asset('favicon.ico') }}">
 
-  <!-- Bootstrap Core CSS -->
+  <!-- Lumen Bootstrap CSS -->
   {{ HTML::style('css/lumen.bootstrap.css') }}
 
   {{ HTML::style('font-awesome/css/font-awesome.css') }}
-  {{ HTML::style('css/typicons/typicons.css') }}
 
   <!-- Custom CSS -->
   {{ HTML::style('css/heroic-features.css') }}
@@ -71,6 +70,13 @@
     html {
       position: relative;
       min-height: 100%;
+
+      /*background: url(images/main-bg.jpg) no-repeat center center fixed; 
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;*/
+
     }
     body {
       /* Margin bottom by footer height */
@@ -111,8 +117,8 @@
     .tooltip.top .tooltip-arrow {
       border-top-color: #eeeeee;
     }*/
-    .dropdown:hover .dropdown-menu {
-        display: block;
+    .dropdown .dropdown-menu {
+        display: visible;
     }
     #offers > li > a {
       display: table-cell;
@@ -147,7 +153,7 @@
             <img src="http://placehold.it/150x50&text=Logo" alt="">
         </a> -->
           <span>
-            {{ HTML::image('images/logo.png', 'logo', ['height'=>'47px', 'width'=>'80px']) }}<span class="navbar-brand">SATTAPATTA</span>
+            {{ HTML::image('images/logo.png', 'logo', ['height'=>'47px', 'width'=>'80px']) }}<span class="navbar-brand">sattapatta</span>
           </span>
             
         </div>
@@ -155,36 +161,44 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav" style="float:right;">
             <li class=@yield('home-class')>
-              <a href="{{ URL::route('home') }}" data-toggle="tooltip" data-placement="bottom" title="home">
-                <i class="typcn typcn-home-outline" style="font-size:x-large"></i>
+              <a href="{{ URL::route('home') }}">
+                <i class="fa fa-home fa-lg" data-toggle="tooltip" data-placement="bottom" title="home"></i>
               </a>
             </li>
             <li class=@yield('browse-class')>
-              <a href="{{ URL::route('items.browse') }}" data-toggle="tooltip" data-placement="bottom" title="browse">
-                <i class="typcn typcn-th-small" style="font-size:x-large"></i>
+              <a href="{{ URL::route('items.browse') }}">
+                <i class="fa fa-th fa-lg" data-toggle="tooltip" data-placement="bottom" title="browse"></i>
               </a>
               {{-- HTML::linkRoute('items.browse', 'BROWSE') --}}
             </li>
-            @if(Auth::check())
-            <li class="dropdown">
-              <a href="#" title="notification">
-                <i class="dropdown-toggle typcn typcn-bell" data-toggle="dropdown" data-target="#notif-menu" style="font-size:x-large"></i>
-                <span class="badge" id="notif-badge">{{ $notifications->count() }}</span>
+
+            @if (Auth::check())
+            <li>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                <i class="fa fa-bell-o fa-lg" data-toggle="tooltip" data-placement="bottom" title="notifications"></i>
+              
+                @if ($notifications->count() > 0)
+                  <span class="badge" id="notif-badge">{{ $notifications->count() }}</span>
+                @endif
+                
               </a>
-              <ul class="dropdown-menu" id="notif-menu">
-                @forelse ($notifications as $notification)
-                <li>{{ $notification->notification }}</li>
-                @empty
-                @endforelse
-              </ul>
+              <ul class="dropdown-menu">
+                 @forelse ($notifications as $notification)
+                <li><a href="{{ URL::to($notification->link) }}">{{ $notification->content }}</a></li>
+              @empty
+                <li>You have no unread notifications.</li>
+              @endforelse
+               </ul>
             </li>
+
+            <li><a href="{{ URL::route('users.messages') }}"><i class="fa fa-envelope-o fa-lg"></i></a></li>
             @endif
 
             <li>
               <!-- <form class="navbar-form navbar-left" id="search" role="search"> -->
               {{ Form::open(array('route'=>'search.results', 'class'=>'navbar-form navbar-left', 'id'=>'search', 'method'=>'get')) }}
                 <div class="form-group input-group">
-                  <span class="input-group-addon"><i class="typcn typcn-zoom-outline" style="font-size:large"></i></span>
+                  <span class="input-group-addon"><i class="fa fa-search fa-rotate-90 fa-lg"></i></span>
                   <input type="text" name="search" id="search-input" class="form-control" placeholder="Search" list="search-results">
                   <datalist id="search-datalist"></datalist>
                   <!-- <datalist id="search-results">
@@ -222,19 +236,19 @@
             </div> -->
             
               @if(Auth::check())
-                <li>{{ HTML::image(Auth::user()->photoURL, 'profile-pic', ['height'=>'47px', 'class'=>'img-circle']) }}</li>
+                <li>{{ HTML::image($loggedUser->photoURL, 'profile-pic', ['height'=>'47px', 'class'=>'img-circle']) }}</li>
                 <li>
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                   <span id="username">{{ Auth::user()->username }}</span>
                   <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
-                  <li>{{ HTML::linkRoute('users.dashboard', 'Dashboard', Auth::user()->username) }}</li>
-                  <li>{{ HTML::linkRoute('items.post', 'Post item', Auth::user()->username) }}</li>
-                  <li>{{ HTML::linkRoute('users.listing', 'My listings', Auth::user()->username) }}</li>
+                  <li>{{ HTML::linkRoute('users.dashboard', 'Dashboard', $loggedUser->username) }}</li>
+                  <li>{{ HTML::linkRoute('items.post', 'Post item', $loggedUser->username) }}</li>
+                  <li>{{ HTML::linkRoute('users.listing', 'My listings', $loggedUser->username) }}</li>
                   <li>{{ HTML::linkRoute('users.messages', 'Messages') }}</li>
-                  <li>{{ HTML::linkRoute('users.profile', 'Profile', Auth::user()->username) }}</li>
-                  <li>{{ HTML::linkRoute('chats', 'chat', Auth::user()->username) }}</li>
+                  <li>{{ HTML::linkRoute('users.profile', 'Profile', $loggedUser->username) }}</li>
+                  <li>{{ HTML::linkRoute('chats', 'chat', $loggedUser->username) }}</li>
                   <li class="divider"></li>
                   <li>{{ HTML::linkRoute('logout', 'Log out') }}</li>
                  </ul>
@@ -307,8 +321,8 @@
   {{ HTML::script('js/search.js') }}
   {{ HTML::script('js/bootstrap-tagsinput.js') }}
   {{ HTML::script('js/chats.js') }}
-  {{ HTML::script('js/notification.js') }}
   {{ HTML::script('js/fileinput.js') }}
+  {{ HTML::script('js/admin.js') }}
 
   @yield('script')
 
@@ -407,7 +421,7 @@
     var link = event.relatedTarget; // Button that triggered the modal
     var id = link.id;
     var modal = $(this);
-    var spinner = $('<i></i>').addClass('fa fa-circle-o-notch fa-spin fa-2x');
+    var spinner = $('<i></i>').addClass('fa fa-spinner fa-pulse fa-3x');
 
     modal.find('.modal-title').text('');
     modal.find('.modal-body').text('');

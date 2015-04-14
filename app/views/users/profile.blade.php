@@ -87,7 +87,7 @@
 		    		</p>
 		    		
 		    		<p>
-		    			<i class="fa fa-calendar"></i> Joined on {{ date('M j, 20y',strtotime($user->created_at)); }}
+		    			<i class="fa fa-calendar"></i> Joined on {{ date('M j, 20y',strtotime($user->created_at)) }}
 		    		</p>
 		    	</div>
 		    </div>
@@ -117,7 +117,8 @@
 		    					<div class="form-group">
 		    						<div class="col-md-offset-1 col-md-10">
 		    							{{ Form::text('title', null, ['class'=>'form-control', 'placeholder'=>'Title']) }}
-		    							<div class="text-danger" id="title_error">{{ $errors->first('title', ':message') }}</div>
+		    							<!-- <div class="text-danger" id="title_error">{{ $errors->first('title', ':message') }}</div> -->
+		    							{{ $errors->first('title', '<div class="text-danger" id="title_error">:message</div>') }}
 		    						</div>
 		    					</div>
 		    				</div>
@@ -126,7 +127,7 @@
 		    					<div class="form-group">
 		    						<div class="col-md-offset-1 col-md-10">
 		    							{{ Form::textarea('content', null, ['class'=>'form-control', 'placeholder'=>'Write your message']) }}
-		    							<div class="text-danger" id="content_error">{{ $errors->first('content', ':message') }}</div>
+		    							{{ $errors->first('content', '<div class="text-danger" id="content_error">:message</div>') }}
 		    						</div>
 		    					</div>
 		    				</div>
@@ -176,7 +177,7 @@
 		    			</div>
 		    			<div class="modal-body">
 								<p>Are you sure want to send chat request to this user?</p>
-								{{ HTML::linkRoute('chat.request', 'Go ahead', [$loggedUser->username, $user->username], ['class'=>'btn btn-primary']) }}
+								{{ HTML::linkRoute('chat.request', 'Go ahead', $user->username, ['class'=>'btn btn-primary']) }}
 								{{ HTML::link('#', 'No', array('class'=>'btn btn-default', 'data-dismiss'=>'modal')) }}
 		    			</div>
 

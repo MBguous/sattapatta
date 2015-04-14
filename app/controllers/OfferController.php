@@ -17,26 +17,39 @@ class OfferController extends BaseController {
 			'item_id'	=> Input::get('itemid')
 			);
 
+		// create offer
 		$offerId = DB::table('offers')->insertGetId($offer);
-		$itemId = Input::get('item');
+		$itemId  = Input::get('item');
 
 		$offerItem = array(
-			'offer_id'	=> $offerId,
-			'item_id'			=> $itemId
+			'offer_id' => $offerId,
+			'item_id'  => $itemId
 			);		
 
 		$insertOffer = 	DB::table('offer_items')->insert($offerItem);
 
-		if(!$offerId and !$insertOffer) {
-			DB::rollback();
-			return Redirect::back()->withMessage('Offer failed. Please try again.');
-		}
-		else {
+		//  item for which the offer is made
+		$item = Item::where('id', Input::get('itemid'))->first();
+
+		// create notifications
+		$notification                    = new Notification();
+		$notification->notification_type = 'itemOffer';
+		$notification->content           = Auth::user()->username.' has sent you an offer';
+		$notification->link              = URL::route('items.show', [$item->user->username, $item->name, $item->id]);
+		$notification->user_id           = $item->user->id;
+		$createNotification              = $notification->save();
+
+		// check if all database inserts were successful
+		if($offerId and $insertOffer and $createNotification) {
 			DB::commit();
 			return Redirect::back()->withMessage('Offer successfully sent.');
 		}
+		else {
+			DB::rollback();
+			return Redirect::back()->withMessage('Offer sending failed. Please try again.');
+		}
 
-		return Redirect::back()->withMessage('Offer successfully sent');
+		// return Redirect::back()->withMessage('Offer successfully sent');
 	}
 
 

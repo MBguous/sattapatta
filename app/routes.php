@@ -58,7 +58,7 @@ Route::group(array('before'=>'auth|session'), function() {
 	Route::post('users/messages/show', array('as'=>'show.message', 'uses'=>'MessageController@showMessage'));
 
 	Route::post('{username}/{itemname}/{itemid}', array('as'=>'post.comment', 'uses'=>'CommentController@postComment'));
-	Route::post('post/request', array('as'=>'post.request', 'uses'=>'OfferController@postOffer'));
+	Route::post('post/offer', array('as'=>'post.offer', 'uses'=>'OfferController@postOffer'));
 
 	Route::get('offer/{userid}/{itemid}/{response}', array('as'=>'offer.response', 'uses'=>'OfferController@getResponse'));
 
@@ -76,7 +76,7 @@ Route::group(array('before'=>'auth|session'), function() {
 	
 
 	// chat routes
-	Route::get('chats/request/{user1}/{user2}', array('as'=>'chat.request', 'uses'=>'ChatController@chatRequest'));
+	Route::get('chats/request/{username}', array('as'=>'chat.request', 'uses'=>'ChatController@chatRequest'));
 	Route::get('chats/{username}', array('as'=>'chats', 'uses'=>'ChatController@chats'));
 	Route::post('chats/sendMessage', array('uses'=>'ChatController@sendMessage'));
 	Route::post('chats/isTyping', array('uses'=>'ChatController@isTyping'));
@@ -84,7 +84,10 @@ Route::group(array('before'=>'auth|session'), function() {
 	Route::post('chats/retrieveChatMessages', array('uses'=>'ChatController@retrieveChatMessages'));
 	Route::post('chats/retrieveTypingStatus', array('uses'=>'ChatController@retrieveTypingStatus'));
 
-
+// admin routes
+Route::get('admin/home', array('as'=>'admin.home', 'uses'=>'AdminController@index'));
+Route::get('admin/test', array('uses'=>'AdminController@getUsers'));
+// Route::get('admin/test?page=2', array('uses'=>'AdminController@paginateUsers'));
 // });
 
 

@@ -2,23 +2,36 @@
 
 class ChatController extends BaseController {
 
-	public function chatRequest($user1, $user2) {
+	public function chatRequest($username) {
 
+		DB::beginTransaction();
+
+		// create notification
 		$notification                    = new Notification();
 		$notification->notification_type = 'chatRequest';
-		$notification->notification      = $user1.' wants to chat with you';
+		$notification->content           = $loggedUser->username.' wants to chat with you';
 		$notification->link              = 'sattapatta.com/chats/';
-		$user                            = User::where('username', $user2)->first()->id;
-		$notification->user_id           = User::where('username', $user2)->first()->id;
-		$notification->save();
+		// $user                            = User::where('username', $user2)->first()->id;
+		$notification->user_id           = User::where('username', $username)->first()->id;
+		// $notification->save();
 
+		// create chat
 		$chat = new Chat();
-		$chat->user1 = $user1;
-		$chat->user2 = $user2;
-		$chat->save();
-		$chatId = $chat->id;
-
-		return Redirect::back()->withMessage('Chat request sent.');
+		$chat->user1 = $loggedUser->username;
+		$chat->user2 = $username;
+		// $chat->save();
+		// $chatId = $chat->id;
+		
+		if ($notification->save() and $chat->save())
+		{
+			DB::commit();
+			return Redirect::back()->withMessage('Chat request sent.');
+		}
+		else
+		{	
+			DB::rollback();
+			return Redirect::back()->withMessage('Error sending chat request. Please try again.');
+		}
 	}
 
 	public function chats($username) {

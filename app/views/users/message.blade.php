@@ -5,18 +5,7 @@
 <div id="wrapper" class="toggled">
 
     
-  <!-- Sidebar -->
-  <div id="sidebar-wrapper">
-    <ul class="sidebar-nav">
-      <li class="sidebar-brand"><a href="#"></a></li>
-      <li>{{ HTML::linkRoute('users.dashboard', 'Dashboard', Auth::user()->username) }}</li>
-      <li>{{ HTML::linkRoute('users.post', 'Post Item', Auth::user()->username) }}</li>
-      <li>{{ HTML::linkRoute('users.listing', 'My Listings', Auth::user()->username) }}</li>
-      <li><blockquote>{{ HTML::link('#', 'Messages', ['style'=>'background:#454545']) }}</blockquote></li>
-      <li>{{ HTML::linkRoute('users.profile', 'Profile', Auth::user()->username) }}</li>
-    </ul>
-  </div>
-  <!-- /#sidebar-wrapper -->
+ 
         
   <!-- Page Content -->
   <div id="page-content-wrapper">
@@ -34,6 +23,7 @@
         <div class="col-md-offset-1 col-md-10">
           <!-- <a href="#menu-toggle" id="menu-toggle"><i class='fa fa-align-justify fa-2x'></i></a> -->
           <!--  -->
+          
           <div role="tabpanel">
 
             <!-- Nav tabs -->
@@ -83,7 +73,7 @@
         <h4 class="modal-title" id="myModalLabel"></h4>
       </div>
       <div class="modal-body">
-        <i class="fa fa-spinner fa-spin"></i>
+        <i class="fa fa-spinner fa-pulse fa-3x"></i>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

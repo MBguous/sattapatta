@@ -12,9 +12,9 @@
   src:  url(../fonts/OpenSans-Regular.ttf);
   }
 html {
-  font-family: sans-serif;
+  /*font-family: 'Open Sans', sans-serif;
   -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;*/
 }
 body {
   margin: 0;
@@ -3416,7 +3416,8 @@ tbody.collapse.in {
   top: 100%;
   /*left: 0;*/
   right: 0;
-  z-index: 1000;
+  /*z-index: 1000;*/
+  z-index: 1100;
   display: none;
   float: left;
   min-width: 160px;
@@ -4058,7 +4059,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   position: relative;
   min-height: 50px;
   margin-bottom: 20px;
-  border: 1px solid transparent;
+  /*border: 1px solid transparent;*/
 }
 @media (min-width: 768px) {
   .navbar {
@@ -6717,7 +6718,7 @@ button.close {
 }
 table a:not(.btn),
 .table a:not(.btn) {
-  text-decoration: underline;
+  /*text-decoration: underline;*/
 }
 table .dropdown-menu a,
 .table .dropdown-menu a {
