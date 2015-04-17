@@ -5,9 +5,7 @@
 @stop
 
 @section ('styleScript')
-{{ HTML::style('css/bootstrap-tabs-x.css') }}
 {{ HTML::script('js/jquery.js') }}
-{{ HTML::script('js/bootstrap-tabs-x.js') }}
 <style>
 	#nav-show > ul > li > a{
 		background-color: #ffffff;

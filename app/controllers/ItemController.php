@@ -162,6 +162,7 @@ class ItemController extends BaseController {
 	public function updateItem($id) {
 
 		// $images = Input::file('images');
+		DB::beginTransaction();
 
 		$rules = [
 		'name'        => 'required|max:60',
@@ -191,19 +192,19 @@ class ItemController extends BaseController {
 		// $item->date        = date('Y-m-d');
 		// $item->time        = date('H:i:s');
 		// $item->user_id     = Auth::user()->id;
-		$item->save();
+		$itemSave = $item->save();
 
 		// images
-		if (Input::hasFile('images'))
+		if (Input::hasFile('imageUrl'))
 		{
-			$photos    = Input::file('images');
+			$photos    = Input::file('imageUrl');
 
 			foreach($photos as $photo)
 			{
-				$imageRules = ['imageUrl' => 'required|image|mimes:jpeg,jpg,bmp,gif,png'];
+				
+				$imageRules = ['imageUrl' => 'image|mimes:jpeg,jpg,bmp,gif,png'];
 				$message = array(
-					'images.required' => 'Please upload an image of the item.',
-					'images.image'    => 'You need to upload an image of filetypes: jpeg, jpg, bmp, gif or png.'
+					'imageUrl.image'    => 'You need to upload an image of filetypes: jpeg, jpg, bmp, gif or png.'
 				);
 				$imageValidator = Validator::make(['imageUrl'=>$photo], $imageRules, $message);
 
@@ -220,7 +221,12 @@ class ItemController extends BaseController {
 				$image = new Image();
 				$image->imageUrl = 'images/items/'.$filename;
 
-				$item->images()->save($image);
+				$itemImageSave = $item->images()->save($image);
+				if (!$itemImageSave)
+				{
+					DB::rollback();
+					return Redirect::back()->withMessage('Image upload failed. Please try again.');
+				}
 			}
 		}
 
@@ -230,20 +236,35 @@ class ItemController extends BaseController {
 			$tags = Input::get('tag');
 			$tagsarray = explode(',', $tags);
 
-			for ($i=0; $i<sizeOf($tagsarray); $i++) {
-			$tagName = $tagsarray[$i];
-			$tagQuery = Tag::where('name', $tagName)->pluck('id');
-			if ( $tagQuery == null) {
-				$tag = new Tag(array('name'=>$tagName));
-				$item->tags()->save($tag);
-			}
-			else {
-				$item->tags()->attach($tagQuery);
+			for ($i = 0; $i < sizeOf($tagsarray); $i++)
+			{
+				$tagName = $tagsarray[$i];
+				$tagQuery = Tag::where('name', $tagName)->pluck('id');
+				if ( $tagQuery == null) {
+					$tag = new Tag(array('name'=>$tagName));
+					$itemTagSave = $item->tags()->save($tag);
+				}
+				else {
+					$itemTagSave = $item->tags()->attach($tagQuery);
+				}
+				if (!$itemTagSave)
+				{
+					DB::rollback();
+					return Redirect::back()->withMessage('Item tag update failed. Please try again.');
+				}
 			}
 		}
+
+		if (!$itemSave)
+		{
+			DB::rollback();
+			return Redirect::back()->withMessage('Item update failed. Please try again.');
 		}
-
-		return Redirect::back()->withMessage('Item updated successfully');
-
+		else
+		{
+			DB::commit();
+			return Redirect::back()->withMessage('Item updated successfully');
+		}
+		
 	}
 }

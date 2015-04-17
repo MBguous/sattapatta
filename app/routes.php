@@ -44,6 +44,7 @@ Route::group(array('before'=>'auth|session'), function() {
 	Route::post('users/profile/image', array('as'=>'post.users.profile', 'uses'=>'UserController@editProfileImage'));
 
 	Route::post('users/{username}/profile/info', array('as'=>'post.users.profile.info', 'uses'=>'UserController@editProfileInfo'));
+	Route::post('users/{username}/profile/edit', array('uses'=>'UserController@editProfile'));
 
 	// post, edit, update, show items
 	Route::get('users/{username}/post', array('as'=>'items.post', 'uses'=>'ItemController@showPostItem'));
@@ -87,6 +88,9 @@ Route::group(array('before'=>'auth|session'), function() {
 // admin routes
 Route::get('admin/home', array('as'=>'admin.home', 'uses'=>'AdminController@index'));
 Route::get('admin/test', array('uses'=>'AdminController@getUsers'));
+Route::get('admin/view-user', array('uses'=>'AdminController@showUser'));
+// Route::get('admin/edit-user', array('uses'=>'AdminController@editUser'));
+Route::post('admin/change-status', array('uses'=>'AdminController@changeStatus'));
 // Route::get('admin/test?page=2', array('uses'=>'AdminController@paginateUsers'));
 // });
 

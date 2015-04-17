@@ -1,13 +1,25 @@
+function showSpinner()
+{
+	$('#panel-body').css('display', 'block');
+	$('#panel-after-body').empty();
+}
+
+function renderMarkup(markup)
+{
+	$('#panel-body').css('display', 'none');
+	$('#panel-after-body').empty().html(markup);
+}
+
 // load users
 $('#link-users').click(function(e)
 {
 	e.preventDefault();
 	$('#panel-heading').empty().append('Users');
-	$('#panel-body').empty().append('<i class="fa fa-spinner fa-pulse fa-lg"></i> Loading...');
+	// $('#panel-body').empty().append('');
+	showSpinner();
 	$.get('test', {}, function(markup)
 		{
-			$('#panel-body').css('display', 'none');
-			$('#panel-after-body').empty().html(markup);
+			renderMarkup(markup);
 		});
 });
 
@@ -17,18 +29,41 @@ $(document).on('click', '.pagination a', function(e)
 {
 	e.preventDefault();
 	var page = $(this).attr('href').split('page=')[1];
-	$('#panel-body').css('display', 'block');
-	$('#panel-after-body').empty();
+	showSpinner();
 	$.get('test?page='+page, {}, function(markup)
 		{
-			$('#panel-body').css('display', 'none');
-			$('#panel-after-body').html(markup);
+			renderMarkup(markup);
 		});
 });
 
 // View user
-$(document).on('click', '#view-user', function(e)
+function viewUser(id)
 {
-	console.log('view user');
-	
-});
+	$('#panel-heading').empty().append('User Details');
+	showSpinner();
+	$.get('view-user', {id:id}, function(markup)
+	{
+		renderMarkup(markup);
+	});
+}
+
+// Edit user
+function editUser(id)
+{
+	$('#panel-heading').empty().append('Edit User');
+	showSpinner();
+	$.get('edit-user', {id:id}, function(markup)
+		{
+			renderMarkup(markup);
+		});
+}
+
+// Ban user
+function changeStatus(id)
+{
+	showSpinner();
+	$.post('change-status', {id:id}, function(markup)
+		{
+			renderMarkup(markup);
+		});
+}

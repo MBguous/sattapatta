@@ -1,5 +1,10 @@
 @extends ('layouts.master')
 
+@section ('styleScript')
+
+
+@stop
+
 @section ('content')
 
 <div id="wrapper" class="toggled">
@@ -229,48 +234,93 @@
 		    		<div role="tabpanel" class="tab-pane fade in active" id="profile">
 		    			<br><br>
 		    			<div class="col-md-12">
-		    				<table class="table table-striped table-hover">
+		    				<table class="table table-striped table-hover" id="profile-table">
 		    					<tr>
 		    						<th>Username</th>
-		    						<td>{{ $user->username }}</td>
+		    						<td>
+		    							<!-- <span contenteditable="true" id="edit">{{ $user->username }}</span> -->
+		    							<a href="#" id="username" data-type="text" data-pk="{{$user->id}}" data-url="profile/edit" data-title="Enter username">
+		    								{{ $user->username }}
+		    							</a>
+	    								@if(Auth::check() and Auth::user()->id == $user->id)
+	    									<a href="#edit-profile" data-toggle="modal" class="pull-right">
+	    										<i class="fa fa-pencil"></i>&nbsp;Edit username
+    										</a>
+					    				@endif
+	    							</td>
 		    					</tr>
 		    					<tr>
 		    						<th>Email</th>
-		    						<td>{{ $user->email }}</td>
+		    						<td>
+		    							<a href="#" id="email" data-type="text" data-pk="{{$user->id}}" data-url="profile/edit" data-title="Enter email">
+		    								{{ $user->email }}			
+		    							</a>	
+		    						</td>
 		    					</tr>
 		    					<tr>
 		    						<th>First Name</th>
-		    						<td>{{ $user->firstName }}</td>
+		    						<td>
+		    							<a href="#" id="firstName" data-type="text" data-pk="{{$user->id}}" data-url="profile/edit" data-title="Enter first name">
+		    								{{ $user->firstName }}			
+		    							</a>	
+		    						</td>
 		    					</tr>
 		    					<tr>
 		    						<th>Last Name</th>
-		    						<td>{{ $user->lastName }}</td>
+		    						<td>
+		    							<a href="#" id="lastName" data-type="text" data-pk="{{$user->id}}" data-url="profile/edit" data-title="Enter last name">
+		    								{{ $user->lastName }}			
+		    							</a>
+		    						</td>
 		    					</tr>
 		    					<tr>
 		    						<th>Gender</th>
-		    						<td>{{ $user->gender }}</td>
+		    						<td>
+		    							<a href="#" id="gender" data-type="select" data-pk="{{$user->id}}" data-url="profile/edit" data-title="Select gender"></a>
+											{{ Form::hidden('gender-value', $user->gender, ['id'=>'gender-value']) }}
+		    						</td>
 		    					</tr>
 		    					<tr>
 		    						<th>Date of Birth</th>
-		    						<td>{{ $user->gender }}</td>
+		    						<td>
+		    							<a href="#" id="birthYear" data-type="select" data-pk="{{$user->id}}" data-url="profile/edit" data-value="{{$user->birthYear}}" data-title="Select year"></a>
+		    							-
+		    							<a href="#" id="birthMonth" data-type="select" data-pk="{{$user->id}}" data-url="profile/edit" data-value="{{$user->birthMonth}}" data-title="Select month"></a>
+		    							-
+											<a href="#" id="birthDay" data-type="select" data-pk="{{$user->id}}" data-url="profile/edit" data-value="{{$user->birthDay}}" data-title="Select day"></a>
+
+											{{ Form::hidden('birthYear-value', $user->birthYear, ['id'=>'birthYear-value']) }}
+											{{ Form::hidden('birthMonth-value', $user->birthMonth, ['id'=>'birthMonth-value']) }}
+											{{ Form::hidden('birthDay-value', $user->birthDay, ['id'=>'birthDay-value']) }}
+		    						</td>
 		    					</tr>
 		    					<tr>
 		    						<th>Phone</th>
-		    						<td>{{ $user->phone }}</td>
+		    						<td>
+		    							<a href="#" id="phone" data-type="tel" data-pk="{{$user->id}}" data-url="profile/edit" data-title="Enter phone">
+		    								{{ $user->phone }}			
+		    							</a>
+		    						</td>
 		    					</tr>
 		    					<tr>
 		    						<th>Address</th>
-		    						<td>{{ $user->address }}</td>
+		    						<td>
+		    							<a href="#" id="address" data-type="text" data-pk="{{$user->id}}" data-url="profile/edit" data-title="Enter address">
+		    								{{ $user->address }}			
+		    							</a>
+		    						</td>
 		    					</tr>
 		    					<tr>
 		    						<th>Country</th>
-		    						<td>{{ $user->country }}</td>
+		    						<td>
+		    							<a href="#" id="country" data-type="text" data-pk="{{$user->id}}" data-url="profile/edit" data-title="Enter country">
+		    								{{ $user->country }}			
+		    							</a>
+		    						</td>
 		    					</tr>
 		    				</table>
 
-		    				@if(Auth::check() and Auth::user()->id == $user->id)
-		    				{{ HTML::link('#edit-profile', 'Edit', ['data-toggle'=>'modal']) }}
-		    				@endif
+		    				
 		    			</div>
 
 		    			<div class="modal fade" id="edit-profile">
@@ -295,7 +345,7 @@
 		    								</div>
 		    							</div>
 
-		    							<div class="form-group">
+		    							<!-- <div class="form-group">
 		    								{{ Form::label('firstName', 'First Name', ['class'=>'col-md-3 control-label']) }}
 		    								<div class="col-md-9">
 		    									{{ Form::text('firstName', null, ['class'=>'form-control']) }}
@@ -376,7 +426,7 @@
 		    									{{ Form::text('country', null, ['class'=>'form-control']) }}
 		    								</div>
 		    								<div id="country_error"></div>
-		    							</div>
+		    							</div> -->
 
 		    						</div>
 		    						<div class="modal-footer">
@@ -474,37 +524,9 @@
 </div>
 <!-- /#wrapper -->
 
-<script>
+@stop
 
-	// $(document).on('submit', '#infoForm', function(event) {
-	// 	event.preventDefault();
-	// 	var $form = $(this); 
-	// 	var data=$form.serialize();
-	// 	var url=$form.attr("url");
-	// 	var posting = $.post(url, {formData:data});
-	// 	// posting.done(function(data){
-	// 	// 	if(data.fail) {
-	// 	// 		$.each(data.errors, function(index, value){
-	// 	// 			var errorDiv = '#'+index+'_error';
-	// 	// 			$(errorDiv).addClass('required');
-	// 	// 			$(errorDiv).empty().append(value);
-	// 	// 		});
-	// 	// 	}
-	// 	// });
-	// 	$.post(url, {formData:data}, function(response){
-	// 		// validation success
-	// 	}).fail(function(response){
-	// 		//validation fail
-	// 		//if(data.fail) {
-	// 			$.each(data.errors, function(index, value){
-	// 				var errorDiv = '#'+index+'_error';
-	// 				$(errorDiv).addClass('required');
-	// 				$(errorDiv).empty().append(value);
-	// 			});
-	// 		//}
-	// 	});
-	// });
+@section ('script')
 
-</script>
-
+	
 @stop

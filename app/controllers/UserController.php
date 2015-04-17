@@ -41,46 +41,61 @@ class UserController extends BaseController {
 		return Redirect::back()->withMessage('Image upload failed. Please try again.');
 	}
 
+	public function editProfile()
+	{
+		$inputs = Input::all();
+		$user = User::find($inputs['pk']);
+
+		$data = array(
+			$inputs['name'] => $inputs['value']
+		);
+    
+    $validator = Validator::make($data, User::$edit_rules);
+    if ($validator->passes())
+    {
+    	$user->$inputs['name'] = $inputs['value'];
+	   	// $user->save();
+	   	if ($user->save())
+	   		return Response::make('', 200);
+    }
+   	return Response::make($validator->messages()->first($inputs['name']), 400);
+    
+	}
+
 	public function editProfileInfo($username) {
 
-		// dd('wtf');
 
 	if (Request::ajax()) {
-		// dd('wtf');
-		$inputData = Input::get('formData');
-		parse_str($inputData, $formFields);
-		// dd($formFields['gender']);
-		$userData = array(
-			'username'   => $formFields['username'],
-			// 'email'   => $formFields['email'],
-			'firstName'  => $formFields['firstName'],
-			'lastName'   => $formFields['lastName'],
-			// 'gender'  => $formFields['gender'],
-			'birthDay'   => $formFields['birthDay'],
-			'birthMonth' => $formFields['birthMonth'],
-			'birthYear'  => $formFields['birthYear'],
-			'phone'      => $formFields['phone'],
-			'address'    => $formFields['address'],
-			'country'    => $formFields['country'],
-		);
-		// dd($userData);
-		// var_dump(Input::all());
-		// var_dump($inputData);
+		// $inputData = Input::get('formData');
+		// parse_str($inputData, $formFields);
+		$username = Input::get('username');
+		// $userData = array(
+		// 	'username'   => $formFields['username'],
+		// 	'firstName'  => $formFields['firstName'],
+		// 	'lastName'   => $formFields['lastName'],
+		// 	'birthDay'   => $formFields['birthDay'],
+		// 	'birthMonth' => $formFields['birthMonth'],
+		// 	'birthYear'  => $formFields['birthYear'],
+		// 	'phone'      => $formFields['phone'],
+		// 	'address'    => $formFields['address'],
+		// 	'country'    => $formFields['country'],
+		// );
+		$userData = array('username' => $username);
 
 		$id = Auth::user()->id;
 
 		$rules = [
 		'username'	=> 'required|max:20|min:3|unique:users,username, '.$id,
-		'email'			=> 'email|max:50|unique:users',
-		'firstName'	=> 'required|string',
-		'lastName'	=> 'required|string',
-		'gender'		=> 'string',
-		'birthDay'	=> 'integer',
-		'birthMonth'=> 'integer',
-		'birthYear'	=> 'integer',
-		'phone'			=> 'string',
-		'address'		=> 'string',
-		'country'		=> 'string'
+		// 'email'			=> 'email|max:50|unique:users',
+		// 'firstName'	=> 'required|string',
+		// 'lastName'	=> 'required|string',
+		// 'gender'		=> 'string',
+		// 'birthDay'	=> 'integer',
+		// 'birthMonth'=> 'integer',
+		// 'birthYear'	=> 'integer',
+		// 'phone'			=> 'string',
+		// 'address'		=> 'string',
+		// 'country'		=> 'string'
 		];
 
 		$validator = Validator::make($userData,$rules);
@@ -91,7 +106,6 @@ class UserController extends BaseController {
         ));
 		}
 		else {
-			// dd('validator passed');
 	 		if(Auth::user()->update($userData)) {
 	 			return Response::json(array(
 						'success'  => true,
@@ -99,10 +113,7 @@ class UserController extends BaseController {
 	 				));
 	 		}
 
-			// return Redirect::back()->withMessage('Profile info updated');
 		}
-		// return 'ajax post request';
-		// return Response::json(Input::all());
     
 	}
 

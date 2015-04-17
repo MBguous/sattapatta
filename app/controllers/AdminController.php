@@ -19,6 +19,32 @@ class AdminController extends \BaseController {
 		return View::make('admin.users', compact('users'));
 	}
 
+	public function showUser()
+	{
+		$id = Input::get('id');
+		$user = User::find($id);
+		return View::make('admin.showUser', compact('user'));
+	}
+
+	public function changeStatus()
+	{
+		$id = Input::get('id');
+		$user = User::find($id);
+		if ($user->active == true)
+			$user->active = false;
+		else
+			$user->active = true;
+		$user->save();
+		return $this->getUsers();
+	}
+
+	// public function editUser()
+	// {
+	// 	$id = Input::get('id');
+	// 	$user = User::find($id);
+	// 	return View::make('admin.editUser', compact('user'));
+	// }
+
 	// public function paginateUsers()
 	// {
 	// 	$users = User::paginage(5);

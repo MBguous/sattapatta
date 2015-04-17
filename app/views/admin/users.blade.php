@@ -24,18 +24,30 @@
 		<td>{{ $user->fullName }}</td>
 		<td>{{ date('M j, 20y',strtotime($user->created_at)) }}</td>
 		<td>
-			<a href="#" title="View User Details" id="view-user">
-        <i class="fa fa-eye fa-lg"></i>
+			<a href="#" title="View User Details" onclick="viewUser({{ $user->id }})">
+				<span class="fa-stack">
+				  <i class="fa fa-eye fa-stack-1x"></i>
+				  <i class="fa fa-circle-o fa-stack-2x"></i>
+				</span>
       </a>
-      <a href="#" title="Edit User Details">
-        <i class="fa fa-edit fa-lg"></i>
+      @if ($user->active == 0)
+      <a href="#" title="Activate User" onclick="changeStatus({{ $user->id }})">
+      	<span class="fa-stack">
+				  <i class="fa fa-check fa-stack-1x"></i>
+				  <i class="fa fa-circle-o fa-stack-2x text-success"></i>
+				</span>
       </a>
-      <a href="#delete" data-toggle="modal" title="Deactivate User">
+      @else
+      <a href="#" title="Ban User" onclick="changeStatus({{ $user->id }})">
         <span class="fa-stack">
 				  <i class="fa fa-user fa-stack-1x"></i>
 				  <i class="fa fa-ban fa-stack-2x text-danger"></i>
 				</span>
       </a>
+      @endif
+      <!-- <a href="#" title="Edit User Details" onclick="editUser({{ $user->id }})">
+        <i class="fa fa-edit fa-lg"></i>
+      </a> -->
 		</td>
 	</tr>
 
@@ -44,3 +56,20 @@
 <div class="text-center">
 	{{ $users->links() }}
 </div>
+
+<!-- modal -->
+<!-- <div class="modal fade" id="deactivate-user">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+
+			<div class="modal-body">
+				<h4 class="modal-title">Deactivate the user?</h4>
+				
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="activateBtn">Go ahead</button>
+			</div>
+		</div>
+	</div>
+</div> -->

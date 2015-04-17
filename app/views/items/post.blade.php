@@ -1,5 +1,9 @@
 @extends ('layouts.master')
 
+@section ('styleScript')
+
+
+@stop
 @section ('content')
 
 <div id="wrapper" class="toggled">

@@ -26,7 +26,9 @@
   {{ HTML::style('css/bootstrap-tagsinput.css') }}
   {{ HTML::style('css/chats.css') }}
   {{ HTML::style('css/fileinput.css') }}
+  {{ HTML::style('css/bootstrap-editable.css') }}
 
+  @yield('styleScript')
 
   <style>
     /*@font-face {
@@ -131,7 +133,7 @@
 
   </style>
   
-  @yield('styleScript')
+  
 
 </head>
 
@@ -152,9 +154,9 @@
         <!-- <a class="navbar-brand" href="#">
             <img src="http://placehold.it/150x50&text=Logo" alt="">
         </a> -->
-          <span>
-            {{ HTML::image('images/logo.png', 'logo', ['height'=>'47px', 'width'=>'80px']) }}<span class="navbar-brand">sattapatta</span>
-          </span>
+        <span>
+          {{ HTML::image('images/logo.png', 'logo', ['height'=>'47px', 'width'=>'80px']) }}<span class="navbar-brand">sattapatta</span>
+        </span>
             
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -239,7 +241,7 @@
                 <li>{{ HTML::image($loggedUser->photoURL, 'profile-pic', ['height'=>'47px', 'class'=>'img-circle']) }}</li>
                 <li>
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                  <span id="username">{{ Auth::user()->username }}</span>
+                  <span>{{ Auth::user()->username }}</span>
                   <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
@@ -322,24 +324,32 @@
   {{ HTML::script('js/bootstrap-tagsinput.js') }}
   {{ HTML::script('js/chats.js') }}
   {{ HTML::script('js/fileinput.js') }}
-  {{ HTML::script('js/admin.js') }}
+  {{ HTML::script('js/bootstrap-editable.js') }}
+  {{ HTML::script('js/moment.js') }}
+  {{ HTML::script('js/sattapatta.js') }}
 
   @yield('script')
 
+    
     <!-- Menu Toggle Script -->
     <script>
-    $("#menu-toggle").click(function(e) {
-        e.preventDefault();
-        $("#wrapper").toggleClass("toggled");
-    });
+
+
+    
 
     // $('.dropdown-toggle').dropdown();
     // $('[data-toggle="dropdown"]').dropdown();
 
-    $('[data-toggle="tooltip"]').tooltip();
+    
 
-    $(function () {
-      $('[data-toggle="popover"]').popover();
+    
+
+
+
+    $(document).ready(function() {
+      $('#profile-table').find('a').editable();
+      $('#username').editable('disable');
+      
     });
 
     // $('#comment').popover(options);
@@ -371,18 +381,14 @@
       $('#infoForm').submit(function(e) {
         e.preventDefault();
 
-        var name = $(this).find('input[name=username]').val();
-        var $form = $(this); 
-        var data=$form.serialize();
+        var username = $(this).find('input[name=username]').val();
+        // var $form = $(this); 
+        // var data=$form.serialize();
 
-        // ajax post
-        // $.post('profile/info', {data: name}, function(jpt){
-        $.post('profile/info', {formData:data}, function(response){
+        $.post('profile/info', {username:username}, function(response){
           if(response.fail) {
              $.each(response.errors, function(index, value){
                var errorDiv = '#'+index+'_error';
-               // console.log(errorDiv);
-               // console.log(response.errors);
                $(errorDiv).addClass('text-danger');
                $(errorDiv).empty().append(value);
              });
@@ -390,19 +396,14 @@
            }
            if(response.success) {
             
-            $('#edit-profile').slideUp();
+            $('#edit-profile').hide();
             var successMessage = 'Profile info updated successfully';
-            // $('#messageDiv').empty().append(
-            //   '<div class="alert alert-info alert-dismissible"><button></button>'
-            //     +successMessage+
-            //   '</div>');
             $('#messageDiv').empty().append('<div class="alert alert-info alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span>&times;</span></button><span><i class="fa fa-info-circle"></i>Profile info updated successfully. Refreshing......</span></div>');
 
             var url = '{{ route("users.profile", ":username") }}';
             url = url.replace(':username', response.username);
             window.location=url;
            }
-          // console.log(response.errors);
         });
       });
     });
