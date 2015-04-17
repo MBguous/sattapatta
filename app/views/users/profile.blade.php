@@ -70,7 +70,11 @@
 												<div class="modal-body">
 
 													{{ Form::label('image', 'Choose an image') }}
-													{{ Form::file('photoURL') }}
+
+													{{ Form::file('photoURL', ['id'=>'profile-image', 'class'=>'file', 'data-preview-file-type'=>'text', 'data-show-upload'=>false, 'accept'=>'image/*']) }}
+													<div class="text-danger" id="photoURL_error">{{ $errors->first('photoURL', ':message') }}</div>
+
+													
 
 												</div>
 												<div class="modal-footer">
@@ -106,7 +110,7 @@
 
 		    </p>
 
-				<!-- #contactModal -->
+		    <!-- #contactModal -->
 		    @if (Auth::check())
 		    <div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		    	<div class="modal-dialog">
@@ -171,8 +175,8 @@
 		    @endif
 		    <!-- /#contactModal -->
 
-				<!-- #chatModal -->
-				@if (Auth::check())
+		    <!-- #chatModal -->
+		    @if (Auth::check())
 		    <div class="modal fade" id="chatModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		    	<div class="modal-dialog">
 		    		<div class="modal-content">
@@ -181,9 +185,9 @@
 		    				<h4 class="modal-title" id="myModalLabel">Chat request to {{ $user->username }}</h4>
 		    			</div>
 		    			<div class="modal-body">
-								<p>Are you sure want to send chat request to this user?</p>
-								{{ HTML::linkRoute('chat.request', 'Go ahead', $user->username, ['class'=>'btn btn-primary']) }}
-								{{ HTML::link('#', 'No', array('class'=>'btn btn-default', 'data-dismiss'=>'modal')) }}
+		    				<p>Are you sure want to send chat request to this user?</p>
+		    				{{ HTML::linkRoute('chat.request', 'Go ahead', $user->username, ['class'=>'btn btn-primary']) }}
+		    				{{ HTML::link('#', 'No', array('class'=>'btn btn-default', 'data-dismiss'=>'modal')) }}
 		    			</div>
 
 		    		</div>
@@ -207,11 +211,11 @@
 		    	</div>
 		    </div>
 		    @endif
-				<!-- /#chatModal -->
+		    <!-- /#chatModal -->
 
-		</div>
-		<!-- profile image div -->
-		<div class="col-md-9">
+		  </div>
+		  <!-- profile image div -->
+		  <div class="col-md-9">
   			<!-- <div class="panel panel-success text-center">
 		    	<div class="panel panel-heading">Edit info</div>
 		    	<div class="panel panel-body">
@@ -233,89 +237,140 @@
 		    	<div class="tab-content">
 		    		<div role="tabpanel" class="tab-pane fade in active" id="profile">
 		    			<br><br>
+
+@if(Auth::check() and Auth::user()->id == $user->id)
+<div class="progress">
+  <div class="progress-bar progress-bar-striped" style="width: {{ $pc }}%;">
+  	{{ $pc }}% Profile Complete
+  </div>
+</div>
+@endif
 		    			<div class="col-md-12">
 		    				<table class="table table-striped table-hover" id="profile-table">
 		    					<tr>
 		    						<th>Username</th>
 		    						<td>
-		    							<!-- <span contenteditable="true" id="edit">{{ $user->username }}</span> -->
+
 		    							<a href="#" id="username" data-type="text" data-pk="{{$user->id}}" data-url="profile/edit" data-title="Enter username">
 		    								{{ $user->username }}
 		    							</a>
-	    								@if(Auth::check() and Auth::user()->id == $user->id)
-	    									<a href="#edit-profile" data-toggle="modal" class="pull-right">
-	    										<i class="fa fa-pencil"></i>&nbsp;Edit username
-    										</a>
-					    				@endif
-	    							</td>
+
+		    							@if(Auth::check() and Auth::user()->id == $user->id)
+		    							<a href="#edit-profile" data-toggle="modal" class="pull-right">
+		    								<i class="fa fa-pencil"></i>&nbsp;Edit username
+		    							</a>
+		    							@endif
+		    						</td>
 		    					</tr>
 		    					<tr>
 		    						<th>Email</th>
 		    						<td>
-		    							<a href="#" id="email" data-type="text" data-pk="{{$user->id}}" data-url="profile/edit" data-title="Enter email">
-		    								{{ $user->email }}			
-		    							</a>	
+		    							@if(Auth::check() and Auth::user()->id == $user->id)
+			    							<a href="#" id="email" data-type="text" data-pk="{{$user->id}}" data-url="profile/edit" data-title="Enter email">
+			    								{{ $user->email }}			
+			    							</a>
+			    						@else
+			    							{{ $user->email }}
+			    						@endif
+
 		    						</td>
 		    					</tr>
 		    					<tr>
 		    						<th>First Name</th>
 		    						<td>
-		    							<a href="#" id="firstName" data-type="text" data-pk="{{$user->id}}" data-url="profile/edit" data-title="Enter first name">
-		    								{{ $user->firstName }}			
-		    							</a>	
+			    						@if(Auth::check() and Auth::user()->id == $user->id)
+			    							<a href="#" id="firstName" data-type="text" data-pk="{{$user->id}}" data-url="profile/edit" data-title="Enter first name">
+			    								{{ $user->firstName }}			
+			    							</a>
+		    							@else
+			    							{{ $user->firstName }}
+		    							@endif
+
 		    						</td>
 		    					</tr>
 		    					<tr>
 		    						<th>Last Name</th>
 		    						<td>
-		    							<a href="#" id="lastName" data-type="text" data-pk="{{$user->id}}" data-url="profile/edit" data-title="Enter last name">
-		    								{{ $user->lastName }}			
-		    							</a>
+		    							@if(Auth::check() and Auth::user()->id == $user->id)
+			    							<a href="#" id="lastName" data-type="text" data-pk="{{$user->id}}" data-url="profile/edit" data-title="Enter last name">
+			    								{{ $user->lastName }}			
+			    							</a>
+			    						@else
+			    							{{ $user->lastName }}
+			    						@endif
+
 		    						</td>
 		    					</tr>
 		    					<tr>
 		    						<th>Gender</th>
 		    						<td>
-		    							<a href="#" id="gender" data-type="select" data-pk="{{$user->id}}" data-url="profile/edit" data-title="Select gender"></a>
-											{{ Form::hidden('gender-value', $user->gender, ['id'=>'gender-value']) }}
+			    						@if(Auth::check() and Auth::user()->id == $user->id)
+			    							<a href="#" id="gender" data-type="select" data-pk="{{$user->id}}" data-url="profile/edit" data-title="Select gender"></a>
+		    							@else
+		    								@if($user->gender == 1)
+		    									Male
+		    								@elseif($user->gender == 2)
+		    									Female
+		    								@elseif($user->gender == 3)
+		    									Other
+		    								@endif
+		    							@endif
+		    							{{ Form::hidden('gender-value', $user->gender, ['id'=>'gender-value']) }}
 		    						</td>
 		    					</tr>
 		    					<tr>
 		    						<th>Date of Birth</th>
 		    						<td>
-		    							<a href="#" id="birthYear" data-type="select" data-pk="{{$user->id}}" data-url="profile/edit" data-value="{{$user->birthYear}}" data-title="Select year"></a>
-		    							-
-		    							<a href="#" id="birthMonth" data-type="select" data-pk="{{$user->id}}" data-url="profile/edit" data-value="{{$user->birthMonth}}" data-title="Select month"></a>
-		    							-
-											<a href="#" id="birthDay" data-type="select" data-pk="{{$user->id}}" data-url="profile/edit" data-value="{{$user->birthDay}}" data-title="Select day"></a>
-
-											{{ Form::hidden('birthYear-value', $user->birthYear, ['id'=>'birthYear-value']) }}
-											{{ Form::hidden('birthMonth-value', $user->birthMonth, ['id'=>'birthMonth-value']) }}
-											{{ Form::hidden('birthDay-value', $user->birthDay, ['id'=>'birthDay-value']) }}
+			    						@if(Auth::check() and Auth::user()->id == $user->id)
+			    							<a href="#" id="birthYear" data-type="select" data-pk="{{$user->id}}" data-url="profile/edit" data-value="{{$user->birthYear}}" data-title="Select year"></a>
+			    							-
+			    							<a href="#" id="birthMonth" data-type="select" data-pk="{{$user->id}}" data-url="profile/edit" data-value="{{$user->birthMonth}}" data-title="Select month"></a>
+			    							-
+			    							<a href="#" id="birthDay" data-type="select" data-pk="{{$user->id}}" data-url="profile/edit" data-value="{{$user->birthDay}}" data-title="Select day"></a>
+											@else
+												{{ $user->birthYear }} - {{ $user->birthMonth }} - {{ $user->birthDay }}
+											@endif
+		    							{{ Form::hidden('birthYear-value', $user->birthYear, ['id'=>'birthYear-value']) }}
+		    							{{ Form::hidden('birthMonth-value', $user->birthMonth, ['id'=>'birthMonth-value']) }}
+		    							{{ Form::hidden('birthDay-value', $user->birthDay, ['id'=>'birthDay-value']) }}
 		    						</td>
 		    					</tr>
 		    					<tr>
 		    						<th>Phone</th>
 		    						<td>
-		    							<a href="#" id="phone" data-type="tel" data-pk="{{$user->id}}" data-url="profile/edit" data-title="Enter phone">
-		    								{{ $user->phone }}			
-		    							</a>
+		    							@if(Auth::check() and Auth::user()->id == $user->id)
+			    							<a href="#" id="phone" data-type="tel" data-pk="{{$user->id}}" data-url="profile/edit" data-title="Enter phone">
+			    								{{ $user->phone }}			
+			    							</a>
+			    						@else
+			    							{{ $user->phone }}
+			    						@endif
+
 		    						</td>
 		    					</tr>
 		    					<tr>
 		    						<th>Address</th>
 		    						<td>
-		    							<a href="#" id="address" data-type="text" data-pk="{{$user->id}}" data-url="profile/edit" data-title="Enter address">
-		    								{{ $user->address }}			
-		    							</a>
+		    							@if(Auth::check() and Auth::user()->id == $user->id)
+			    							<a href="#" id="address" data-type="text" data-pk="{{$user->id}}" data-url="profile/edit" data-title="Enter address">
+			    								{{ $user->address }}			
+			    							</a>
+		    							@else
+		    								{{ $user->address }}
+		    							@endif
+
 		    						</td>
 		    					</tr>
 		    					<tr>
 		    						<th>Country</th>
 		    						<td>
-		    							<a href="#" id="country" data-type="text" data-pk="{{$user->id}}" data-url="profile/edit" data-title="Enter country">
-		    								{{ $user->country }}			
-		    							</a>
+		    							@if(Auth::check() and Auth::user()->id == $user->id)
+			    							<a href="#" id="country" data-type="text" data-pk="{{$user->id}}" data-url="profile/edit" data-title="Enter country">
+			    								{{ $user->country }}			
+			    							</a>
+			    						@else
+			    							{{ $user->country }}
+			    						@endif
 		    						</td>
 		    					</tr>
 		    				</table>
@@ -453,68 +508,69 @@
 		    					<div class="panel-heading" role="tab">
 		    						<h4 class="panel-title">
 		    							{{ HTML::link('#'.$item->id, $item->name, ['class'=>'collapsed', 'data-toggle'=>'collapse', 'data-parent'=>'#accordion']) }}
-		    								@if ($item->status == 'unavailable')
-		    									<i class="label label-warning">done deal</i>
-		    								@endif
+		    							@if ($item->status == 'unavailable')
+		    							<i class="label label-warning">done deal</i>
+		    							@endif
 		    							<!-- <a class="collapsed" data-toggle="collapse" data-parent="accordion"  href="#{{$item->id}}">
 		    								{{ $item->name }} 
-	    								</a> -->
+		    							</a> -->
 						        <!-- <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
 						          Collapsible Group Item #1
-						      </a> -->
-						  </h4>
+						        </a> -->
+						      </h4>
+						    </div>
+						    <div id={{ $item->id }} class="panel-collapse collapse" role="tabpanel">
+						    	<div class="panel-body">
+						    		<div class="col-md-4">
+						    			<a href="{{URL::route('items.show', [$item->user->username, $item->name, $item->id])}}">
+
+						    				@if(!$item->images->first())
+						    				{{ HTML::image('images/placeholder.png', null, ['style'=>'height:150px', 'class'=>'img-responsive']) }}
+						    				@else
+						    				{{ HTML::image($item->images->first()->imageUrl, null, ['style'=>'height:150px', 'class'=>'img-responsive']) }}
+						    				@endif
+						    			</a>
+						    		</div>
+						    		<div class="col-md-8">
+						    			<table class="table table-striped table-hover">
+						    				<tr>
+						    					<th>Name</th>
+						    					<td>{{ $item->name }}</td>
+						    				</tr>
+						    				<tr>
+						    					<th>Price</th>
+						    					<td>Rs. {{ $item->price }}</td>
+						    				</tr>
+						    				<tr>
+						    					<th>Description</th>
+						    					<td>{{ $item->description }}</td>
+						    				</tr>
+						    				<tr>
+						    					<th>Posted on</th>
+						    					<td>{{ $item->date }} {{ $item->time }}</td>
+						    				</tr>
+						    				<tr>
+						    					<th>Status</th>
+						    					<td>{{ $item->status }}</td>
+						    				</tr>
+						    			</table>
+						    		</div>
+						    	</div>
+						    </div>
+						  </div>
+						  @endforeach
+
 						</div>
-						<div id={{ $item->id }} class="panel-collapse collapse" role="tabpanel">
-							<div class="panel-body">
-								<div class="col-md-4">
-									<a href="{{URL::route('items.show', [$item->user->username, $item->name, $item->id])}}">
-										@if($item->photoURL == null)
-										{{ HTML::image($item->images->first()->imageUrl, null, ['style'=>'display: lock; height:auto; max-width: 100%']) }}
-										@else
-										{{ HTML::image($item->photoURL, null, ['style'=>'display: lock; height:auto; max-width: 100%']) }}
-										@endif
-									</a>
-								</div>
-								<div class="col-md-8">
-									<table class="table table-striped table-hover">
-										<tr>
-											<th>Name</th>
-											<td>{{ $item->name }}</td>
-										</tr>
-										<tr>
-											<th>Price</th>
-											<td>Rs. {{ $item->price }}</td>
-										</tr>
-										<tr>
-											<th>Description</th>
-											<td>{{ $item->description }}</td>
-										</tr>
-										<tr>
-											<th>Posted on</th>
-											<td>{{ $item->date }} {{ $item->time }}</td>
-										</tr>
-										<tr>
-											<th>Status</th>
-											<td>{{ $item->status }}</td>
-										</tr>
-									</table>
-								</div>
-							</div>
-						</div>
+						<!-- accordion -->
+
 					</div>
-					@endforeach
-
 				</div>
-				<!-- accordion -->
-
 			</div>
 		</div>
+		<!-- profile info div -->
 	</div>
-</div>
-<!-- profile info div -->
-</div>
 
-<!-- <h2>Dashboard</h2> -->
+	<!-- <h2>Dashboard</h2> -->
 </div>
 </div>
 </div>
@@ -528,5 +584,5 @@
 
 @section ('script')
 
-	
+
 @stop

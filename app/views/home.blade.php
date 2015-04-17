@@ -76,32 +76,34 @@ Sattapatta - online barter platform
         <div class="col-md-4">
           {{ Form::open(array('route'=>'accounts.create', 'class'=>'form-horizontal')) }}
         
-          {{ $errors->first('username', '<p class="error">:message</p>') }}        
+          <!-- username -->
           <div class="form-group form-group-lg">
-            <!-- <span class="input-group-addon"><i class="fa fa-user"  ></i></span> -->
+            {{ $errors->first('username', '<kbd class="error">:message</kbd>') }} 
             {{ Form::text('username', null, ['class'=>"form-control", 'placeholder'=>"Username"]) }}
           </div>
-          <!-- <br> -->
-
-          {{ $errors->first('password', '<p class="error">:message</p>') }}
-          <div class="form-group form-group-lg">
-              <!-- <span class="input-group-addon"><i class="fa fa-key"  ></i></span>   -->
-            {{ Form::password('password', ['class'=>"form-control", 'placeholder'=>"Password"]) }}
-              <!-- <span class="input-group-addon"><i class="fa fa-key"  ></i></span>   -->
-          </div>
-          <!-- <br> -->
           
-          {{ $errors->first('password-again', '<p class="error">:message</p>') }}
+
+          <!-- password -->
           <div class="form-group form-group-lg">
+            {{ $errors->first('password', '<kbd class="error">:message</kbd>') }}
+            {{ Form::password('password', ['class'=>"form-control", 'placeholder'=>"Password"]) }}
+          </div>
+          
+          
+          <!-- password again -->
+          <div class="form-group form-group-lg">
+            {{ $errors->first('password-again', '<kbd class="error">:message</kbd>') }}
             {{ Form::password('password-again', ['class'=>"form-control", 'placeholder'=>"Re-enter your password"]) }}
           </div>
-          <!-- <br> -->
           
-          {{ $errors->first('email', '<p class="error">:message</p>') }}
+          
+          <!-- email -->
           <div class="form-group form-group-lg">
+            {{ $errors->first('email', '<kbd class="error">:message</kbd>') }}
             {{ Form::email('email', '', ['class'=>'form-control', 'placeholder'=>'Email']) }}
           </div>
-          <!-- <br> -->
+
+          <!-- submit button -->
           <div class="form-group form-group-lg">
             <button type="submit" class="btn btn-primary btn-lg form-control">Sign up for SattaPatta</button>
           </div>
@@ -109,16 +111,21 @@ Sattapatta - online barter platform
           <p class="text-center text-muted">
             or
           </p>
+
+          <!-- oauth -->
+          <!-- twitter -->
           <div class="col-md-4">
             <a href="hybridauth?provider=twitter" class="btn btn-info form-control">
               <i class="fa fa-twitter fa-2x"></i>
             </a>
           </div>
+          <!-- google -->
           <div class="col-md-4">
             <a href="hybridauth?provider=google" class="btn btn-danger form-control">
               <i class="fa fa-google fa-2x"></i>
             </a>
           </div>
+          <!-- facebook -->
           <div class="col-md-4">
             <a href="hybridauth?provider=facebook" class="btn btn-primary form-control">
               <i class="fa fa-facebook fa-2x"></i>
@@ -129,8 +136,8 @@ Sattapatta - online barter platform
       </div>
     </header>
 
-    <!-- <hr> -->
     </div>
+
     <!-- .how-it-works -->
     <div style="background:#efefef; color:#020202; padding:20px 0 20px 0">
        <div class="row text-center">

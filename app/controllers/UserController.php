@@ -15,9 +15,42 @@ class UserController extends BaseController {
 			$user = User::where('username', $username)->first();
 			$items = Item::where('user_id', $user->id)->get();
 		}
-		// dd($user);
+
+		// calculate profile completeness
+		$pc = 0;
+
+		if($user->username != NULL){
+			$pc+=10;
+		}
+		if($user->email != NULL){
+			$pc+=10;
+		}
+		if($user->firstName != NULL){
+			$pc+=10;
+		}
+		if($user->lastName != NULL){
+			$pc+=10;
+		}
+		if($user->gender != NULL){
+			$pc+=10;
+		}
+		if($user->birthDay != NULL and $user->birthMonth != NULL and $user->birthYear != NULL){
+			$pc+=10;
+		}
+		if($user->phone != NULL){
+			$pc+=10;
+		}
+		if($user->address != NULL){
+			$pc+=10;
+		}
+		if($user->country != NULL){
+			$pc+=10;
+		}
+		if($user->photoURL != 'images/male.png'){
+			$pc+=10;
+		}
 		
-		return View::make('users.profile', compact('items'))->withUser($user);
+		return View::make('users.profile', compact('items', 'pc'))->withUser($user);
 	}
 
 	public function editProfileImage() {

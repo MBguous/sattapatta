@@ -28,8 +28,8 @@
 <div class="form-group">
   {{ Form::label('photoURL', 'Choose images', ['class'=>'col-md-2 control-label']) }}
   <div class="col-md-10">
-  {{ Form::file('imageUrl[]', ['id'=>'input-id', 'class'=>'file', 'data-preview-file-type'=>'text', 'multiple'=>true]) }}
-    <div class="text-danger" id="photoURL_error">{{ $errors->first('imageUrl', ':message') }}</div>
+  {{ Form::file('imageUrl[]', ['id'=>'input-id', 'class'=>'file', 'data-preview-file-type'=>'text', 'data-show-upload'=>false,'multiple'=>true, 'accept'=>'image/*']) }}
+    <div class="text-danger help-block" id="photoURL_error">{{ $errors->first('imageUrl', ':message') }}</div>
   </div>
 </div>
 
