@@ -11,8 +11,8 @@ $(function () {
 $.fn.editable.defaults.mode = 'inline';
 $.fn.editable.defaults.send = "always";
 
-// $('#profile-table').find('a').editable();
-// 	$('#username').editable('disable');
+$('#profile-table').find('a').editable();
+	// $('#username').editable('disable');
 
 $(function() {
 

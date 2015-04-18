@@ -22,11 +22,11 @@
 		position: fixed;
 	  border: 1px solid #eeeeee;
 	  top: 50px;
-	  z-index: 1;
+	  z-index: 100;
 	}
 </style>
 <script>
-	$(document).ready(function(){
+	$(window).load(function(){
 		// var spinner = $('<i></i>').addClass('fa fa-circle-o-notch fa-spin fa-2x');
 		// $('#image').find('.item').append(spinner);
 		$("#imageCount").children().first().addClass('active');
@@ -81,8 +81,8 @@
 
 
 									<div class="pull-right dropdown">
-										<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-											<i class="fa fa-suitcase"></i>
+										<a href="#" class="dropdown-toggle" data-toggle="dropdown" style="text-decoration:none">
+											<i class="icon icon-Briefcase" style="font-size:x-large;"></i>
 											<span class="caret"></span>
 										</a>
 										<ul class="dropdown-menu">
@@ -95,7 +95,7 @@
 													{{ $offer->user->username.' offered '.$offer->offerItems->first()->name }}
 												</a>
 
-												@if ($swapItem->user->username == Auth::user()->username)
+												@if (Auth::checK() and $swapItem->user->username == Auth::user()->username)
 												{{ HTML::linkRoute('offer.response', 'Accept', ['response'=>'accepted',$offer->user_id, $offer->item_id], ['class'=>'btn btn-default btn-sm']) }}
 												{{ HTML::linkRoute('offer.response', 'Reject', ['response'=>'rejected',$offer->user_id, $offer->item_id]) }}
 												@endif
@@ -124,7 +124,7 @@
 
 								  <!-- Wrapper for slides -->
 								  <div class="carousel-inner" id="image" role="listbox" style="height:450px">
-								  
+
 								  	@foreach ($swapItem->images as $image)
 								  	<div class="item">
 								  		<div style="display:table; margin:auto">
@@ -167,7 +167,7 @@
 
 						<div class="panel panel-default" id="description">
 							<div class="panel-heading">
-								<h5><strong>Description</strong></h5>	
+								<span class="icon icon-ClipboardText" style="font-size:initial"></span><strong>&nbsp;Description</strong>
 							</div>
 							<div class="panel-body">
 								{{ $swapItem->description }}
@@ -175,7 +175,7 @@
 									<strong>Price: </strong>Rs. {{ $swapItem->price }}<br>
 									<strong>Posted on: </strong>{{ $swapItem->date }}<br>
 									<strong>Status: </strong>{{ $swapItem->status }}<br>
-									<strong>Tags:</strong>
+									<span class="icon icon-Tag"></span><strong>Tags:</strong>
 									@forelse ($swapItem->tags as $tag)
 									<span class="label label-warning">{{ $tag->name }}</span>
 									@empty
@@ -199,7 +199,8 @@
 						<hr/>
 						<!-- comment static popover -->
 						<blockquote id="comments">
-							<i class="fa fa-comments-o"></i>
+							<!-- <i class="fa fa-comments-o"></i> -->
+							<i class="icon icon-MessageRight" style="font-size:xx-large"></i>
 							@if($comments->count() == 0)
 								No comments yet
 							@elseif($comments->count() == 1)
@@ -255,7 +256,7 @@
 					</div>
 					<div class="col-md-5">
 						<div class="panel panel-default">
-							<div class="panel-heading">Send offer now</div>
+							<div class="panel-heading"><i class="icon icon-Plaine"></i>&nbsp;Send offer now</div>
 							
 							<div class="panel-body">
 								{{ Form::open(array('url'=>array('post/offer'), 'class'=>'form-horizontal')) }}

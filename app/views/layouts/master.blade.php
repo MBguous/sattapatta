@@ -27,6 +27,7 @@
   {{ HTML::style('css/chats.css') }}
   {{ HTML::style('css/fileinput.css') }}
   {{ HTML::style('css/bootstrap-editable.css') }}
+  {{ HTML::style('css/stroke-gap-icons/style.css') }}
 
   @yield('styleScript')
 
@@ -164,7 +165,7 @@
           <ul class="nav navbar-nav" style="float:right;">
             <li class=@yield('home-class')>
               <a href="{{ URL::route('home') }}">
-                <i class="fa fa-home fa-lg" data-toggle="tooltip" data-placement="bottom" title="home"></i>
+                <i class="icon icon-House" style="font-size:large" data-toggle="tooltip" data-placement="bottom" title="home"></i>
               </a>
             </li>
             <li class=@yield('browse-class')>
@@ -286,7 +287,6 @@
   </nav>
 
 
-  
   @yield('content')
 
 
@@ -346,11 +346,11 @@
 
 
 
-    $(document).ready(function() {
-      $('#profile-table').find('a').editable();
-      $('#username').editable('disable');
+    // $(document).ready(function() {
+    //   $('#profile-table').find('a').editable();
+    //   $('#username').editable('disable');
       
-    });
+    // });
 
     // $('#comment').popover(options);
     // $('#comment').popover('show');

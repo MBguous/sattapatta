@@ -12,12 +12,14 @@
 */
 
 Route::get('home', array('as'=>'home', 'uses'=>'HomeController@home'));
-Route::get('/', function(){
+Route::get('/', function()
+{
 	// dd(Session::token());
 	return Redirect::route('home');
 });
 
-Route::group(array('before'=>'csrf'), function(){
+Route::group(array('before'=>'csrf'), function()
+{
 	Route::post('login', array('as' => 'login.post', 'uses' => 'AuthController@postLogin'));
 	Route::post('accounts/create', array('as' => 'accounts.create.post', 'uses' => 'AccountController@postRegister'));
 });
@@ -38,13 +40,15 @@ Route::post('/test', array('as'=>'search', 'uses'=>'SearchController@search'));
 Route::get('/search/results', array('as'=>'search.results', 'uses'=>'SearchController@showSearchResults'));
 Route::post('/search/results', array('uses'=>'SearchController@quickSearch'));
 
-Route::group(array('before'=>'auth|session'), function() {
+Route::group(array('before'=>'auth|session'), function()
+{
 	Route::get('users/{username}/dashboard', array('as'=>'users.dashboard', 'uses'=>'UserController@showDashboard'));
 	
 	Route::post('users/profile/image', array('as'=>'post.users.profile', 'uses'=>'UserController@editProfileImage'));
 
 	Route::post('users/{username}/profile/info', array('as'=>'post.users.profile.info', 'uses'=>'UserController@editProfileInfo'));
-	Route::post('users/{username}/profile/edit', array('uses'=>'UserController@editProfile'));
+	Route::post('users/{username}/profile/edit', array('as'=>'userProfile.edit', 'uses'=>'UserController@editProfile'));
+	Route::post('admin/user/edit', array('uses'=>'UserController@editProfile'));
 
 	// post, edit, update, show items
 	Route::get('users/{username}/post', array('as'=>'items.post', 'uses'=>'ItemController@showPostItem'));

@@ -257,7 +257,7 @@
 
 		    							@if(Auth::check() and Auth::user()->id == $user->id)
 		    							<a href="#edit-profile" data-toggle="modal" class="pull-right">
-		    								<i class="fa fa-pencil"></i>&nbsp;Edit username
+		    								<i class="icon icon-Pencil"></i>&nbsp;Edit username
 		    							</a>
 		    							@endif
 		    						</td>
@@ -584,5 +584,8 @@
 
 @section ('script')
 
+	<script>
+		$('#username').editable('disable');
+	</script>
 
 @stop
