@@ -4,3 +4,63 @@
 #chat-window {
 	height: 350px;
 }
+
+/**********************************/
+
+.chat {
+	position: fixed;
+	bottom: -3px;
+	right: 30px;
+	margin: 0;
+	width: 300px;
+	background-color: ghostwhite;
+	z-index: 99;
+}
+
+.chat .title {
+	width: 100%;
+	height: 35px;
+	padding: 10px;
+	border: 1px solid #ccc;
+	border-bottom: 0;
+	background-color: #1abc9c;
+	color: #fff;
+}
+
+.chat .messages {
+	border: 1px solid #ccc;
+	/*width: 250px;*/
+	width: 100%;
+	height: 210px;
+	padding: 10px;
+	margin: 0;
+	overflow-y: scroll;
+}
+
+.chat .message a {
+	color: slategrey;
+}
+
+.chat .message p {
+	margin: 5px 0;
+}
+
+.chat .message span {
+	color: #bbb;
+	float: right;
+	font-size: 0.7em;
+}
+
+.chat .entry {
+	/*width: 260px;*/
+	width: 100%;
+	max-width: 100%;
+	/*height: 40px;*/
+	padding: 10px;
+	margin: 0;
+	border-top: 0;
+	font: 1em Arial;
+	outline: none;
+	/*overflow: auto;*/
+	resize: none;
+}

@@ -24,6 +24,9 @@
 	  top: 50px;
 	  z-index: 100;
 	}
+	.dropdown-menu > li > a{
+		display: table-cell;
+	}
 </style>
 <script>
 	$(window).load(function(){
@@ -43,6 +46,8 @@
 		<div class="col-md-offset-1 col-md-10">
 			<div class="row">
 				
+				
+
 				<div class="col-md-10" id="nav-scrollspy">
 					<nav id="nav-show">
 				    <ul class="nav nav-pills">
@@ -89,21 +94,24 @@
 
 											<li class="dropdown-header">{{ $offers->count() }} offers</li>
 											<li class="divider"></li>
+											
+											@if (Auth::check() and $swapItem->user->username == Auth::user()->username)
 											@forelse ($offers as $offer)
 											<li>
 												<a href="{{URL::route('items.show', [$offer->user->username, $offer->offerItems->first()->name, $offer->offerItems->first()->id])}}">
 													{{ $offer->user->username.' offered '.$offer->offerItems->first()->name }}
 												</a>
 
-												@if (Auth::checK() and $swapItem->user->username == Auth::user()->username)
-												{{ HTML::linkRoute('offer.response', 'Accept', ['response'=>'accepted',$offer->user_id, $offer->item_id], ['class'=>'btn btn-default btn-sm']) }}
+												
+												{{ HTML::linkRoute('offer.response', 'Accept', ['response'=>'accepted',$offer->user_id, $offer->item_id], ['class'=>'btn btn-default btn-sm', 'style'=>'display:table-cell']) }}
 												{{ HTML::linkRoute('offer.response', 'Reject', ['response'=>'rejected',$offer->user_id, $offer->item_id]) }}
-												@endif
+												
 
 											</li>
 											@empty
 											<li class="text-muted"><a>No offers</a></li>
 											@endforelse
+											@endif
 										</ul>
 									</div>
 
@@ -396,6 +404,7 @@
 	// 	$(this).parent().removeClass('active');
 	// });
 
-</script>
 
+
+</script>
 @stop

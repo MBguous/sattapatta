@@ -187,7 +187,7 @@
               </a>
               <ul class="dropdown-menu">
                  @forelse ($notifications as $notification)
-                <li><a href="{{ URL::to($notification->link) }}">{{ $notification->content }}</a></li>
+                <li id="notif{{$notification->id}}" class="notif"><a href="{{ URL::to($notification->link) }}">{{ $notification->content }}</a></li>
               @empty
                 <li>You have no unread notifications.</li>
               @endforelse
@@ -246,12 +246,12 @@
                   <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu">
-                  <li>{{ HTML::linkRoute('users.dashboard', 'Dashboard', $loggedUser->username) }}</li>
+                  <!-- <li>{{ HTML::linkRoute('users.dashboard', 'Dashboard', $loggedUser->username) }}</li> -->
                   <li>{{ HTML::linkRoute('items.post', 'Post item', $loggedUser->username) }}</li>
-                  <li>{{ HTML::linkRoute('users.listing', 'My listings', $loggedUser->username) }}</li>
+                  <!-- <li>{{ HTML::linkRoute('users.listing', 'My listings', $loggedUser->username) }}</li> -->
                   <li>{{ HTML::linkRoute('users.messages', 'Messages') }}</li>
                   <li>{{ HTML::linkRoute('users.profile', 'Profile', $loggedUser->username) }}</li>
-                  <li>{{ HTML::linkRoute('chats', 'chat', $loggedUser->username) }}</li>
+                  <!-- <li>{{ HTML::linkRoute('chats', 'chat', $loggedUser->username) }}</li> -->
                   <li class="divider"></li>
                   <li>{{ HTML::linkRoute('logout', 'Log out') }}</li>
                  </ul>
@@ -327,6 +327,18 @@
   {{ HTML::script('js/bootstrap-editable.js') }}
   {{ HTML::script('js/moment.js') }}
   {{ HTML::script('js/sattapatta.js') }}
+  {{ HTML::script('js/brain-socket.min.js') }}
+
+  <script>
+
+  window.app = {};
+
+  app.BrainSocket = new BrainSocket(
+      new WebSocket('ws://localhost:8080'),
+      new BrainSocketPubSub()
+    );
+
+  </script>
 
   @yield('script')
 
@@ -409,6 +421,18 @@
     });
 
   
+  $('.notif').click(function(e){
+    e.preventDefault();
+    var notifId = $('.notif').attr('id');
+    var id = notifId.substring(5);
+    // alert(id);
+    $.post('/updateNotif', {id:id}, function(response){
+      if(response.success) {
+        var url = response.link;
+        window.location = url;
+      }
+    });
+  });
 
   $('#get').click(function(e){
     e.preventDefault();

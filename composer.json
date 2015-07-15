@@ -5,15 +5,17 @@
 	"license": "MIT",
 	"type": "project",
 	"require": {
-		"laravel/framework": "4.2.*",
-		"way/generators": "~2.0",
-		"fzaninotto/faker": "1.5.*@dev",
-		"nesbot/Carbon": "*",
-		"barryvdh/laravel-dompdf": "0.4.*",
-		"zizaco/entrust": "1.2.*@dev",
-		"hybridauth/hybridauth": "dev-master",
-		"intervention/image": "dev-master",
-		"barryvdh/laravel-debugbar": "~1.8"
+		"laravel/framework"        : "4.2.*",
+		"way/generators"           : "~2.0",
+		"fzaninotto/faker"         : "1.5.*@dev",
+		"nesbot/Carbon"            : "*",
+		"barryvdh/laravel-dompdf"  : "0.4.*",
+		"zizaco/entrust"           : "1.2.*@dev",
+		"hybridauth/hybridauth"    : "dev-master",
+		"intervention/image"       : "dev-master",
+		"barryvdh/laravel-debugbar": "~1.8",
+		"cboden/ratchet"           : "0.3.*",
+		"brainboxlabs/brain-socket": "dev-master"
 	},
 	"autoload": {
 		"classmap": [

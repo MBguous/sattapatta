@@ -68,6 +68,8 @@ Route::group(array('before'=>'auth|session'), function()
 	Route::get('offer/{userid}/{itemid}/{response}', array('as'=>'offer.response', 'uses'=>'OfferController@getResponse'));
 
 	Route::post('/', array('uses'=>'NotificationController@getNotification'));
+	Route::post('/updateNotif	', array('uses'=>'NotificationController@updateNotification'));
+
 
 	// Route::post('show', array('as'=>'show.message', 'uses'=>'MessageController@showMessage'));
 });
@@ -91,12 +93,13 @@ Route::group(array('before'=>'auth|session'), function()
 
 // admin routes
 Route::get('admin/home', array('as'=>'admin.home', 'uses'=>'AdminController@index'));
-Route::get('admin/test', array('uses'=>'AdminController@getUsers'));
+Route::get('admin/users', array('uses'=>'AdminController@getUsers'));
 Route::get('admin/view-user', array('uses'=>'AdminController@showUser'));
 // Route::get('admin/edit-user', array('uses'=>'AdminController@editUser'));
 Route::post('admin/change-status', array('uses'=>'AdminController@changeStatus'));
 // Route::get('admin/test?page=2', array('uses'=>'AdminController@paginateUsers'));
-// });
+Route::get('admin/get-categories', array('uses'=>'AdminController@getCategories'));
+Route::post('admin/save-categories', array('uses'=>'AdminController@saveCategories'));
 
 
 
@@ -112,6 +115,7 @@ Route::get('msg', function() {
 	return View::make('jpt');
 });
 Route::get('test', function(){
+	return Hash::make('admin');
 	// if(Session::has('_token')){
 	// 	dd('true');
 	// }else{
@@ -146,10 +150,11 @@ Route::get('test', function(){
 	
 	// return $tag->items->name;
 	
-		$username = 'Dawson.Glover';
-		$id = User::where('username', $username)->first()->id;
-		$notifications = Notification::where('user_id', $id)->where('read', false)->first();
-		dd($notifications->notification);
+		// $username = 'Dawson.Glover';
+		// $id = User::where('username', $username)->first()->id;
+		// $notifications = Notification::where('user_id', $id)->where('read', false)->first();
+		// dd($notifications->notification);
+		return $test;
 });
 
 

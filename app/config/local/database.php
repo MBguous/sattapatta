@@ -25,7 +25,7 @@ return array(
 			'host'      => 'localhost',
 			'database'  => 'sattapatta',
 			'username'  => 'root',
-			'password'  => 'tekker789',
+			'password'  => '',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',

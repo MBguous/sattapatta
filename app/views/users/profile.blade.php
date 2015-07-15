@@ -580,12 +580,88 @@
 </div>
 <!-- /#wrapper -->
 
+<div class="chat">
+					<div class="title">Chat with me</div>
+					<div class="chat-box">
+						<div class="messages"></div>
+						<textarea class="entry" placeholder="Enter your message..."></textarea>
+					</div>
+				</div>
+
 @stop
 
 @section ('script')
 
 	<script>
 		$('#username').editable('disable');
+
+
+
+
+<!-- chats script -->
+
+
+    $(function(){
+ 
+        // var fake_user_id = Math.floor((Math.random()*1000)+1);
+        var user_id = {{ Auth::user()->id }};
+        //make sure to update the port number if your ws server is running on a different one.
+        window.app = {};
+ 
+        app.BrainSocket = new BrainSocket(
+                // new WebSocket('ws://192.168.1.104:8080'),
+                new WebSocket('ws://sattapatta.com:8080/users/{{ Auth::user()->username }}/profile'),
+                new BrainSocketPubSub()
+        );
+ 
+        app.BrainSocket.Event.listen('generic.event',function(msg){
+            console.log(msg);
+            if(msg.client.data.user_id == user_id){
+                $('.messages').append('<p><img src="http://sattapatta.com/{{ Auth::user()->photoURL }}" class="img-circle" width="26"><div class="message">'+msg.client.data.message+'</div></p>');
+                $('.chat .messages').scrollTop($('.chat .messages')[0].scrollHeight);
+            }else{
+                var str_test='<p><img src="'+msg.client.data.user_portrait+'" class="img-circle" width="26"><div class="message">'+msg.client.data.message+'</div></p>';
+                $('.messages').append(str_test);
+                $('.chat .messages').scrollTop($('.chat .messages')[0].scrollHeight);
+            }
+        });
+ 
+        app.BrainSocket.Event.listen('app.success',function(data){
+            console.log('An app success message was sent from the ws server!');
+            console.log(data);
+        });
+ 
+        app.BrainSocket.Event.listen('app.error',function(data){
+            console.log('An app error message was sent from the ws server!');
+            console.log(data);
+        });
+ 
+        $('.entry').keypress(function(event) {
+ 
+            if(event.keyCode == 13 && $(this).val() != ""){
+ 
+                app.BrainSocket.message('generic.event',
+                        {
+                            'message': $(this).val(),
+                            'user_id': user_id,
+                            'user_portrait': 'http://sattapatta.com/{{ Auth::user()->photoURL}}',
+                            'room': 1
+                        }
+                );
+                $(this).val('');
+ 
+            }
+ 
+            return event.keyCode != 13; }
+        );
+
+        $('.title').click(function(e) {
+					e.preventDefault();
+					$('.chat-box').slideToggle();
+				});
+				
+    });
+
 	</script>
 
 @stop

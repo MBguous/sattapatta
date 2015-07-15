@@ -14,7 +14,7 @@ $.fn.editable.defaults.send = "always";
 $('#profile-table').find('a').editable();
 	// $('#username').editable('disable');
 
-$(function() {
+// $(function() {
 
   $('#gender').editable({
       value: $('#gender-value').val(),    
@@ -94,7 +94,7 @@ $(function() {
             {value: 31, text: '31'}
          ]
   });
-});
+// });
 
 // togglable side-menu
 $("#menu-toggle").click(function(e) {

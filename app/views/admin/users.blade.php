@@ -18,17 +18,17 @@
 			@if ($user->active == 1)
 				active
 			@else
-				inactive
+				<span class="label label-warning">inactive</span>
 			@endif
 		</td>
 		<td>{{ $user->fullName }}</td>
 		<td>{{ date('M j, 20y',strtotime($user->created_at)) }}</td>
 		<td>
 			<a href="#" title="View User Details" onclick="viewUser({{ $user->id }})">
-				<span class="fa-stack">
-				  <i class="fa fa-eye fa-stack-1x"></i>
-				  <i class="fa fa-circle-o fa-stack-2x"></i>
-				</span>
+				<!-- <span class="fa-stack"> -->
+				  <i class="fa fa-eye fa-lg"></i>
+				  <!-- <i class="fa fa-circle-o fa-stack-2x"></i> -->
+				<!-- </span> -->
       </a>
       @if ($user->active == 0)
       <a href="#" title="Activate User" onclick="changeStatus({{ $user->id }})">

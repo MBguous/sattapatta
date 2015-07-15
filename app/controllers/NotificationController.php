@@ -76,9 +76,17 @@ class NotificationController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function updateNotification()
 	{
-		//
+		$id = Input::get('id');
+		// return $id;
+		$notification = Notification::find($id);
+		if ($notification->read == false)
+			$notification->read = true;
+		$notification->save();
+		return Response::json(array(
+											'success'  => true,
+											'link' =>$notification->link));
 	}
 
 	/**

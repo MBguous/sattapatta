@@ -126,6 +126,7 @@ return array(
 		'Zizaco\Entrust\EntrustServiceProvider',
 		// 'Intervention\Image\ImageServiceProvider',
 		'Barryvdh\Debugbar\ServiceProvider',
+		'BrainSocket\BrainSocketServiceProvider'
 
 	),
 
@@ -193,11 +194,12 @@ return array(
 		'URL'               => 'Illuminate\Support\Facades\URL',
 		'Validator'         => 'Illuminate\Support\Facades\Validator',
 		'View'              => 'Illuminate\Support\Facades\View',
-		'Carbon'   => 'Carbon\Carbon',
-		'PDF'      => 'Barryvdh\DomPDF\Facade',
-		'Entrust'  => 'Zizaco\Entrust\EntrustFacade',
+		'Carbon'      => 'Carbon\Carbon',
+		'PDF'         => 'Barryvdh\DomPDF\Facade',
+		'Entrust'     => 'Zizaco\Entrust\EntrustFacade',
 		// 'Image'    => 'Intervention\Image\Facades\Image',
-		'Debugbar' => 'Barryvdh\Debugbar\Facade',
+		'Debugbar'    => 'Barryvdh\Debugbar\Facade',
+		'BrainSocket' => 'BrainSocket\BrainSocketFacade',
 
 	),
 

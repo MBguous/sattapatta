@@ -41,7 +41,7 @@ class ItemController extends BaseController {
 		// $item = Item::where('id',$itemid)
   //          ->leftJoin('item_tag', 'items.id', '=', 'item_tag.item_id')
   //          ->first();
-    
+		
     // $item = Item::find($itemid);
 
 // Event::listen('laravel.query', function($query)
@@ -58,8 +58,8 @@ class ItemController extends BaseController {
     // echo '<pre>';
     // dd($item);
     // exit;
-    
-    $item = Item::find($itemid);
+		
+		$item = Item::find($itemid);
 		return View::make('items.edit', compact('item'));
 	}
 
@@ -91,7 +91,7 @@ class ItemController extends BaseController {
 			'price.required'    => 'If you don\'t remember the price, enter the approximate value.' ,
 			// 'photoURL.required' => 'Please upload an image of the item.',
 			// 'photoURL.image'    => 'You need to upload an image of filetypes: jpeg, jpg, bmp, gif or png.'
-		);
+			);
 
 		$validator = Validator::make(Input::all(), $rules, $messages);
 		
@@ -113,29 +113,29 @@ class ItemController extends BaseController {
 
 
 		// add images
-		$photos    = Input::file('images');
+		$photos    = Input::file('imageUrl');
 		foreach($photos as $photo)
 		{
-			$imageRules = ['imageUrl' => 'required|image|mimes:jpeg,jpg,bmp,gif,png'];
-			$message = array(
-				'images.required' => 'Please upload an image of the item.',
-				'images.image'    => 'You need to upload an image of filetypes: jpeg, jpg, bmp, gif or png.'
+			$imageRules       = ['imageUrl' => 'required|image|mimes:jpeg,jpg,bmp,gif,png'];
+			$message          = array(
+					'images.required' => 'Please upload an image of the item.',
+					'images.image'    => 'You need to upload an image of filetypes: jpeg, jpg, bmp, gif or png.'
 			);
-			$imageValidator = Validator::make(['imageUrl'=>$photo], $imageRules, $message);
+			$imageValidator   = Validator::make(['imageUrl'=>$photo], $imageRules, $message);
 
 			if($imageValidator->fails())
 			{
 				return Redirect::back()->withErrors($imageValidator)->withInput();
 			}
 
-			$filename = date('Y-m-d-His').'-'.$photo->getClientOriginalName();
-
-			$path = public_path().'/images/items/';
+			$filename        = date('Y-m-d-His').'-'.$photo->getClientOriginalName();
+			
+			$path            = public_path().'/images/items/';
 			$photo->move($path, $filename);
-
-			$image = new Image();
+			
+			$image           = new Image();
 			$image->imageUrl = 'images/items/'.$filename;
-			$image->item_id = $itemId;
+			$image->item_id  = $itemId;
 			$image->save();
 		}
 
@@ -176,7 +176,7 @@ class ItemController extends BaseController {
 			'price.required'    => 'If you don\'t remember the price, enter the approximate value.' ,
 			// 'images.required' => 'Please upload an image of the item.',
 			// 'images.image'    => 'You need to upload an image of filetypes: jpeg, jpg, bmp, gif or png.'
-		);
+			);
 
 		$validator = Validator::make(Input::all(), $rules, $messages);
 		
@@ -205,7 +205,7 @@ class ItemController extends BaseController {
 				$imageRules = ['imageUrl' => 'image|mimes:jpeg,jpg,bmp,gif,png'];
 				$message = array(
 					'imageUrl.image'    => 'You need to upload an image of filetypes: jpeg, jpg, bmp, gif or png.'
-				);
+					);
 				$imageValidator = Validator::make(['imageUrl'=>$photo], $imageRules, $message);
 
 				if($imageValidator->fails())

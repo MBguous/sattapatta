@@ -22,8 +22,10 @@ class CreateItemsTable extends Migration {
 			$table->time('time');
 			$table->string('status', 20)->default('available');
 			$table->unsignedInteger('user_id');
+			$table->unsignedInteger('category_id');
 			$table->timestamps();
 			$table->foreign('user_id')->references('id')->on('users');
+			$table->foreign('category_id')->references('id')->on('categories');
 		});
 	}
 

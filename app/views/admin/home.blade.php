@@ -21,13 +21,13 @@ Admin - Sattapatta
 					<a href="#" class="list-group-item" id="link-users">
 						<i class="icon icon-Users" style="font-size:large"></i>&nbsp; Users
 					</a>
-					<a href="#" class="list-group-item" data-toggle="collapse" data-target="#sl" data-parent="#menu">
+					<a href="#" class="list-group-item" id="link-categories">
 						<i class="icon icon-Layers" style="font-size:large"></i>&nbsp; Categories
 					</a>
-					<div id="sl" class="sublinks collapse">
-						<a class="list-group-item small"><span class="glyphicon glyphicon-chevron-right"></span> view categories</a>
-						<a class="list-group-item small"><span class="glyphicon glyphicon-chevron-right"></span> add new category</a>
-					</div>
+					<!-- <div id="sl" class="sublinks collapse">
+						<a class="list-group-item small">view categories</a>
+						<a class="list-group-item small" id="link-add-category">add new category</a>
+					</div> -->
 					
 					<a href="#" class="list-group-item" data-toggle="collapse" data-target="#sm" data-parent="#menu">
 						<i class="icon icon-Mail" style="font-size:large"></i>&nbsp; Messages
@@ -36,7 +36,7 @@ Admin - Sattapatta
 						<a class="list-group-item small"><span class="glyphicon glyphicon-chevron-right"></span> view categories</a>
 						<a class="list-group-item small"><span class="glyphicon glyphicon-chevron-right"></span> add new category</a>
 					</div>
-					<a href="#" class="list-group-item">ANOTHER LINK ...<span class="glyphicon glyphicon-stats pull-right"></span></a>
+					<!-- <a href="#" class="list-group-item">ANOTHER LINK ...<span class="glyphicon glyphicon-stats pull-right"></span></a> -->
 				</div>
 			</div>
 
@@ -47,9 +47,8 @@ Admin - Sattapatta
 				<div class="panel-body" id="panel-body" style="display:none">
 					<i class="fa fa-spinner fa-pulse fa-lg"></i> Loading...
 				</div>
-				<div id="panel-after-body">
-					
-				</div>
+				<div id="panel-after-body"></div>
+				<div class="panel-footer" id="admin-panel-footer" style="display:none"></div>
 			</div>
 		</div>
 	</div>

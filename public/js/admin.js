@@ -1,3 +1,5 @@
+
+
 function showSpinner()
 {
 	$('#panel-body').css('display', 'block');
@@ -14,10 +16,9 @@ function renderMarkup(markup)
 $('#link-users').click(function(e)
 {
 	e.preventDefault();
-	$('#panel-heading').empty().append('<i class="icon icon-Users"></i>&nbsp; Users');
-	// $('#panel-body').empty().append('');
+	$('#panel-heading').empty().append('<i class="icon icon-Users" style="font-size:large"></i>&nbsp; Users');
 	showSpinner();
-	$.get('test', {}, function(markup)
+	$.get('users', {}, function(markup)
 		{
 			renderMarkup(markup);
 		});
@@ -30,7 +31,7 @@ $(document).on('click', '.pagination a', function(e)
 	e.preventDefault();
 	var page = $(this).attr('href').split('page=')[1];
 	showSpinner();
-	$.get('test?page='+page, {}, function(markup)
+	$.get('users?page='+page, {}, function(markup)
 		{
 			renderMarkup(markup);
 		});
@@ -68,39 +69,27 @@ function changeStatus(id)
 		});
 }
 
-$('#profile-table1').editable(
+// Categories
+$('#link-categories').click(function(e)
 	{
-		selector: 'a',
-		url: 'profile/edit',
-		pk: 1
+		e.preventDefault();
+		$('#panel-heading').empty().append('<i class="icon icon-Layers" style="font-size:large"></i>&nbsp; Categories');
+		showSpinner();
+		$.get('get-categories', {}, function(markup)
+			{
+				renderMarkup(markup);
+			});
 	});
 
-
-
-// user profile edit
-// $(document).ready(function() {
-  // $('#profile-table1').find('a').editable();
-  // $('#username').editable();
-	// console.log('test');
-	// console.log($('#username').val());
-// });
-
-// function makeEditable()
-// {
-// 	alert('makeEditable function called');
-// 	console.log('makeEditable function called');
-// }
-// $(document).on('load', '#panel-admin', function(e)
-// {
-// 	console.log('test');
-// });
-// $(window).load(function(e)
-// 	{
-// 		e.preventDefault();
-// 		alert('test2');
-// 		console.log('test2');
-// 	});
-// function test()
-//   		{
-//   			alert('username clicked');
-//   		}
+// Save category
+$(document).on('click', '#cat-save', function(e)
+	{
+		e.preventDefault();
+		var catName = $('#cat-name').val();
+		var catDesc = $('#cat-desc').val();
+		showSpinner();
+		$.post('save-categories', {catName:catName, catDesc:catDesc}, function(markup)
+			{
+				renderMarkup(markup);
+			});
+	});

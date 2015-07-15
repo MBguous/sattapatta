@@ -38,6 +38,23 @@ class AdminController extends \BaseController {
 		return $this->getUsers();
 	}
 
+	public function getCategories()
+	{
+		$categories = Category::all();
+		return View::make('admin.getCategories', compact('categories'));
+	}
+
+	public function saveCategories()
+	{
+		$catName = Input::get('catName');
+		$catDesc = Input::get('catDesc');
+
+		$category = new Category(array('name'=>$catName, 'description'=>$catDesc));
+		$category->save();
+
+		return $this->getCategories();
+	}
+
 	// public function editUser()
 	// {
 	// 	$id = Input::get('id');
