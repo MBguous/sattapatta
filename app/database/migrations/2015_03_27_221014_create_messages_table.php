@@ -18,6 +18,7 @@ class CreateMessagesTable extends Migration {
 			$table->text('content');
 			$table->date('date');
 			$table->time('time');
+			$table->boolean('read_status')->default(0);
 			$table->unsignedInteger('sender_id');
 			$table->timestamps();
 			$table->foreign('sender_id')->references('id')->on('users');
