@@ -17,6 +17,7 @@ ClassLoader::addDirectories(array(
 	app_path().'/controllers',
 	app_path().'/models',
 	app_path().'/database/seeds',
+	app_path().'/events',
 
 ));
 
@@ -89,3 +90,5 @@ App::down(function()
 
 require app_path().'/filters.php';
 require app_path().'/events.php';
+
+Event::listen('item.view', 'Sattapatta\Events\ViewItemHandler');

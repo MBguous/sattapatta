@@ -26,23 +26,17 @@
 		<td>
 			<a href="#" title="View User Details" onclick="viewUser({{ $user->id }})">
 				<!-- <span class="fa-stack"> -->
-				  <i class="fa fa-eye fa-lg"></i>
+				  <i class="fa fa-map-pin fa-lg"></i>
 				  <!-- <i class="fa fa-circle-o fa-stack-2x"></i> -->
 				<!-- </span> -->
       </a>
       @if ($user->active == 0)
       <a href="#" title="Activate User" onclick="changeStatus({{ $user->id }})">
-      	<span class="fa-stack">
-				  <i class="fa fa-check fa-stack-1x"></i>
-				  <i class="fa fa-circle-o fa-stack-2x text-success"></i>
-				</span>
+		  <i class="fa fa-user-plus fa-lg"></i>
       </a>
       @else
       <a href="#" title="Ban User" onclick="changeStatus({{ $user->id }})">
-        <span class="fa-stack">
-				  <i class="fa fa-user fa-stack-1x"></i>
-				  <i class="fa fa-ban fa-stack-2x text-danger"></i>
-				</span>
+		  <i class="fa fa-user-times fa-lg"></i>
       </a>
       @endif
       <!-- <a href="#" title="Edit User Details" onclick="editUser({{ $user->id }})">

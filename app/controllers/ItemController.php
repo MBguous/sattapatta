@@ -4,7 +4,7 @@ class ItemController extends BaseController {
 
 	public function browse() {
 
-		$items = Item::where('status', 'available')->orderBy('created_at', 'desc')->get();
+		$items = Item::where('status', 'available')->orderBy('created_at', 'desc')->paginate(8);
 		return View::make('browse', compact('items'));
 	}
 
@@ -18,6 +18,8 @@ class ItemController extends BaseController {
 	public function showItem($username, $itemname, $itemid) {
 		
 		$swapItem = Item::where('id', $itemid)->first();
+		Event::fire('item.view', $swapItem);
+
 		$id       = User::where('username', $username)->pluck('id');
 		$items    = Item::where('user_id', $id)->where('id', '!=', $swapItem->id)->get();
 
@@ -60,7 +62,9 @@ class ItemController extends BaseController {
     // exit;
 		
 		$item = Item::find($itemid);
-		return View::make('items.edit', compact('item'));
+		// $tags = Tag::lists('name', 'name');
+		$tags = $item->tags->lists('name', 'name');
+		return View::make('items.edit', compact('item', 'tags'));
 	}
 
 
@@ -71,7 +75,9 @@ class ItemController extends BaseController {
 	}
 
 	public function showPostItem($username) {
-		return View::make('items.post');
+
+		$tags = Tag::lists('name', 'name');
+		return View::make('items.post', compact('tags'));
 	}
 
 	public function postItem() {
@@ -99,70 +105,93 @@ class ItemController extends BaseController {
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
 
-
-		$item              = new Item;
-		$item->name        = Input::get('name');
-		$item->description = Input::get('description');
-		$item->price       = Input::get('price');
-		// $item->photoURL    = 'images/items/'.$filename;
-		$item->date        = date('Y-m-d');
-		$item->time        = date('H:i:s');
-		$item->user_id     = Auth::user()->id;
-		$item->save();
-		$itemId = $item->id;
-
-
-		// add images
-		$photos    = Input::file('imageUrl');
-		foreach($photos as $photo)
+		DB::transaction(function()
 		{
-			$imageRules       = ['imageUrl' => 'required|image|mimes:jpeg,jpg,bmp,gif,png'];
-			$message          = array(
-					'images.required' => 'Please upload an image of the item.',
-					'images.image'    => 'You need to upload an image of filetypes: jpeg, jpg, bmp, gif or png.'
-			);
-			$imageValidator   = Validator::make(['imageUrl'=>$photo], $imageRules, $message);
+			$item              = new Item;
+			$item->name        = Input::get('name');
+			$item->description = Input::get('description');
+			$item->price       = Input::get('price');
+			// $item->photoURL    = 'images/items/'.$filename;
+			$item->date        = date('Y-m-d');
+			$item->time        = date('H:i:s');
+			$item->user_id     = Auth::user()->id;
+			$item->save();
+			$itemId = $item->id;
 
-			if($imageValidator->fails())
+
+			// $tagList = Input::get('tags');
+			// $tagIdArray = [];
+			// foreach ($tagList as $value) {
+			// 	$tagId = Tag::whereName($value)->pluck('id');
+			// 	array_push($tagIdArray, $tagId);
+			// }
+
+			// $item = Item::find($id);
+			// $item->create(Input::all());
+			// $item->tags()->attach($tagIdArray);
+
+			// add tags
+			$tags = Input::get('tags');
+			// $tagsarray = explode(',', $tags);
+
+			for ($i=0; $i<sizeOf($tags); $i++) {
+				$tagName = $tags[$i];
+				$tagId = Tag::where('name', $tagName)->pluck('id');
+				if ( $tagId == null) {
+					$tag = new Tag(array('name'=>$tagName));
+					$item->tags()->save($tag);
+				}
+				else {
+					$item->tags()->attach($tagQuery);
+				}
+			}
+
+			// add images
+			$photos    = Input::file('imageUrl');
+			foreach($photos as $photo)
 			{
-				return Redirect::back()->withErrors($imageValidator)->withInput();
+				$imageRules       = ['imageUrl' => 'required|image|mimes:jpeg,jpg,bmp,gif,png'];
+				$message          = array(
+										'images.required' => 'Please upload an image of the item.',
+										'images.image'    => 'You need to upload an image of filetypes: jpeg, jpg, bmp, gif or png.'
+									);
+				$imageValidator   = Validator::make(['imageUrl'=>$photo], $imageRules, $message);
+
+				if($imageValidator->fails())
+				{
+					return Redirect::back()->withErrors($imageValidator)->withInput();
+				}
+
+				$filename        = date('Y-m-d-His').'-'.$photo->getClientOriginalName();
+				
+				$path            = public_path().'/images/items/';
+				$photo->move($path, $filename);
+				
+				$image           = new Image();
+				$image->imageUrl = 'images/items/'.$filename;
+				$image->item_id  = $itemId;
+				$image->save();
 			}
 
-			$filename        = date('Y-m-d-His').'-'.$photo->getClientOriginalName();
+
 			
-			$path            = public_path().'/images/items/';
-			$photo->move($path, $filename);
+
 			
-			$image           = new Image();
-			$image->imageUrl = 'images/items/'.$filename;
-			$image->item_id  = $itemId;
-			$image->save();
-		}
+		});
 
-
-		// add tags
-		$tags = Input::get('tag');
-		$tagsarray = explode(',', $tags);
-
-		for ($i=0; $i<sizeOf($tagsarray); $i++) {
-			$tagName = $tagsarray[$i];
-			$tagQuery = Tag::where('name', $tagName)->pluck('id');
-			if ( $tagQuery == null) {
-				$tag = new Tag(array('name'=>$tagName));
-				$item->tags()->save($tag);
-			}
-			else {
-				$item->tags()->attach($tagQuery);
-			}
-		}
+		
 
 		return Redirect::back()->withMessage('Item posted successfully.');
 	}
 
 	public function updateItem($id) {
 
+		
+		// echo '<pre>';
+		// var_dump($tagIdArray);
+		// exit;
 		// $images = Input::file('images');
-		DB::beginTransaction();
+		// DB::beginTransaction();
 
 		$rules = [
 		'name'        => 'required|max:60',
@@ -184,15 +213,28 @@ class ItemController extends BaseController {
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
 
-		$item              = Item::find($id);
-		$item->name        = Input::get('name');
-		$item->description = Input::get('description');
-		$item->price       = Input::get('price');
-		// $item->photoURL    = 'images/items/'.$filename;
-		// $item->date        = date('Y-m-d');
-		// $item->time        = date('H:i:s');
-		// $item->user_id     = Auth::user()->id;
-		$itemSave = $item->save();
+		$tagList = Input::get('tags');
+		$tagIdArray = [];
+		foreach ($tagList as $value) {
+			$tagId = Tag::whereName($value)->pluck('id');
+			array_push($tagIdArray, $tagId);
+		}
+
+		$item = Item::find($id);
+		$item->update(Input::all());
+		$item->tags()->sync($tagIdArray);
+		// return Redirect::back()->withMessage('Item updated successfully');
+		return $this->browse();
+
+		// $item              = Item::find($id);
+		// $item->name        = Input::get('name');
+		// $item->description = Input::get('description');
+		// $item->price       = Input::get('price');
+		// // $item->photoURL    = 'images/items/'.$filename;
+		// // $item->date        = date('Y-m-d');
+		// // $item->time        = date('H:i:s');
+		// // $item->user_id     = Auth::user()->id;
+		// $itemSave = $item->save();
 
 		// images
 		if (Input::hasFile('imageUrl'))
@@ -231,40 +273,42 @@ class ItemController extends BaseController {
 		}
 
 		// if tags were edited
-		if (Input::has('tag'))
-		{
-			$tags = Input::get('tag');
-			$tagsarray = explode(',', $tags);
+		// if (Input::has('tag_list'))
+		// {
+		// 	$tags = Input::get('tag_list');
+		// 	$tagsArray = explode(',', $tags);
 
-			for ($i = 0; $i < sizeOf($tagsarray); $i++)
-			{
-				$tagName = $tagsarray[$i];
-				$tagQuery = Tag::where('name', $tagName)->pluck('id');
-				if ( $tagQuery == null) {
-					$tag = new Tag(array('name'=>$tagName));
-					$itemTagSave = $item->tags()->save($tag);
-				}
-				else {
-					$itemTagSave = $item->tags()->attach($tagQuery);
-				}
-				if (!$itemTagSave)
-				{
-					DB::rollback();
-					return Redirect::back()->withMessage('Item tag update failed. Please try again.');
-				}
-			}
-		}
+		// 	// $tagUpdate = $item->tags()->sync($tagsArray);
 
-		if (!$itemSave)
-		{
-			DB::rollback();
-			return Redirect::back()->withMessage('Item update failed. Please try again.');
-		}
-		else
-		{
-			DB::commit();
-			return Redirect::back()->withMessage('Item updated successfully');
-		}
+		// 	for ($i = 0; $i < sizeOf($tagsArray); $i++)
+		// 	{
+		// 		$tagName = $tagsArray[$i];
+		// 		$tagId = Tag::where('name', $tagName)->pluck('id');
+		// 		if ( $tagId == null) {
+		// 			$tag = new Tag(array('name'=>$tagName));
+		// 			$itemTagSave = $item->tags()->save($tag);
+		// 		}
+		// 		else {
+		// 			$itemTagSave = $item->tags()->attach($tagId);
+		// 		}
+		// 		if (!$itemTagSave)
+		// 		{
+		// 			DB::rollback();
+		// 			return Redirect::back()->withMessage('Item tag update failed. Please try again.');
+		// 		}
+		// 	}
+		// }
+
+		// if (!$tagUpdate)
+		// {
+		// 	DB::rollback();
+		// 	return Redirect::back()->withMessage('Item update failed. Please try again.');
+		// }
+		// else
+		// {
+		// 	DB::commit();
+		// 	return Redirect::back()->withMessage('Item updated successfully');
+		// }
 		
 	}
 }

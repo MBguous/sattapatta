@@ -31,16 +31,38 @@ class SearchController extends BaseController {
 	public function quickSearch() {
 
 		$keywords = Input::get('keywords');
-		$itemsAll = Item::all();
-		$items = new \Illuminate\Database\Eloquent\Collection();
 
-		foreach($itemsAll as $item) {
-			if(Str::contains(Str::lower($item->name), Str::lower($keywords))){
-				$items->add($item);
-			}
-		}
-		// var_dump($items);
+		// Clockwork::startEvent('query', 'Simple Query');
+		// $user = User::first();
+		// Clockwork::info($user);
+		$items = Item::where('name', 'LIKE', '%'.$keywords.'%')->get();
+		// Clockwork::endEvent('query');
+		
+		// dd($items);
+
 		return View::make('partials.showItems')->withItems($items);
+
+		// $items = Item::all();
+		// $tags = Tag::all();
+		// $matchedItems = new \Illuminate\Database\Eloquent\Collection();
+
+		// foreach($items as $item) {
+		// 	if(Str::contains(Str::lower($item->name), Str::lower($keywords))) {
+		// 		$matchedItems->add($item);
+		// 	}
+		// }
+
+		// foreach($tags as $tag) {
+		// 	if(Str::contains(Str::lower($tag->name), Str::lower($keywords))) {
+
+		// 		foreach($tag->items as $item) {
+		// 			$matchedItems->add($item);
+		// 		}
+		// 	}
+		// }
+
+		// $matchedItems = $matchedItems->unique();
+		// return View::make('partials.showItems')->withItems($matchedItems);
 	}
 
 }

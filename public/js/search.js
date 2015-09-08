@@ -24,7 +24,7 @@ $.post('/test', {}, function(response) {
 function up() {
 
 	timer = setTimeout(function(){
-		var keywords = $('#ajax-search').val();
+		var keywords = $('#quick-search').val();
 
 		if(keywords.length > 0) {
 			$.post('results', {keywords: keywords}, function(markup) {

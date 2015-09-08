@@ -1,46 +1,47 @@
-    @foreach ($items as $item)
-      <div class="col-md-3 col-sm-6">
-        <div class="thumbnail">
-          <div style="position:relative; padding:0 10px">
-            <h6>
-              By {{ HTML::linkRoute('users.profile', $item->user->username, $item->user->username) }} 
-              <span class="pull-right">{{ $item->created_at->diffForHumans() }}</span>
-            </h6>
-          </div>
-          <!-- <img src="http://placehold.it/800x500" alt=""> -->
-          <div style="text-align:center">
-            <a href="{{URL::route('items.show', [$item->user->username, $item->name, $item->id])}}">
-              {{-- HTML::image($item->images->first()->imageUrl, null, ['style'=>'height:150px', 'class'=>'img-responsive']) --}}
-              @if(!$item->images->first())
-                {{ HTML::image('images/placeholder.png', null, ['style'=>'height:150px', 'class'=>'img-responsive']) }}
-              @else
-                {{ HTML::image($item->images->first()->imageUrl, null, ['style'=>'height:150px', 'class'=>'img-responsive']) }}
-              @endif
-            </a>
-            {{-- HTML::linkRoute('items.show', HTML::image($item->photoURL, null, ['height'=>'150px']), $item->user->username, ['style'=>'height:150px']) --}}
-            
-          </div>
-          <div class="caption">
-            <p><strong>{{ $item->name }}</strong></p> 
-            <h6 data-toggle="tooltip" data-placement="bottom" title="{{ $item->description }}">
-              {{ $item->description }}
-            </h6>
-            <div style="bottom:10px">
-              
-                @if(Auth::check() and Auth::user()->username != $item->user->username)
-                  {{-- HTML::linkRoute('compose.message', 'Contact User', $item->user->username, ['class'=>'btn btn-primary btn-xs']) --}}
-                  <a href="#">
-                    <i class="fa fa-thumb-tack"></i>
-                    <i class="typcn typcn-pin-outline" style="font-size:14px"></i>
-                  </a>
-                @endif
-              
-            
-            </div>
-          </div>
-          
+@forelse ($items as $item)
+    <div class="col-md-3 col-sm-6">
+      <div class="thumbnail">
+        <div class="caption">
+            By {{ HTML::linkRoute('users.profile', $item->user->username, $item->user->username) }} 
+            <span class="pull-right">{{ $item->created_at->diffForHumans() }}</span>
         </div>
+        <!-- <img src="http://placehold.it/800x500" alt=""> -->
+        <div class="center-block">
+          <a href="{{URL::route('items.show', [$item->user->username, $item->name, $item->id])}}">
+            @if(!$item->images->first())
+              {{ HTML::image('images/placeholder.png', null, ['style'=>'height:150px', 'class'=>'img-responsive']) }}
+            @else
+              {{ HTML::image($item->images->first()->imageUrl, null, ['style'=>'height:150px', 'class'=>'img-responsive']) }}
+            @endif
+          </a>
+
+        </div>
+        <div class="caption">
+          <strong>{{ $item->name }}</strong>
+          <span class="pull-right">
+            @if(Auth::check())
+              @if(Auth::user()->username != $item->user->username)
+                <a href="#">
+                  <i class="fa fa-thumb-tack"></i>
+                </a>
+              @else
+                <a href="{{URL::route('item.edit', [$item->user->username, $item->name, $item->id])}}">
+                  <i class="fa fa-edit"></i>
+                </a>
+              @endif
+            @endif
+          </span>
+          <p data-toggle="tooltip" data-placement="bottom" title="{{ $item->description }}">
+            {{ $item->description }}
+          </p>
+
+        </div>
+
       </div>
-      <!-- /.col -->
-      
-    @endforeach
+    </div>
+    <!-- /.col -->
+    
+    @empty
+      <p class="text-muted">No items</p>
+
+    @endforelse

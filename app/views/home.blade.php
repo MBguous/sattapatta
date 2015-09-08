@@ -20,38 +20,8 @@ Sattapatta - online barter platform
   ""
   @stop
 
-  <script>
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '826606800708243',
-      xfbml      : true,
-      version    : 'v2.2'
-    });
-  };
-
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "//connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
-  </script>
-
-  <!-- Page Content -->
-  <div class="container">
-      
-    @if (Session::has('message'))
-      <div class="alert alert-info alert-dismissible" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <span><i class="fa fa-info-circle"></i>&nbsp;{{ Session::get('message') }}</span>
-      </div>
-    @endif
-
-    <!-- Jumbotron Header -->
-    <header class="jumbotron hero-spacer">
+  <!-- Page Content -->    
+    <header class="jumbotron">
       <div class="row">
         <div class="col-md-8">
           <h1><strong>
@@ -136,51 +106,78 @@ Sattapatta - online barter platform
       </div>
     </header>
 
-    </div>
+<!-- .how-it-works -->
+    <div>
+        <div class="row post-item">
+            <div class="col-md-5 text-center">
+                <span class="fa-stack fa-5x">
+                <i class="fa fa-circle fa-stack-2x text-default"></i>
+                <i class="fa fa-upload fa-stack-1x fa-inverse"></i>
+                </span>
+                {{-- HTML::image('images/upload.png', 'upload', ['class'=>'img-responsive center-block']) --}}
 
-    <!-- .how-it-works -->
-    <div style="background:#efefef; color:#020202; padding:20px 0 20px 0">
-       <div class="row text-center">
-         <div class="col-md-3">
-          <!-- <span class="fa-stack fa-5x">
-            <i class="fa fa-circle fa-stack-2x text-danger"></i>
-            <i class="fa fa-upload fa-stack-1x fa-inverse"></i>
-          </span> -->
-          {{ HTML::image('images/upload.png', 'upload', ['height'=>'128px']) }}
-          <br>
-          <strong>Post items</strong>
-         </div>
-         <div class="col-md-3">
-          <!-- <span class="fa-stack fa-5x">
-            <i class="fa fa-circle fa-stack-2x text-info"></i>
-            <i class="fa fa-send fa-stack-1x fa-inverse"></i>
-          </span> -->
-          {{ HTML::image('images/search.png', 'search', ['height'=>'128px']) }}
-          <br>
-          <strong>Find match</strong>
-         </div>
-         <div class="col-md-3">
-          <!-- <span class="fa-stack fa-5x">
+            </div> <!-- .col-md-3 -->
+            <div class="col-md-7">
+                <strong>Post items</strong>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere, minima. Praesentium fuga esse rem vitae vero vel doloremque magni laboriosam amet, ea molestiae iste a quo, quisquam eaque, nisi hic?
+                </p>
+            </div>
+        </div> <!-- .row -->
+
+        <div class="row find-match">
+            <div class="col-md-7">
+                <strong>Find match</strong>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nesciunt tenetur repellendus reiciendis accusamus, ab nobis commodi tempore sunt autem, iusto, aliquid minus voluptatibus necessitatibus ducimus assumenda tempora a neque dolore!
+                </p>
+            </div>
+            <div class="col-md-5 text-center">
+                <span class="fa-stack fa-5x">
+                <i class="fa fa-circle fa-stack-2x text-warning"></i>
+                <i class="fa fa-search fa-stack-1x fa-inverse"></i>
+                </span>
+                {{-- HTML::image('images/search.png', 'search', ['class'=>'img-responsive center-block']) --}}
+            </div> <!-- col -->
+            
+        </div> <!-- row -->
+
+         <div class="row approve-request">
+         <div class="col-md-5 text-center">
+          <span class="fa-stack fa-5x">
             <i class="fa fa-circle fa-stack-2x text-success"></i>
             <i class="fa fa-check-square-o fa-stack-1x fa-inverse"></i>
-          </span> -->
-          {{ HTML::image('images/check.png', 'approve', ['height'=>'128px']) }}
-          <br>
+          </span>
+          {{-- HTML::image('images/check.png', 'approve', ['class'=>'img-responsive center-block']) --}}
+          </div>
+          <div class="col-md-7">
           <strong>Approve request</strong>
+          <p>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eum dolorum repellat sit esse quam ducimus atque, molestiae harum excepturi possimus? Distinctio ab corrupti dolorum facilis, itaque soluta? Est quasi, alias?
+          </p>
          </div>
-         <div class="col-md-3">
-          <!-- <span class="fa-stack fa-5x">
-            <i class="fa fa-circle fa-stack-2x text-warning"></i>
+         </div> <!-- row -->
+
+         <div class="row trade-item">
+         <div class="col-md-7">
+            <strong>Trade item</strong>
+          <p>
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis modi deserunt eos perferendis magni, sequi sint eaque eum consequuntur! Aut dolore pariatur nesciunt eveniet quam repudiandae nulla fugit molestias harum.
+          </p>
+          </div>
+          <div class="col-md-5 text-center">
+            <span class="fa-stack fa-5x">
+            <i class="fa fa-circle fa-stack-2x text-primary"></i>
             <i class="fa fa-refresh fa-stack-1x fa-inverse"></i>
-          </span> -->
-          {{ HTML::image('images/refresh.png', 'trade', ['height'=>'128px']) }}
-          <br>
-          <strong>Trade items</strong>
+          </span>
+            {{-- HTML::image('images/refresh.png', 'trade', ['class'=>'img-responsive center-block']) --}}
          </div>
        </div>
 
     </div>
     <!-- /.how-it-works -->
+
+    
 
    
     <!-- <div class="container">

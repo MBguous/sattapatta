@@ -5,6 +5,6 @@ class Category extends \Eloquent {
 
 	public function items()
 	{
-		return $this->hasMany('Item');
+		return $this->belongsToMany('Item');
 	}
 }

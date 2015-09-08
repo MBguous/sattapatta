@@ -1,19 +1,10 @@
 @extends ('layouts.master')
 
 @section('content')
-	
-  @if (Session::has('message'))
-    <div class="alert alert-info alert-dismissible" role="alert">
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-      <span><i class="fa fa-info-circle"></i>&nbsp;{{ Session::get('message') }}</span>
-    </div>
-  @endif
   
   <div class="row">
     <div class="col-md-4 col-md-offset-4">
-      <div class="panel panel-info">
+      <div class="panel panel-default">
         <div class="panel-heading text-center">
           <strong>Enter Details To Login</strong>  
         </div>
@@ -55,7 +46,7 @@
           
           <!-- <br><br>   -->
           <div class="form-group form-group-lg">
-            {{ Form::submit('Sign in', ['class'=>'form-control btn btn-primary']) }}
+            {{ Form::submit('Sign in', ['class'=>'form-control btn btn-warning']) }}
           </div>
           
           <!-- <br><br> -->
@@ -63,17 +54,17 @@
             ------ or ------
           </p>
           <div class="col-md-4">
-            <a href="hybridauth?provider=twitter" class="btn btn-info form-control">
+            <a href="hybridauth?provider=twitter" class="btn btn-default form-control">
               <i class="fa fa-twitter fa-2x"></i>
             </a>
           </div>
           <div class="col-md-4">
-            <a href="hybridauth?provider=google" class="btn btn-danger form-control">
+            <a href="hybridauth?provider=google" class="btn btn-default form-control">
               <i class="fa fa-google fa-2x"></i>
             </a>
           </div>
           <div class="col-md-4">
-            <a href="hybridauth?provider=facebook" class="btn btn-primary form-control">
+            <a href="hybridauth?provider=facebook" class="btn btn-default form-control">
               <i class="fa fa-facebook fa-2x"></i>
             </a>
           </div>

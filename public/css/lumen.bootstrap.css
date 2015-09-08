@@ -4164,35 +4164,14 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   margin-bottom: 0;
   border-width: 1px 0 0;
 }
-/*.navbar-brand {
+.navbar-brand {
   float: left;
   padding: 15px 15px;
   font-size: 18px;
   line-height: 20px;
   height: 50px;
-}*/
-.navbar-brand {
-  position: fixed;
-  height: 47px;
-  padding: 0 15px 0 15px;
-  font-size: 32px;
-  font-weight: 700;
-  color: #fff;
-  background:#313344;
-  border-right:1px solid rgba(0,0,0, 0.8);
-  overflow: hidden;
-  -webkit-box-sizing:border-box;
-  -moz-box-sizing:border-box;
-  box-sizing:border-box;
- 
-  text-shadow:#1a1b25 1px 1px, #1a1b25 2px 2px, #1a1b25 3px 3px, #1a1b25 4px 4px, #1a1b25 5px 5px, #1a1b25 6px 6px, 
-              #1a1b25 7px 7px, #1a1b25 8px 8px, #1a1b25 9px 9px, #1a1b25 10px 10px, #1a1b25 11px 11px, #1a1b25 12px 12px,
-              #1a1b25 13px 13px, #1a1b25 14px 14px, #1a1b25 15px 15px, #1a1b25 16px 16px, #1a1b25 17px 17px, #1a1b25 18px 18px,
-              #1a1b25 19px 19px, #1a1b25 20px 20px, #1a1b25 21px 21px, #1a1b25 22px 22px, #1a1b25 23px 23px, #1a1b25 24px 24px, 
-              #1a1b25 25px 25px, #1a1b25 26px 26px, #1a1b25 27px 27px, #1a1b25 28px 28px, #1a1b25 29px 29px, #1a1b25 30px 30px, 
-              #1a1b25 31px 31px;
-
 }
+
 .navbar-brand:hover,
 .navbar-brand:focus {
   text-decoration: none;
@@ -4543,7 +4522,7 @@ fieldset[disabled] .navbar-default .btn-link:focus {
   background-color: transparent;
 }
 .navbar-inverse .navbar-toggle {
-  border-color: #eeeeee;
+  /*border-color: #2e2e2e;*/
 }
 .navbar-inverse .navbar-toggle:hover,
 .navbar-inverse .navbar-toggle:focus {

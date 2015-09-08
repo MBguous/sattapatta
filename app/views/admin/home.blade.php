@@ -5,24 +5,22 @@ Admin - Sattapatta
 @stop
 
 @section('content')
-
-<div class="container-fluid">
 	
 	<div class="row">
 		
 		<div class="col-md-2">
 			
 			<div id="menu">
-				<div class="panel panel-warning list-group">
-					<span class="list-group-item panel-heading text-center">Admin Panel</span>
+				<div class="panel panel-default list-group">
+					<span class="list-group-item panel-heading text-center"><h5>Admin Panel</h5></span>
 					<a href="#" class="list-group-item">
-						<i class="icon icon-Speedometter" style="font-size:large"></i>&nbsp; Dashboard
+						<i class="fa fa-trello" style="font-size:large"></i>&nbsp; Dashboard
 					</a>
 					<a href="#" class="list-group-item" id="link-users">
-						<i class="icon icon-Users" style="font-size:large"></i>&nbsp; Users
+						<i class="fa fa-users" style="font-size:large"></i>&nbsp; Users
 					</a>
 					<a href="#" class="list-group-item" id="link-categories">
-						<i class="icon icon-Layers" style="font-size:large"></i>&nbsp; Categories
+						<i class="fa fa-clone" style="font-size:large"></i>&nbsp; Categories
 					</a>
 					<!-- <div id="sl" class="sublinks collapse">
 						<a class="list-group-item small">view categories</a>
@@ -30,7 +28,7 @@ Admin - Sattapatta
 					</div> -->
 					
 					<a href="#" class="list-group-item" data-toggle="collapse" data-target="#sm" data-parent="#menu">
-						<i class="icon icon-Mail" style="font-size:large"></i>&nbsp; Messages
+						<i class="fa fa-envelope-o" style="font-size:large"></i>&nbsp; Messages
 					</a>
 					<div id="sm" class="sublinks collapse">
 						<a class="list-group-item small"><span class="glyphicon glyphicon-chevron-right"></span> view categories</a>
@@ -42,8 +40,8 @@ Admin - Sattapatta
 
 		</div>
 		<div class="col-md-10">
-			<div class="panel panel-info" id="panel-admin">
-				<div class="panel-heading" id="panel-heading">Dashboard</div>
+			<div class="panel panel-default" id="panel-admin">
+				<div class="panel-heading" id="panel-heading"><h6>Dashboard</h6></div>
 				<div class="panel-body" id="panel-body" style="display:none">
 					<i class="fa fa-spinner fa-pulse fa-lg"></i> Loading...
 				</div>
@@ -53,7 +51,6 @@ Admin - Sattapatta
 		</div>
 	</div>
 
-</div>
 
 @stop
 

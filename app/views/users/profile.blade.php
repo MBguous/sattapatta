@@ -1,105 +1,63 @@
 @extends ('layouts.master')
 
-@section ('styleScript')
-
-
-@stop
-
 @section ('content')
 
-<div id="wrapper" class="toggled">
 
-	<!-- Sidebar -->
-	<div id="sidebar-wrapper">
-		<ul class="sidebar-nav">
-			<li class="sidebar-brand">
-				<a href="#">
-					{{-- HTML::image(Auth::user()->photoURL, 'profile-pic', ['height'=>'60px', 'class'=>'img-circle']) --}}
-				</a>
-			</li>
-			<li>{{-- HTML::linkRoute('users.dashboard', 'Dashboard', Auth::user()->username) --}}</li>
-			<li>{{-- HTML::linkRoute('users.post', 'Post Item', Auth::user()->username) --}}</li>
-			<li>{{-- HTML::linkRoute('users.listing', 'My Listings', Auth::user()->username) --}}</li>
-			<li>{{-- HTML::link('#', 'Messages') --}}</li>
-			<li>
-				<blockquote>
-					{{-- HTML::linkRoute('users.profile', 'Profile', Auth::user()->username, ['style'=>'background:#454545']) --}}
-				</blockquote>
-			</li>
-		</ul>
-	</div>
-	<!-- /#sidebar-wrapper -->   
-	<!-- <a href="#menu-toggle" id="menu-toggle"><i class='fa fa-align-justify fa-2x'></i></a> -->
-	<!-- Page Content -->
-	<div id="page-content-wrapper">
-		<div class="container-fluid">
-			<div class="row">
-				@if (Session::has('message'))
+<div class="row">
+	<div class="col-md-offset-1 col-md-10">
 
-				<div class="alert alert-info alert-dismissible" id="messageDiv" role="alert">
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					<span><i class="fa fa-info-circle"></i>&nbsp;{{ Session::get('message') }}</span>
+		<div class="row">
+			<div class="col-md-3">
+				<div class="panel panel-default text-center">
+					<div class="panel-heading">Profile Image</div>
+					<div class="panel-body">
+						<div class="img-circle" style="overflow:hidden; height:100%; width:100%">
+							<a href="#profile-image" data-toggle="modal" title="Change profile picture">
+								{{ HTML::image($user->photoURL, 'profile-pic', ['class'=>'img-responsive']) }}
+							</a>
+						</div>
+						
+						<div class="modal fade" id="profile-image">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+										<h4 class="modal-title">Change profile picture</h4>
+									</div>
+									{{ Form::open(array('url'=>'users/profile/image', 'files'=>true)) }}
+									<div class="modal-body">
+
+										{{ Form::label('image', 'Choose an image') }}
+
+										{{ Form::file('photoURL', ['id'=>'profile-image', 'class'=>'file', 'data-preview-file-type'=>'text', 'data-show-upload'=>false, 'accept'=>'image/*']) }}
+										<div class="text-danger" id="photoURL_error">{{ $errors->first('photoURL', ':message') }}</div>
+
+										
+
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+										<button type="submit" class="btn btn-primary">Save changes</button>
+									</div>
+									{{ Form::close() }}
+								</div>
+							</div>
+						</div>
+						<!-- /modal -->
+		<!-- <br>
+		<hr> -->
+		
+					</div>
+					<div class="panel-footer">
+						<p>
+							{{ $user->username }}	
+						</p>
+						
+						<p>
+							<i class="fa fa-calendar"></i> Joined on {{ date('M j, 20y',strtotime($user->created_at)) }}
+						</p>
+					</div>
 				</div>
-				@endif
-
-				<div id="messageDiv"></div>
-
-				<div class="col-md-offset-1 col-md-10">
-
-					<div class="row">
-						<div class="col-md-3">
-							<div class="panel panel-warning text-center">
-								<div class="panel-heading">Profile Image</div>
-								<div class="panel-body">
-									<div class="img-circle" style="overflow:hidden; height:100%; width:100%">
-										<a href="#profile-image" data-toggle="modal" title="Change profile picture">
-											{{ HTML::image($user->photoURL, 'profile-pic', ['class'=>'img-responsive']) }}
-										</a>
-									</div>
-									
-									<div class="modal fade" id="profile-image">
-										<div class="modal-dialog">
-											<div class="modal-content">
-												<div class="modal-header">
-													<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-													<h4 class="modal-title">Change profile picture</h4>
-												</div>
-												{{ Form::open(array('url'=>'users/profile/image', 'files'=>true)) }}
-												<div class="modal-body">
-
-													{{ Form::label('image', 'Choose an image') }}
-
-													{{ Form::file('photoURL', ['id'=>'profile-image', 'class'=>'file', 'data-preview-file-type'=>'text', 'data-show-upload'=>false, 'accept'=>'image/*']) }}
-													<div class="text-danger" id="photoURL_error">{{ $errors->first('photoURL', ':message') }}</div>
-
-													
-
-												</div>
-												<div class="modal-footer">
-													<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-													<button type="submit" class="btn btn-primary">Save changes</button>
-												</div>
-												{{ Form::close() }}
-											</div>
-										</div>
-									</div>
-									<!-- /modal -->
-		    		<!-- <br>
-		    		<hr> -->
-		    		
-		    	</div>
-		    	<div class="panel-footer">
-		    		<p>
-		    			{{ $user->username }}	
-		    		</p>
-		    		
-		    		<p>
-		    			<i class="fa fa-calendar"></i> Joined on {{ date('M j, 20y',strtotime($user->created_at)) }}
-		    		</p>
-		    	</div>
-		    </div>
 		    
 		    <p>
 		    	
@@ -229,7 +187,7 @@
 		    		<li role="presentation" class="active">
 		    			<a href="#profile" aria-controls="profile" role="tab" data-toggle="tab"> Basic info</a>
 		    		</li>
-		    		<li role="presentation"><a href="#wishlist" aria-controls="wishlist" role="tab" data-toggle="tab">Wishlist</a></li>
+		    		<li role="presentation"><a href="#watchlist" aria-controls="watchlist" role="tab" data-toggle="tab">Watchlist</a></li>
 		    		<li role="presentation"><a href="#listings" aria-controls="listings" role="tab" data-toggle="tab">Listings</a></li>
 		    	</ul>
 
@@ -238,13 +196,13 @@
 		    		<div role="tabpanel" class="tab-pane fade in active" id="profile">
 		    			<br><br>
 
-@if(Auth::check() and Auth::user()->id == $user->id)
-<div class="progress">
-  <div class="progress-bar progress-bar-striped" style="width: {{ $pc }}%;">
-  	{{ $pc }}% Profile Complete
-  </div>
-</div>
-@endif
+							@if(Auth::check() and Auth::user()->id == $user->id)
+							<div class="progress">
+								<div class="progress-bar progress-bar-striped" style="width: {{ $pc }}%;">
+									{{ $pc }}% Profile Complete
+								</div>
+							</div>
+							@endif
 		    			<div class="col-md-12">
 		    				<table class="table table-striped table-hover" id="profile-table">
 		    					<tr>
@@ -388,8 +346,7 @@
 
 		    						@if(Auth::check() and Auth::user()->id == $user->id)
 		    						{{ Form::model(Auth::user(), array('url'=>array('users/profile/info', Auth::user()->username), 'class'=>'form-horizontal', 'id'=>'infoForm', 'method'=>'put')) }}
-		    						{{-- Form::model(Auth::user(), array('route'=>array('users.profile.info'=>Auth::user()->id, 'method'=>'put'), 'class'=>'form-horizontal', 'id'=>'infoForm')) --}}
-		    						<!-- <form action="#" id="infoForm" class="form-horizontal"> -->
+
 		    						<div class="modal-body">
 
 		    							<div class="form-group">
@@ -399,89 +356,6 @@
 		    									<div id="username_error"></div>
 		    								</div>
 		    							</div>
-
-		    							<!-- <div class="form-group">
-		    								{{ Form::label('firstName', 'First Name', ['class'=>'col-md-3 control-label']) }}
-		    								<div class="col-md-9">
-		    									{{ Form::text('firstName', null, ['class'=>'form-control']) }}
-		    									<div id="firstName_error"></div>
-		    								</div>
-		    							</div>
-
-		    							<div class="form-group">
-		    								{{ Form::label('lastName', 'Last Name', ['class'=>'col-md-3 control-label']) }}
-		    								<div class="col-md-9">
-		    									{{ Form::text('lastName', null, ['class'=>'form-control']) }}
-		    									<div id="lastName_error"></div>
-		    								</div>
-		    							</div>
-
-		    							<div class="form-group">
-		    								<label class="col-lg-3 control-label">Gender</label>
-		    								<div class="col-lg-9">
-		    									<div class="radio">
-		    										<label>
-		    											<input type="radio" name="gender" id="male" value="male" checked="">
-		    											Male
-		    										</label>
-		    									</div>
-		    									<div class="radio">
-		    										<label>
-		    											<input type="radio" name="gender" id="female" value="female">
-		    											Female
-		    										</label>
-		    									</div>
-		    									<div id="gender_error"></div>
-		    								</div>
-		    							</div>
-
-		    							<div class="form-group">
-		    								{{ Form::label('birthDay', 'Birth Day', ['class'=>'col-md-3 control-label']) }}
-		    								<div class="col-md-9">
-		    									{{ Form::selectRange('birthDay', 1, 31, null, ['class'=>'form-control']) }}
-		    									<div id="birthDay_error"></div>
-		    								</div>
-		    							</div>
-
-		    							<div class="form-group">
-		    								{{ Form::label('birthMonth', 'Birth Month', ['class'=>'col-md-3 control-label']) }}
-		    								<div class="col-md-9">
-		    									{{ Form::selectMonth('birthMonth', null, ['class'=>'form-control']) }}
-		    									<div id="birthMonth_error"></div>
-		    								</div>
-		    							</div>
-
-		    							<div class="form-group">
-		    								{{ Form::label('birthYear', 'Birth Year', ['class'=>'col-md-3 control-label']) }}
-		    								<div class="col-md-9">
-		    									{{ Form::selectYear('birthYear', 1950, 2015, 1980, ['class'=>'form-control']) }}
-		    									<div id="birthYear_error"></div>
-		    								</div>
-		    							</div>
-
-		    							<div class="form-group">
-		    								{{ Form::label('phone', 'Phone', ['class'=>'col-md-3 control-label']) }}
-		    								<div class="col-md-9">
-		    									{{ Form::text('phone', null, ['class'=>'form-control']) }}
-		    								</div>
-		    								<div id="phone_error"></div>
-		    							</div>
-
-		    							<div class="form-group">
-		    								{{ Form::label('address', 'Address', ['class'=>'col-md-3 control-label']) }}
-		    								<div class="col-md-9">
-		    									{{ Form::text('address', null, ['class'=>'form-control']) }}
-		    								</div>
-		    								<div id="address_error"></div>
-		    							</div>
-
-		    							<div class="form-group">
-		    								{{ Form::label('country', 'Country', ['class'=>'col-md-3 control-label']) }}
-		    								<div class="col-md-9">
-		    									{{ Form::text('country', null, ['class'=>'form-control']) }}
-		    								</div>
-		    								<div id="country_error"></div>
-		    							</div> -->
 
 		    						</div>
 		    						<div class="modal-footer">
@@ -497,14 +371,16 @@
 		    			<!-- /modal -->
 
 		    		</div>
-		    		<div role="tabpanel" class="tab-pane fade" id="wishlist">Wishlist</div>
+		    		<div role="tabpanel" class="tab-pane fade" id="watchlist">
+						@include('partials.watchlist')
+		    		</div>
 		    		<div role="tabpanel" class="tab-pane fade" id="listings">
 		    			<br>
 		    			<!-- accordion -->
 		    			<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
 
 		    				@foreach ($items as $item)
-		    				<div class="panel panel-info">
+		    				<div class="panel panel-default">
 		    					<div class="panel-heading" role="tab">
 		    						<h4 class="panel-title">
 		    							{{ HTML::link('#'.$item->id, $item->name, ['class'=>'collapsed', 'data-toggle'=>'collapse', 'data-parent'=>'#accordion']) }}
@@ -573,20 +449,6 @@
 	<!-- <h2>Dashboard</h2> -->
 </div>
 </div>
-</div>
-</div>
-<!-- /#page-content-wrapper -->
-
-</div>
-<!-- /#wrapper -->
-
-<div class="chat">
-					<div class="title">Chat with me</div>
-					<div class="chat-box">
-						<div class="messages"></div>
-						<textarea class="entry" placeholder="Enter your message..."></textarea>
-					</div>
-				</div>
 
 @stop
 

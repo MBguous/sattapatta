@@ -42,11 +42,11 @@
 	<tr>
 		<th>Date of Birth</th>
 		<td>
-			<a href="#" id="birthYear" data-type="select" data-value="{{$user->birthYear}}" data-title="Select year" class="editable-click"></a>
-			-
-			<a href="#" id="birthMonth" data-type="select" data-value="{{$user->birthMonth}}" data-title="Select month" class="editable-click"></a>
-			-
 			<a href="#" id="birthDay" data-type="select" data-value="{{$user->birthDay}}" data-title="Select day" class="editable-click"></a>
+			/
+			<a href="#" id="birthMonth" data-type="select" data-value="{{$user->birthMonth}}" data-title="Select month" class="editable-click"></a>
+			/
+			<a href="#" id="birthYear" data-type="select" data-value="{{$user->birthYear}}" data-title="Select year" class="editable-click"></a>
 
 			{{ Form::hidden('birthYear-value', $user->birthYear, ['id'=>'birthYear-value']) }}
 			{{ Form::hidden('birthMonth-value', $user->birthMonth, ['id'=>'birthMonth-value']) }}

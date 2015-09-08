@@ -5,17 +5,18 @@
 	"license": "MIT",
 	"type": "project",
 	"require": {
-		"laravel/framework"        : "4.2.*",
-		"way/generators"           : "~2.0",
-		"fzaninotto/faker"         : "1.5.*@dev",
-		"nesbot/Carbon"            : "*",
-		"barryvdh/laravel-dompdf"  : "0.4.*",
-		"zizaco/entrust"           : "1.2.*@dev",
-		"hybridauth/hybridauth"    : "dev-master",
-		"intervention/image"       : "dev-master",
-		"barryvdh/laravel-debugbar": "~1.8",
-		"cboden/ratchet"           : "0.3.*",
-		"brainboxlabs/brain-socket": "dev-master"
+		"laravel/framework"        	: "4.2.*",
+		"way/generators"           	: "~2.0",
+		"fzaninotto/faker"         	: "1.5.*@dev",
+		"nesbot/Carbon"            	: "*",
+		"barryvdh/laravel-dompdf"  	: "0.4.*",
+		"zizaco/entrust"           	: "1.2.*@dev",
+		"hybridauth/hybridauth"    	: "dev-master",
+		"intervention/image"       	: "dev-master",
+		"barryvdh/laravel-debugbar"	: "~1.8",
+		"cboden/ratchet"           	: "0.3.*",
+		"brainboxlabs/brain-socket"	: "dev-master",
+		"itsgoingd/clockwork"		: "~1.9"
 	},
 	"autoload": {
 		"classmap": [
@@ -25,7 +26,10 @@
 			"app/database/migrations",
 			"app/database/seeds",
 			"app/tests/TestCase.php"
-		]
+		],
+		"psr-4": {
+			"Sattapatta\\": "app/Sattapatta"
+		}
 	},
 	"scripts": {
 		"post-install-cmd": [
@@ -43,5 +47,8 @@
 	"config": {
 		"preferred-install": "dist"
 	},
-	"minimum-stability": "stable"
+	"minimum-stability": "stable",
+	"require-dev": {
+		"itsgoingd/clockwork": "^1.9"
+	}
 }

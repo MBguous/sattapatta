@@ -1,15 +1,12 @@
 <?php
+Route::get('clockwork', function() {
+	Clockwork::startEvent('query', 'Simple Query');
+	$user = User::first();
+	Clockwork::info($user);
+	Clockwork::endEvent('query');
 
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the Closure to execute when that URI is requested.
-|
-*/
+	return $user;
+});
 
 Route::get('home', array('as'=>'home', 'uses'=>'HomeController@home'));
 Route::get('/', function()
@@ -36,9 +33,20 @@ Route::get('accounts/create', array('as' => 'accounts.create', 'uses' => 'Accoun
 Route::get('accounts/activate/{code}', array('as' => 'accounts.activate', 'uses' => 'AccountController@activate'));
 Route::get('mail/{email}', array('as'=>'mail', 'uses'=>'AccountController@sendMail'));
 
+/* Search routes */
 Route::post('/test', array('as'=>'search', 'uses'=>'SearchController@search'));
 Route::get('/search/results', array('as'=>'search.results', 'uses'=>'SearchController@showSearchResults'));
 Route::post('/search/results', array('uses'=>'SearchController@quickSearch'));
+
+/* Search api routes */
+Route::get('items/browse/api/search', 'ApiSearchController@index');
+
+/* Ajax-poll based chat */
+Route::get('/chat', ['as'=>'chat', 'uses'=>'ChatController@index']);
+Route::post('chat', 'ChatController@message');
+
+/* Brainsocket chat */
+Route::get('chatsbs', ['as'=>'chatsbs', 'uses'=>'ChatController@chatsbs']);
 
 Route::group(array('before'=>'auth|session'), function()
 {

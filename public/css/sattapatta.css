@@ -1,0 +1,184 @@
+@font-face {
+  font-family: 'Open Sans';
+  src: url('../fonts/OpenSans-Regular.ttf');
+}
+body {
+  padding-top: 70px;
+  font-family: 'Open Sans';
+}
+.navbar-brand {
+  padding: 20px 15px;
+}
+.header-title {
+  position: fixed;
+  height: 47px;
+  padding: 0 15px 0 15px;
+  margin-left: -15px;
+  font-family: "Samarkan";
+  font-size: 32px;
+  font-weight: 700;
+  color: #fff;
+  /*background:#373a4d;*/
+  overflow: hidden;
+  -webkit-box-sizing:border-box;
+  -moz-box-sizing:border-box;
+  box-sizing:border-box;
+ 
+  text-shadow:#1a1b25 1px 1px, #1a1b25 2px 2px, #1a1b25 3px 3px, #1a1b25 4px 4px, #1a1b25 5px 5px, #1a1b25 6px 6px, 
+              #1a1b25 7px 7px, #1a1b25 8px 8px, #1a1b25 9px 9px, #1a1b25 10px 10px, #1a1b25 11px 11px, #1a1b25 12px 12px,
+              #1a1b25 13px 13px, #1a1b25 14px 14px, #1a1b25 15px 15px, #1a1b25 16px 16px, #1a1b25 17px 17px, #1a1b25 18px 18px,
+              #1a1b25 19px 19px, #1a1b25 20px 20px, #1a1b25 21px 21px, #1a1b25 22px 22px, #1a1b25 23px 23px, #1a1b25 24px 24px, 
+              #1a1b25 25px 25px, #1a1b25 26px 26px, #1a1b25 27px 27px, #1a1b25 28px 28px, #1a1b25 29px 29px, #1a1b25 30px 30px, 
+              #1a1b25 31px 31px;
+
+}
+
+.navbar-inverse .navbar-collapse,
+.navbar-inverse .navbar-form {
+  background-color: #373a4d;
+}
+.navbar-avatar {
+  padding: 8px 0;
+}
+.post-item, .find-match, .approve-request, .trade-item {
+	padding: 25px 100px;
+	opacity: 0;
+	transition: all 300ms ease-in;
+}
+
+.badge {
+  background-color: #FF7E00;
+}
+
+.animated {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+@-webkit-keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
+.fadeInLeft {
+  -webkit-animation-name: fadeInLeft;
+  animation-name: fadeInLeft;
+}
+
+@-webkit-keyframes fadeInRight {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(100%, 0, 0);
+    transform: translate3d(100%, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(100%, 0, 0);
+    transform: translate3d(100%, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+  }
+}
+
+.fadeInRight {
+  -webkit-animation-name: fadeInRight;
+  animation-name: fadeInRight;
+}
+
+a i{
+  outline: none;
+}
+.body-container{
+  min-height: 100%;
+
+}
+.body-container:after {
+  content: "";
+  display: block;
+}
+.body-container:after {
+  height: 100px; 
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  /*height: 72px;*/
+  background-color: #222222;
+}
+.footer>.container {
+  padding: 20px;
+}
+#search .input-group-addon,
+#item-form .input-group-addon {
+  background-color: transparent;
+  /*color: #909090;*/
+  border-radius: 0;
+  border: 0;
+  border-bottom: 1px solid #e7e7e7;
+}
+.thumbnail > .caption > p, 
+.thumbnail > .caption > h6 {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.dropdown .dropdown-menu {
+    display: visible;
+}
+#offers > li > a {
+  display: table-cell;
+}
+.popover-example .popover {
+  position: relative;
+  display: block;
+}

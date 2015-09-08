@@ -2,6 +2,36 @@
 
 class ChatController extends BaseController {
 
+	public function index() {
+		return View::make('chats.index');
+	}
+
+	public function message() {
+		$input = Input::all();
+		// $user_id = Auth::user()->id;
+		// dd($input['method']);
+		if($input['method'] == 'throw') {
+			// dd($input);
+			Chat::create([
+				'content' => $input['message'],
+				'user_id' => Auth::user()->id
+			]);
+		}
+		elseif($input['method'] == 'fetch') {
+			// dd($input);
+			$chats = Chat::orderBy('id', 'desc')->get();
+			return View::make('chats.message', compact('chats'));
+		}
+		
+	}
+
+	public function chatsbs() {
+		$chats = Chat::orderBy('id', 'desc')->get();
+		// dd($chats);
+		return View::make('chatsbs', compact('chats'));
+		// return 'whatever';
+	}
+
 	public function chatRequest($username) {
 
 		DB::beginTransaction();

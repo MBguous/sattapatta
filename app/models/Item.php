@@ -2,7 +2,7 @@
 
 class Item extends Eloquent {
 
-	protected $fillable = ['name', 'description', 'price', 'photoURL', 'date', 'time', 'status', 'user_id', 'category_id'];
+	protected $fillable = ['name', 'description', 'price', 'date', 'time', 'status', 'user_id', 'category_id'];
 
 	public function user()
 	{
@@ -31,6 +31,11 @@ class Item extends Eloquent {
 
 	public function category()
 	{
-		return $this->belongsTo('Category');
+		return $this->belongsToMany('Category');
 	}
+
+	// public function getImageUrlAttribute()
+	// {
+	// 	return $this->images->lists('imageUrl');
+	// }
 }

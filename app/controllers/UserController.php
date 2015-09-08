@@ -49,8 +49,12 @@ class UserController extends BaseController {
 		if($user->photoURL != 'images/male.png'){
 			$pc+=10;
 		}
+
+		// watchlist items
+		$watchlist_items = Auth::user()->watchlist->all();
+		// dd($watchlist_items);
 		
-		return View::make('users.profile', compact('items', 'pc'))->withUser($user);
+		return View::make('users.profile', compact('items', 'pc', 'watchlist_items'))->withUser($user);
 	}
 
 	public function editProfileImage() {

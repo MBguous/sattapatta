@@ -1,31 +1,13 @@
 @extends ('layouts.master')
 
 @section ('styleScript')
-
-
+{{ HTML::style('css/bootstrap-markdown.min.css') }}
+{{ HTML::script('js/jquery.js') }}
+{{ HTML::script('js/bootstrap-markdown.js') }}
 @stop
+
 @section ('content')
 
-<div id="wrapper" class="toggled">
-
-
-  <!-- Sidebar -->
-  <div id="sidebar-wrapper">
-    <ul class="sidebar-nav">
-      <li class="sidebar-brand"><a href="#"></a></li>
-      <li>{{ HTML::linkRoute('users.dashboard', 'Dashboard', Auth::user()->username) }}</li>
-      <li><blockquote>{{ HTML::linkRoute('items.post', 'Post Item', Auth::user()->username, ['style'=>'background:#454545']) }}</blockquote></li>
-      <li>{{ HTML::linkRoute('users.listing', 'My Listings', Auth::user()->username) }}</li>
-      <li>{{ HTML::link('#', 'Messages') }}</li>
-      <li>{{ HTML::linkRoute('users.profile', 'Profile', Auth::user()->username) }}</li>
-    </ul>
-  </div>
-  <!-- /#sidebar-wrapper -->
-  <!-- <a href="#menu-toggle" id="menu-toggle"><i class='fa fa-align-justify fa-2x'></i></a>         -->
-
-  <!-- Page Content -->
-  <div id="page-content-wrapper">
-    <div class="container-fluid">
       <div class="row">
         @if (Session::has('message'))
         <div class="alert alert-warning alert-dismissible" id="messageDiv" role="alert">
@@ -35,29 +17,20 @@
           <span><i class="fa fa-info-circle"></i>&nbsp;{{ Session::get('message') }}</span>
         </div>
         @endif
-        <div class="col-md-offset-1 col-md-10">
 
+          <div class="well">
+            <h5>Post Item</h5>
 
-          <div class="well well-lg">
-
-            {{ Form::open(array('route'=>'post.users.post', 'class'=>'form-horizontal', 'files'=>true)) }}
+            {{ Form::open(array('route'=>'post.users.post', 'class'=>'form-horizontal', 'id'=>'item-form', 'files'=>true)) }}
               @include ('partials.itemForm')
-              <div>
+              <div class="col-md-offset-2">
                 <button type="reset" class="btn btn-default">Clear</button>
                 <button type="submit" class="btn btn-primary">Post item</button>
               </div>
             {{ Form::close() }}
           </div>
 
-        </div>
       </div>
-    </div>
-  </div>
-  <!-- /#page-content-wrapper -->
-
-</div>
-<!-- /#wrapper -->
-
 
 @stop
 

@@ -20,9 +20,9 @@
 	#nav-scrollspy {
 		background-color: #ffffff;
 		position: fixed;
-	  border: 1px solid #eeeeee;
-	  top: 50px;
-	  z-index: 100;
+		border: 1px solid #eeeeee;
+		top: 65px;
+		z-index: 100;
 	}
 	.dropdown-menu > li > a{
 		display: table-cell;
@@ -41,84 +41,56 @@
 
 @section ('content')
 
-<div class="container-fluid">
 	<div class="row">
-		<div class="col-md-offset-1 col-md-10">
-			<div class="row">
-				
-				
 
-				<div class="col-md-10" id="nav-scrollspy">
-					<nav id="nav-show">
-				    <ul class="nav nav-pills">
-				    	<li><a href="#overview">Overview</a></li>
-				    	<li><a href="#description">Description</a></li>
-				    	<li><a href="#wants">Wants</a></li>
-				    	<li><a href="#comments">Comments</a></li>
-				    </ul>
-				  </nav>
-				</div>
-				<br>
-				<br>
+				<div class="col-md-7">
 
-				@if (Session::has('message'))
-				<div class="alert alert-info alert-dismissible" role="alert">
-					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-					<span><i class="fa fa-info-circle"></i>&nbsp;{{ Session::get('message') }}</span>
-				</div>
-				@endif
-
-				
-
-				<div class="col-md-7" id="left-col">
-
-					<div class="panel panel-default" id="overview">
+					<div class="panel panel-default">
 						<div class="panel-heading">
-							<h4>
-								<strong>{{ $swapItem->name }}</strong>
-									<!-- <div class="pull-right">
-										<a href="#">
-											<i class="fa fa-suitcase"></i> <small>{{ $offers->count() }} offers</small>
-										</a>
-									</div> -->
+							{{ $swapItem->name }}
+									
+								<div class="pull-right dropdown">
+									<a href="#" class="dropdown-toggle" data-toggle="dropdown" style="text-decoration:none">
+										<i class="fa fa-briefcase fa-lg"></i>
+										<span class="caret"></span>
+									</a>
+									<ul class="dropdown-menu">
 
+										<li class="dropdown-header">{{ $offers->count() }} offers</li>
+										<li class="divider"></li>
+										
+										@if (Auth::check() and $swapItem->user->username == Auth::user()->username)
+										@forelse ($offers as $offer)
+										<li>
+											<a href="{{URL::route('items.show', [$offer->user->username, $offer->offerItems->first()->name, $offer->offerItems->first()->id])}}">
+												{{ $offer->user->username.' offered '.$offer->offerItems->first()->name }}
+											</a>
 
-									<div class="pull-right dropdown">
-										<a href="#" class="dropdown-toggle" data-toggle="dropdown" style="text-decoration:none">
-											<i class="icon icon-Briefcase" style="font-size:x-large;"></i>
-											<span class="caret"></span>
-										</a>
-										<ul class="dropdown-menu">
+											{{ HTML::linkRoute('offer.response', 'Accept', ['response'=>'accepted',$offer->user_id, $offer->item_id], ['class'=>'btn btn-default btn-sm', 'style'=>'display:table-cell']) }}
+											{{ HTML::linkRoute('offer.response', 'Reject', ['response'=>'rejected',$offer->user_id, $offer->item_id]) }}
 
-											<li class="dropdown-header">{{ $offers->count() }} offers</li>
-											<li class="divider"></li>
-											
-											@if (Auth::check() and $swapItem->user->username == Auth::user()->username)
-											@forelse ($offers as $offer)
-											<li>
-												<a href="{{URL::route('items.show', [$offer->user->username, $offer->offerItems->first()->name, $offer->offerItems->first()->id])}}">
-													{{ $offer->user->username.' offered '.$offer->offerItems->first()->name }}
-												</a>
-
-												
-												{{ HTML::linkRoute('offer.response', 'Accept', ['response'=>'accepted',$offer->user_id, $offer->item_id], ['class'=>'btn btn-default btn-sm', 'style'=>'display:table-cell']) }}
-												{{ HTML::linkRoute('offer.response', 'Reject', ['response'=>'rejected',$offer->user_id, $offer->item_id]) }}
-												
-
-											</li>
-											@empty
-											<li class="text-muted"><a>No offers</a></li>
-											@endforelse
-											@endif
-										</ul>
-									</div>
-
-								</h4>
+										</li>
+										@empty
+										<li class="text-muted"><a>No offers</a></li>
+										@endforelse
+										@endif
+									</ul>
+								</div>
+								<span>
+									Views: {{ $swapItem->view_count }}
+								</span>
+								@if(Auth::check())
+						            @if(Auth::user()->username == $swapItem->user->username)
+						            <span>
+							            <a href="{{URL::route('item.edit', [$swapItem->user->username, $swapItem->name, $swapItem->id])}}">
+							              <i class="fa fa-edit" data-toggle="tooltip" data-placement="bottom" title="Click to edit this item"></i>
+							            </a>
+						            </span>
+						            @endif
+					            @endif
 							</div>
+
 							<div class="panel-body">
-								
 
 								<div id="carousel-example-generic" class="carousel slide" data-ride="carousel" data-interval="false">
 									<!-- Indicators -->
@@ -126,8 +98,6 @@
 										@for ($i=0; $i<$swapItem->images->count(); $i++)
 										<li data-target="#carousel-example-generic" data-slide-to="{{$i}}"></li>
 										@endfor
-								    <!-- <li data-target="#carousel-example-generic" data-slide-to="1"></li>
-								    <li data-target="#carousel-example-generic" data-slide-to="2"></li> -->
 								  </ol>
 
 								  <!-- Wrapper for slides -->
@@ -138,11 +108,10 @@
 								  		<div style="display:table; margin:auto">
 								  			<div style="height:450px; display:table-cell; vertical-align:middle">
 								  				@if($image == NULL)
-							              {{ HTML::image('images/placeholder.png', 'no image', ['class'=>'img-responsive', 'style'=>'max-height:100%; margin:auto']) }}
-							            @else
-							              {{ HTML::image($image->imageUrl, 'item image', ['class'=>'img-responsive', 'style'=>'max-height:100%; margin:auto']) }}
-							            @endif
-								  				
+									              {{ HTML::image('images/placeholder.png', 'no image', ['class'=>'img-responsive', 'style'=>'max-height:100%; margin:auto']) }}
+									            @else
+									              {{ HTML::image($image->imageUrl, 'item image', ['class'=>'img-responsive', 'style'=>'max-height:100%; margin:auto']) }}
+									            @endif
 								  			</div>
 								  		</div>
 
@@ -150,12 +119,6 @@
 								  		</div>
 								  	</div>
 								  	@endforeach
-								    <!-- <div class="item">
-								      <img src="..." alt="...">
-								      <div class="carousel-caption">
-								        ...
-								      </div>
-								    </div> -->
 								    
 								  </div>
 
@@ -173,17 +136,19 @@
 							</div>
 						</div>
 
-						<div class="panel panel-default" id="description">
+						<div class="panel panel-default">
 							<div class="panel-heading">
-								<span class="icon icon-ClipboardText" style="font-size:initial"></span><strong>&nbsp;Description</strong>
+								<i class="fa fa-newspaper-o fa-lg"></i> &nbsp;Description
 							</div>
 							<div class="panel-body">
-								{{ $swapItem->description }}
+								<p>
+									{{ $swapItem->description }}
+								</p>
 								<p>
 									<strong>Price: </strong>Rs. {{ $swapItem->price }}<br>
 									<strong>Posted on: </strong>{{ $swapItem->date }}<br>
 									<strong>Status: </strong>{{ $swapItem->status }}<br>
-									<span class="icon icon-Tag"></span><strong>Tags:</strong>
+									<span class="fa fa-tags"></span><strong> Tags:</strong>
 									@forelse ($swapItem->tags as $tag)
 									<span class="label label-warning">{{ $tag->name }}</span>
 									@empty
@@ -193,22 +158,19 @@
 							</div>
 						</div>
 
-						<div class="panel panel-default" id="wants">
+						<div class="panel panel-default">
 							<div class="panel-heading">
-								<h5><strong>Wants for this item</strong></h5>	
+								<i class="fa fa-gift fa-lg"></i>&nbsp;Wants for this item	
 							</div>
-							<div class="panel-body">
-
-							
-
+							<div class="panel-body">							
 							</div>
 						</div>
 
 						<hr/>
 						<!-- comment static popover -->
-						<blockquote id="comments">
-							<!-- <i class="fa fa-comments-o"></i> -->
-							<i class="icon icon-MessageRight" style="font-size:xx-large"></i>
+						<blockquote>
+							<i class="fa fa-comments-o"></i>
+							{{-- <i class="icon icon-MessageRight" style="font-size:xx-large"></i> --}}
 							@if($comments->count() == 0)
 								No comments yet
 							@elseif($comments->count() == 1)
@@ -264,7 +226,7 @@
 					</div>
 					<div class="col-md-5">
 						<div class="panel panel-default">
-							<div class="panel-heading"><i class="icon icon-Plaine"></i>&nbsp;Send offer now</div>
+							<div class="panel-heading"><i class="fa fa-send-o fa-lg"></i>&nbsp;Send offer now</div>
 							
 							<div class="panel-body">
 								{{ Form::open(array('url'=>array('post/offer'), 'class'=>'form-horizontal')) }}
@@ -288,7 +250,7 @@
 
 								<!-- </div> -->
 								<!-- <div> -->
-								{{ Form::submit('Offer', ['class'=>'btn btn-success btn-block']) }}
+								{{ Form::submit('Offer', ['class'=>'btn btn-primary btn-block']) }}
 								<!-- </div> -->
 
 								{{ Form::close() }}
@@ -299,18 +261,18 @@
 						
 						<div class="panel panel-default">
 							<div class="panel-heading">
-								<h5>About me</h5>
+								<i class="fa fa-info fa-lg"></i>&nbsp;Owner info
 							</div>
 							<div class="panel-body text-center">
 								{{ HTML::image($user->photoURL, 'profile-pic', ['class'=>'img-circle img-responsive center-block', 'style'=>'height:200px']) }}
-								<h3>{{ $user->username }}	</h3>
+								<h5>{{ $user->username }}</h5>
 								<span class="text-muted">
 									<p>From: {{ $user->address }}</p>
 									<i class="fa fa-calendar"></i> Joined on {{ date('M j, 20y',strtotime($user->created_at)); }}
 								</span>
 							</div>
 							<div class="panel-footer">
-								{{ HTML::linkRoute('users.profile', 'Contact me', $user->username, ['class'=>'btn btn-danger']) }} 
+								{{ HTML::linkRoute('users.profile', 'Contact me', $user->username, ['class'=>'btn btn-success']) }} 
 							</div>
 						</div>
 
@@ -318,65 +280,10 @@
 
 					<div class="col-md-12">
 						<hr>
-						<h3>Other items by {{$swapItem->user->username}}</h3>
-						@forelse ($items as $item)
-					    <div class="col-md-3 col-sm-6">
-					      <div class="thumbnail">
-					        <div style="position:relative; padding:0 10px">
-					          <h6>
-					            By {{ HTML::linkRoute('users.profile', $item->user->username, $item->user->username) }} 
-					            <span class="pull-right">{{ $item->created_at->diffForHumans() }}</span>
-					          </h6>
-					        </div>
-					        <!-- <img src="http://placehold.it/800x500" alt=""> -->
-					        <div style="text-align:center">
-					          <a href="{{URL::route('items.show', [$item->user->username, $item->name, $item->id])}}">
-					            @if($item->images->first() == null)
-					              {{ HTML::image('images/placeholder.png', null, ['style'=>'height:150px', 'class'=>'img-responsive']) }}
-					            @else
-					              {{ HTML::image($item->images->first()->imageUrl, null, ['style'=>'height:150px', 'class'=>'img-responsive']) }}
-					            @endif
-					          </a>
-					          {{-- HTML::linkRoute('items.show', HTML::image($item->photoURL, null, ['height'=>'150px']), $item->user->username, ['style'=>'height:150px']) --}}
-
-					        </div>
-					        <div class="caption">
-					          <p><strong>{{ $item->name }}</strong></p> 
-					          <h6 data-toggle="tooltip" data-placement="bottom" title="{{ $item->description }}">
-					            {{ $item->description }}
-					          </h6>
-					          <div style="bottom:10px">
-
-					            @if(Auth::check())
-					            @if(Auth::user()->username != $item->user->username)
-					            <a href="#">
-					              <i class="fa fa-thumb-tack"></i>
-					            </a>
-					            @else
-					            <a href="{{URL::route('item.edit', [$item->user->username, $item->name, $item->id])}}">
-					              <i class="fa fa-edit"></i>
-					            </a>
-					            @endif
-					            @endif
-					            
-					          </div>
-					        </div>
-
-					      </div>
-					    </div>
-					    <!-- /.col -->
-
-							@empty
-								<p class="text-muted">No items</p>
-					    @endforelse
+						<h5>Other items by {{$swapItem->user->username}}</h5>
+						@include ('partials.showItems')
 					</div>
-
-				</div>
-			</div>
 		</div>
-	</div>
-
-	
 
 @stop
 

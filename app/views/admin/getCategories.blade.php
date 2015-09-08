@@ -34,7 +34,7 @@
 		<td></td>
 		<td>{{ Form::text('cat-name', null, ['class'=>'form-control', 'id'=>'cat-name', 'placeholder'=>'Enter category name']) }}</td>
 		<td>{{ Form::text('cat-desc', null, ['class'=>'form-control', 'id'=>'cat-desc', 'placeholder'=>'Enter category description']) }}</td>
-		<td><button class="btn btn-primary btn-xs" id="cat-save">Save Category</button></td>
+		<td><button class="btn btn-default" id="cat-save">Save Category</button></td>
 	</tr>
 	@forelse ($categories as $category)
 	<tr>
