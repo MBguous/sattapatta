@@ -78,7 +78,8 @@ Route::group(array('before'=>'auth|session'), function()
 	Route::post('/', array('uses'=>'NotificationController@getNotification'));
 	Route::post('/updateNotif	', array('uses'=>'NotificationController@updateNotification'));
 
-
+	Route::post('items/browse', array('as'=>'items.browse', 'uses'=>'ItemController@addToWatchlist'));
+	Route::delete('items/browse/{itemId}', ['as'=>'watchlist.destroy', 'uses'=>'ItemController@removeFromWatchlist']);
 	// Route::post('show', array('as'=>'show.message', 'uses'=>'MessageController@showMessage'));
 });
 

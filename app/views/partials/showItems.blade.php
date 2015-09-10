@@ -21,9 +21,19 @@
           <span class="pull-right">
             @if(Auth::check())
               @if(Auth::user()->username != $item->user->username)
-                <a href="#">
-                  <i class="fa fa-thumb-tack"></i>
-                </a>
+
+                @if($watched = in_array($item->id, $watchlist))
+                  {{ Form::open(['method'=>'DELETE', 'route'=>['watchlist.destroy', $item->id]]) }}
+                @else
+                  {{ Form::open(['route' => 'items.browse']) }}
+                    {{ Form::hidden('item-id', $item->id) }}
+                @endif
+                
+                <button type="submit" class="btn-naked" data-toggle="tooltip" data-placement="top" title="Add to watchlist">
+                  <i class="fa fa-map-pin {{ $watched ? 'watched' : 'unwatched' }}"></i>
+                </button>
+                {{ Form::close() }}
+
               @else
                 <a href="{{URL::route('item.edit', [$item->user->username, $item->name, $item->id])}}">
                   <i class="fa fa-edit"></i>

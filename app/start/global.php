@@ -92,3 +92,5 @@ require app_path().'/filters.php';
 require app_path().'/events.php';
 
 Event::listen('item.view', 'Sattapatta\Events\ViewItemHandler');
+
+View::composer('partials.showItems', 'Sattapatta\Composers\ItemComposer');

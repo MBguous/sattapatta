@@ -50,6 +50,17 @@ body {
   background-color: #FF7E00;
 }
 
+/* tooltip background */
+.tooltip .tooltip-inner {
+    background-color:black;
+}
+.tooltip.bottom .tooltip-arrow {
+    border-bottom: 5px solid black !important;
+}
+.tooltip.top .tooltip-arrow {
+  border-top: 5px solid black !important;
+}
+
 .animated {
   -webkit-animation-duration: 1s;
   animation-duration: 1s;
@@ -181,4 +192,16 @@ body {
 .popover-example .popover {
   position: relative;
   display: block;
+}
+
+/* Add to watchlist button */
+.btn-naked {
+  background: none;
+  border: none;
+}
+.watched, .unwatched:hover {
+  color: #FF7F03;
+}
+.unwatched, .watched:hover {
+  color: inherit;
 }

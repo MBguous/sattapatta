@@ -271,44 +271,19 @@ class ItemController extends BaseController {
 				}
 			}
 		}
-
-		// if tags were edited
-		// if (Input::has('tag_list'))
-		// {
-		// 	$tags = Input::get('tag_list');
-		// 	$tagsArray = explode(',', $tags);
-
-		// 	// $tagUpdate = $item->tags()->sync($tagsArray);
-
-		// 	for ($i = 0; $i < sizeOf($tagsArray); $i++)
-		// 	{
-		// 		$tagName = $tagsArray[$i];
-		// 		$tagId = Tag::where('name', $tagName)->pluck('id');
-		// 		if ( $tagId == null) {
-		// 			$tag = new Tag(array('name'=>$tagName));
-		// 			$itemTagSave = $item->tags()->save($tag);
-		// 		}
-		// 		else {
-		// 			$itemTagSave = $item->tags()->attach($tagId);
-		// 		}
-		// 		if (!$itemTagSave)
-		// 		{
-		// 			DB::rollback();
-		// 			return Redirect::back()->withMessage('Item tag update failed. Please try again.');
-		// 		}
-		// 	}
-		// }
-
-		// if (!$tagUpdate)
-		// {
-		// 	DB::rollback();
-		// 	return Redirect::back()->withMessage('Item update failed. Please try again.');
-		// }
-		// else
-		// {
-		// 	DB::commit();
-		// 	return Redirect::back()->withMessage('Item updated successfully');
-		// }
 		
+	}
+
+	public function addToWatchlist() 
+	{
+		Auth::user()->watchlist()->attach(Input::get('item-id'));
+		return Redirect::back()->withMessage('Item added to watchlist.');
+	}
+
+
+	public function removeFromWatchlist($itemId)
+	{
+		Auth::user()->watchlist()->detach($itemId);
+		return Redirect::back()->withMessage('Item removed from watchlist.');
 	}
 }
