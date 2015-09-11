@@ -21,6 +21,7 @@ Event::listen('generic.event', function($client_data) {
 	// var_dump($client_data->data->message);
 	Chat::create([
 		'content'=>$client_data->data->message,
+		'chatroom_id'=>$client_data->data->chatroom_id,
 		'user_id'=>$client_data->data->user_id
 	]);
 	return BrainSocket::message('generic.event', array('message'=>'Chat message persisted.'));

@@ -6,6 +6,47 @@ class ChatController extends BaseController {
 		return View::make('chats.index');
 	}
 
+	public function showChats() {
+
+		return Redirect::route('chat.show', ['user1_id'=>Auth::user()->id, 'user2_id'=>Input::get('chatlist')]);
+	}
+
+	public function show($user1_id, $user2_id) {
+
+		$user1 = User::find($user1_id);
+		$user2 = User::find($user2_id);
+
+		// find the chatroom
+		$chatRoom = Chatroom::where([
+							'user1_id' => $user1_id, 
+							'user2_id' => $user2_id
+						])
+						->orWhere([
+							'user1_id' => $user2_id, 
+							'user2_id' => $user1_id
+						])
+						->first();
+
+		// create the chatroom if none
+		if ($chatRoom == NULL) {
+			$chatRoom = Chatroom::create([
+								'user1_id' => $user1_id,
+								'user2_id' => $user2_id
+							]);
+		}
+
+		$chatRoomId = $chatRoom->id;
+
+		$chats = Chat::where('chatroom_id', $chatRoom->id)->orderBy('id', 'desc')->get();
+
+		if (Auth::user()->id != $user1->id) {
+			return App::abort(404);
+		}
+
+		return View::make('chats.show', compact('chats', 'chatRoomId', 'user1', 'user2'));
+	}
+
+	/*******************************/
 	public function message() {
 		$input = Input::all();
 		// $user_id = Auth::user()->id;

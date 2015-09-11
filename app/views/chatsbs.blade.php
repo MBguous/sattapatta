@@ -26,13 +26,30 @@
             <div class="panel-body messenger-body open">
                 <ul class="list-unstyled chat-messages" id="chat-log">
                     @forelse($chats as $chat)
-                        <li>
+
+                        {{-- @if() --}}
+                        <div class="row">
+                            <li class="{{ $chat->user_id == Auth::user()->id ? '' : 'pull-right'}}">
+                                {{ HTML::image($chat->user->photoURL, 'profile-pic', ['width'=>'26px', 'class'=>'img-circle']) }}
+                                <strong>{{ $chat->user->username }}</strong>
+                                <div class="message">{{ $chat->content }}</div>
+                            </li>
+                        </div>
+                       {{--  @else
+                            <li class="pull-right">
+                                <img src="'+msg.client.data.user_portrait+'" class="img-circle" width="26">
+                                <strong>'+msg.client.data.username+'</strong>
+                                <div class="message">'+msg.client.data.message+'</div>
+                             </li> --}}
+            
+                        {{-- @endif --}}
+                        {{-- <li>
                             {{ HTML::image($chat->user->photoURL, 'profile-pic', ['width'=>'26px', 'class'=>'img-circle']) }}
                             <strong>{{ $chat->user->username }}</strong>
                             <div class="message">
                                 {{ $chat->content }}
                             </div>
-                        </li>
+                        </li> --}}
                     @empty
                         {{ 'No messages' }}
                     @endforelse
@@ -52,60 +69,15 @@
 @stop
 
 @section('script')
-    {{-- {{ HTML::script('js/chatsbs.js') }} --}}
 
 <script>
-        $(function(){
- 
-        // var fake_user_id = Math.floor((Math.random()*1000)+1);
-        var user_id = {{ Auth::user()->id }};
+    
+    var user_id = {{ Auth::user()->id }};
+    var username = "{{ Auth::user()->username}}";
+    var photoUrl = "{{ Auth::user()->photoURL}}";
 
-        //make sure to update the port number if your ws server is running on a different one.
-        window.app = {};
- 
-        app.BrainSocket = new BrainSocket(
-                // new WebSocket('ws://192.168.1.104:8080'),
-                new WebSocket('ws://sattapatta.com:8080'),
-                new BrainSocketPubSub()
-        );
- 
-        app.BrainSocket.Event.listen('generic.event',function(msg){
-            console.log(msg);
-            if(msg.client.data.user_id == user_id){
-                $('#chat-log').prepend('<li><img src="http://sattapatta.com/{{ Auth::user()->photoURL }}" class="img-circle" width="26"><strong>'+msg.client.data.username+'</strong><div class="message">'+msg.client.data.message+'</div></li>');
-            }else{
-                var str_test='<li class="pull-right"><img src="'+msg.client.data.user_portrait+'" class="img-circle" width="26"><strong>'+msg.client.data.username+'</strong><div class="message">'+msg.client.data.message+'</div></li>';
-                $('#chat-log').prepend(str_test);
-            }
-        });
- 
-        app.BrainSocket.Event.listen('app.success',function(data){
-            console.log('An app success message was sent from the ws server!');
-            console.log(data);
-        });
- 
-        app.BrainSocket.Event.listen('app.error',function(data){
-            console.log('An app error message was sent from the ws server!');
-            console.log(data);
-        });
- 
-        $('#chat-message').keypress(function(event) {
- 
-            if(event.keyCode == 13){
- 
-                app.BrainSocket.message('generic.event',
-                        {
-                            'message':$(this).val(),
-                            'user_id':user_id,
-                            'username':'{{ Auth::user()->username}}',
-                            'user_portrait':'http://sattapatta.com/{{ Auth::user()->photoURL}}'
-                        }
-                );
-                $(this).val('');
-            }
-            return event.keyCode != 13; }
-        );
-    });
 </script>
+
+{{ HTML::script('js/chatsbs.js') }}
 
 @stop

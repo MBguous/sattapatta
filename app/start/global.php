@@ -94,3 +94,5 @@ require app_path().'/events.php';
 Event::listen('item.view', 'Sattapatta\Events\ViewItemHandler');
 
 View::composer('partials.showItems', 'Sattapatta\Composers\ItemComposer');
+
+View::composer('chats.show', 'Sattapatta\Composers\ChatComposer');

@@ -1,14 +1,4 @@
-@extends ('layouts.master')
-
-@section ('title')
-Admin - Sattapatta
-@stop
-
-@section('content')
-	
-	<div class="row">
-		
-		<div class="col-md-2">
+<div class="col-md-2">
 			
 			<div id="menu">
 				<div class="panel panel-default list-group">
@@ -39,24 +29,3 @@ Admin - Sattapatta
 			</div>
 
 		</div>
-		
-		<div class="col-md-10">
-			<div class="panel panel-default" id="panel-admin">
-				<div class="panel-heading" id="panel-heading"><h6>Dashboard</h6></div>
-				<div class="panel-body" id="panel-body" style="display:none">
-					<i class="fa fa-spinner fa-pulse fa-lg"></i> Loading...
-				</div>
-				<div id="panel-after-body"></div>
-				<div class="panel-footer" id="admin-panel-footer" style="display:none"></div>
-			</div>
-		</div>
-	</div>
-
-
-@stop
-
-@section ('script')
-  {{ HTML::script('js/admin.js') }}
-  
-  
-@stop

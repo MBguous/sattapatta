@@ -1,12 +1,12 @@
 <?php
-Route::get('clockwork', function() {
-	Clockwork::startEvent('query', 'Simple Query');
-	$user = User::first();
-	Clockwork::info($user);
-	Clockwork::endEvent('query');
+// Route::get('clockwork', function() {
+// 	Clockwork::startEvent('query', 'Simple Query');
+// 	$user = User::first();
+// 	Clockwork::info($user);
+// 	Clockwork::endEvent('query');
 
-	return $user;
-});
+// 	return $user;
+// });
 
 Route::get('home', array('as'=>'home', 'uses'=>'HomeController@home'));
 Route::get('/', function()
@@ -42,11 +42,10 @@ Route::post('/search/results', array('uses'=>'SearchController@quickSearch'));
 Route::get('items/browse/api/search', 'ApiSearchController@index');
 
 /* Ajax-poll based chat */
-Route::get('/chat', ['as'=>'chat', 'uses'=>'ChatController@index']);
-Route::post('chat', 'ChatController@message');
+// Route::get('/chat', ['as'=>'chat', 'uses'=>'ChatController@index']);
+// Route::post('chat', 'ChatController@message');
 
-/* Brainsocket chat */
-Route::get('chatsbs', ['as'=>'chatsbs', 'uses'=>'ChatController@chatsbs']);
+
 
 Route::group(array('before'=>'auth|session'), function()
 {
@@ -81,6 +80,10 @@ Route::group(array('before'=>'auth|session'), function()
 	Route::post('items/browse', array('as'=>'items.browse', 'uses'=>'ItemController@addToWatchlist'));
 	Route::delete('items/browse/{itemId}', ['as'=>'watchlist.destroy', 'uses'=>'ItemController@removeFromWatchlist']);
 	// Route::post('show', array('as'=>'show.message', 'uses'=>'MessageController@showMessage'));
+
+	/* Brainsocket chat */
+	Route::get('{user1_id}/chat/{user2_id}', ['as'=>'chat.show', 'uses'=>'ChatController@show']);
+	Route::get('chat/showChats', ['as'=>'chat.showChats', 'uses'=>'ChatController@showChats']);
 });
 
 
@@ -92,13 +95,13 @@ Route::group(array('before'=>'auth|session'), function()
 	
 
 	// chat routes
-	Route::get('chats/request/{username}', array('as'=>'chat.request', 'uses'=>'ChatController@chatRequest'));
-	Route::get('chats/{username}', array('as'=>'chats', 'uses'=>'ChatController@chats'));
-	Route::post('chats/sendMessage', array('uses'=>'ChatController@sendMessage'));
-	Route::post('chats/isTyping', array('uses'=>'ChatController@isTyping'));
-	Route::post('chats/notTyping', array('uses'=>'ChatController@notTyping'));
-	Route::post('chats/retrieveChatMessages', array('uses'=>'ChatController@retrieveChatMessages'));
-	Route::post('chats/retrieveTypingStatus', array('uses'=>'ChatController@retrieveTypingStatus'));
+	// Route::get('chats/request/{username}', array('as'=>'chat.request', 'uses'=>'ChatController@chatRequest'));
+	// Route::get('chats/{username}', array('as'=>'chats', 'uses'=>'ChatController@chats'));
+	// Route::post('chats/sendMessage', array('uses'=>'ChatController@sendMessage'));
+	// Route::post('chats/isTyping', array('uses'=>'ChatController@isTyping'));
+	// Route::post('chats/notTyping', array('uses'=>'ChatController@notTyping'));
+	// Route::post('chats/retrieveChatMessages', array('uses'=>'ChatController@retrieveChatMessages'));
+	// Route::post('chats/retrieveTypingStatus', array('uses'=>'ChatController@retrieveTypingStatus'));
 
 // admin routes
 Route::get('admin/home', array('as'=>'admin.home', 'uses'=>'AdminController@index'));
@@ -124,7 +127,13 @@ Route::get('msg', function() {
 	return View::make('jpt');
 });
 Route::get('test', function(){
-	return Hash::make('admin');
+	Chat::create([
+		'content'=>'asdfasdf',
+		'chatroom_id'=>1,
+		'user_id'=>2
+	]);
+	return 'chat created';
+	// return Hash::make('admin');
 	// if(Session::has('_token')){
 	// 	dd('true');
 	// }else{
@@ -163,7 +172,7 @@ Route::get('test', function(){
 		// $id = User::where('username', $username)->first()->id;
 		// $notifications = Notification::where('user_id', $id)->where('read', false)->first();
 		// dd($notifications->notification);
-		return $test;
+		// return $test;
 });
 
 

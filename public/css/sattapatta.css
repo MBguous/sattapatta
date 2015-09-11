@@ -3,7 +3,7 @@
   src: url('../fonts/OpenSans-Regular.ttf');
 }
 body {
-  padding-top: 70px;
+  padding-top: 100px;
   font-family: 'Open Sans';
 }
 .navbar-brand {
@@ -134,6 +134,10 @@ body {
   animation-name: fadeInRight;
 }
 
+a {
+  text-decoration: none;
+}
+
 a i{
   outline: none;
 }
@@ -168,7 +172,8 @@ body {
 }
 .footer>.container {
   padding: 20px;
-}
+}  
+
 #search .input-group-addon,
 #item-form .input-group-addon {
   background-color: transparent;
@@ -194,7 +199,7 @@ body {
   display: block;
 }
 
-/* Add to watchlist button */
+/* Watchlist button */
 .btn-naked {
   background: none;
   border: none;
@@ -205,3 +210,9 @@ body {
 .unwatched, .watched:hover {
   color: inherit;
 }
+
+/* Chats */
+/*#chat-log>li {
+  display: block;
+}*/
+

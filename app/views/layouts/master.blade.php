@@ -15,7 +15,7 @@
   {{-- <link rel="favicon" href="{{ asset('favicon.ico') }}"> --}}
 
   <!-- Paper Bootstrap CSS -->
-  {{ HTML::style('css/paper.bootstrap.css') }}
+  {{ HTML::style('css/flatly.bootstrap.css') }}
 
   {{ HTML::style('font-awesome-4.4.0/css/font-awesome.min.css') }}
 
@@ -72,7 +72,8 @@
             </li>
 
             <li class=@yield('chat-class')>
-              <a href="{{ URL::route('chatsbs') }}">
+              {{-- <a href="{{ URL::route('chat.index') }}"> --}}
+              <a href="#">
                 <i class="fa fa-comment-o fa-lg" data-toggle="tooltip" data-placement="bottom" title="chat"></i>
               </a>
             </li>
@@ -99,12 +100,6 @@
               <li><a href="{{ URL::route('users.messages') }}"><i class="fa fa-envelope-o fa-lg"></i></a></li>
               @endif
 
-            {{-- <li>
-              {{ Form::select('q', null, null, ['id'=>'searchbox', 'placeholder'=>'Search..', 'class'=>'form-control']) }}
-            </li> --}}
-
-            
-
             <li>
               {{ Form::open(array('route'=>'search.results', 'class'=>'navbar-form', 'id'=>'navbar-search', 'method'=>'get')) }}
                 <div class="form-group input-group">
@@ -125,12 +120,10 @@
                     <span class="caret"></span>
                   </a>
                   <ul class="dropdown-menu">
-                    <!-- <li>{{ HTML::linkRoute('users.dashboard', 'Dashboard', $loggedUser->username) }}</li> -->
                     <li>{{ HTML::linkRoute('items.post', 'Post item', $loggedUser->username) }}</li>
-                    <!-- <li>{{ HTML::linkRoute('users.listing', 'My listings', $loggedUser->username) }}</li> -->
                     <li>{{ HTML::linkRoute('users.messages', 'Messages') }}</li>
                     <li>{{ HTML::linkRoute('users.profile', 'Profile', $loggedUser->username) }}</li>
-                    <!-- <li>{{ HTML::linkRoute('chats', 'chat', $loggedUser->username) }}</li> -->
+
                     <li class="divider"></li>
                     <li>{{ HTML::linkRoute('logout', 'Log out') }}</li>
                    </ul>
@@ -186,7 +179,7 @@
   {{ HTML::script('vendor/selectize/js/standalone/selectize.min.js') }}
 
   {{ HTML::script('js/sattapatta.js') }}
-  {{ HTML::script('js/chat.js') }}
+  
 
   {{-- {{ HTML::script('js/chatsbs.js') }} --}}
 
@@ -207,8 +200,6 @@
     <!-- Menu Toggle Script -->
     <script>
 
-      var root = '{{url("/items/browse")}}';
-      console.log(root);
       // Activate Selectize
       $(document).ready(function(){
           $('#searchbox').selectize();

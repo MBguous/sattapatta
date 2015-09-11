@@ -75,7 +75,7 @@ class OfferController extends BaseController {
 			$notification->notification_type = 'offerAccept';
 			$notification->content           = Auth::user()->username.' has accepted your offer';
 			$notification->link              = URL::route('items.show', [$item->user->username, $item->name, $item->id]);
-			$notification->user_id           = $item->user->id;
+			$notification->user_id           = $userId;
 			// $createNotification              = $notification->save();
 
 			if ($offer->save() and $item->save() and $offeredItem->save() and $notification->save()) {

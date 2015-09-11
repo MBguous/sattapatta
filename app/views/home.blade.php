@@ -26,7 +26,7 @@ Sattapatta - online barter platform
         <div class="col-md-8">
           <h1><strong>
                 <i class="fa fa-quote-left pull-left fa-border"></i>
-                Your only place to trade and swap!
+                Your only place to trade & swap!
               </strong>
           </h1>
           <p>
@@ -47,35 +47,35 @@ Sattapatta - online barter platform
           {{ Form::open(array('route'=>'accounts.create', 'class'=>'form-horizontal')) }}
         
           <!-- username -->
-          <div class="form-group form-group-lg">
+          <div class="form-group">
             {{ $errors->first('username', '<kbd class="error">:message</kbd>') }} 
             {{ Form::text('username', null, ['class'=>"form-control", 'placeholder'=>"Username"]) }}
           </div>
           
 
           <!-- password -->
-          <div class="form-group form-group-lg">
+          <div class="form-group">
             {{ $errors->first('password', '<kbd class="error">:message</kbd>') }}
             {{ Form::password('password', ['class'=>"form-control", 'placeholder'=>"Password"]) }}
           </div>
           
           
           <!-- password again -->
-          <div class="form-group form-group-lg">
+          <div class="form-group">
             {{ $errors->first('password-again', '<kbd class="error">:message</kbd>') }}
             {{ Form::password('password-again', ['class'=>"form-control", 'placeholder'=>"Re-enter your password"]) }}
           </div>
           
           
           <!-- email -->
-          <div class="form-group form-group-lg">
+          <div class="form-group">
             {{ $errors->first('email', '<kbd class="error">:message</kbd>') }}
             {{ Form::email('email', '', ['class'=>'form-control', 'placeholder'=>'Email']) }}
           </div>
 
           <!-- submit button -->
-          <div class="form-group form-group-lg">
-            <button type="submit" class="btn btn-primary btn-lg form-control">Sign up for SattaPatta</button>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary form-control">Sign up for SattaPatta</button>
           </div>
 
           <p class="text-center text-muted">

@@ -140,11 +140,11 @@
 		    		<div class="modal-content">
 		    			<div class="modal-header">
 		    				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		    				<h4 class="modal-title" id="myModalLabel">Chat request to {{ $user->username }}</h4>
+		    				<h4 class="modal-title" id="myModalLabel">Chat with {{ $user->username }}</h4>
 		    			</div>
 		    			<div class="modal-body">
-		    				<p>Are you sure want to send chat request to this user?</p>
-		    				{{ HTML::linkRoute('chat.request', 'Go ahead', $user->username, ['class'=>'btn btn-primary']) }}
+		    				<p>Are you sure want to chat with this user?</p>
+		    				{{ HTML::linkRoute('chat.show', 'Go ahead', ['user1'=>Auth::user()->id, 'user2'=>$user->id], ['class'=>'btn btn-primary']) }}
 		    				{{ HTML::link('#', 'No', array('class'=>'btn btn-default', 'data-dismiss'=>'modal')) }}
 		    			</div>
 

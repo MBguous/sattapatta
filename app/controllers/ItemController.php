@@ -5,6 +5,7 @@ class ItemController extends BaseController {
 	public function browse() {
 
 		$items = Item::where('status', 'available')->orderBy('created_at', 'desc')->paginate(8);
+
 		return View::make('browse', compact('items'));
 	}
 

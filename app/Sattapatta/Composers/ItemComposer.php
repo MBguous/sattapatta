@@ -4,7 +4,8 @@ namespace Sattapatta\Composers;
 
 use DB, Auth;
 
-class ItemComposer {
+class ItemComposer 
+{
 
 	public function compose($view)
 	{
