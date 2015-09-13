@@ -28,7 +28,7 @@
   {{ HTML::style('css/fileinput.css') }}
   {{ HTML::style('css/bootstrap-editable.css') }}
   {{-- {{ HTML::style('css/stroke-gap-icons/style.css') }} --}}
-  {{ HTML::style('vendor/selectize/css/selectize.bootstrap3.css') }}
+  {{-- HTML::style('vendor/selectize/css/selectize.bootstrap3.css') --}}
   {{ HTML::style('css/sattapatta.css') }}
 
 
@@ -40,7 +40,7 @@
 
 
    <!-- Navigation -->
-   <nav class="navbar navbar-default navbar-fixed-top">
+   <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
          <!-- Brand and toggle get grouped for better mobile display -->
          <div class="navbar-header">
@@ -61,20 +61,20 @@
           <ul class="nav navbar-nav navbar-right">
             <li class=@yield('home-class')>
               <a href="{{ URL::route('home') }}">
-                <i class="fa fa-home fa-lg" data-toggle="tooltip" data-placement="bottom" title="home"></i>
+                <i class="fa fa-home fa-lg" data-toggle="tooltip" data-placement="right" title="home"></i>
               </a>
             </li>
 
             <li class=@yield('browse-class')>
               <a href="{{ URL::route('items.browse') }}">
-                <i class="fa fa-th fa-lg" data-toggle="tooltip" data-placement="bottom" title="browse"></i>
+                <i class="fa fa-th fa-lg" data-toggle="tooltip" data-placement="right" title="browse"></i>
               </a>
             </li>
 
             <li class=@yield('chat-class')>
               {{-- <a href="{{ URL::route('chat.index') }}"> --}}
               <a href="#">
-                <i class="fa fa-comment-o fa-lg" data-toggle="tooltip" data-placement="bottom" title="chat"></i>
+                <i class="fa fa-comment-o fa-lg" data-toggle="tooltip" data-placement="right" title="chat"></i>
               </a>
             </li>
 
@@ -103,7 +103,7 @@
             <li>
               {{ Form::open(array('route'=>'search.results', 'class'=>'navbar-form', 'id'=>'navbar-search', 'method'=>'get')) }}
                 <div class="form-group input-group">
-                  <span class="input-group-addon"><i class="fa fa-search fa-rotate-90 fa-lg"></i></span>
+                  <span class="input-group-addon"><i class="fa fa-search fa-rotate-90"></i></span>
                   <input type="text" name="search" id="navbar-searchbox" class="form-control" placeholder="Search" list="search-results">
                   <datalist id="search-datalist"></datalist>
                   

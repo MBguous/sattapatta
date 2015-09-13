@@ -17,11 +17,11 @@
          
             <!-- <span class="input-group-addon"><i class="fa fa-user"  ></i></span> -->
             @if($errors->has('username'))
-              <div class="form-group form-group-lg has-error">
+              <div class="form-group has-error">
                 {{ Form::text('username', null, ['class'=>"form-control", 'placeholder'=>$errors->first('username', ':message')]) }}
               </div>
             @else
-              <div class="form-group form-group-lg">
+              <div class="form-group">
                 {{ Form::text('username', null, ['class'=>"form-control", 'placeholder'=>"Username"]) }}
               </div>
             @endif
@@ -30,7 +30,7 @@
           <!-- <br> -->
           
             @if($errors->has('password'))
-              <div class="form-group form-group-lg has-error">
+              <div class="form-group has-error">
                 @if (Session::get('password_error') == !NULL)
                   {{ Form::password('password', ['class'=>"form-control", 'placeholder'=>"Enter the correct password"]) }}
                 @else
@@ -39,14 +39,14 @@
               </div>
                 <!-- <span class="input-group-addon"><i class="fa fa-key"  ></i></span>   -->
             @else
-              <div class="form-group form-group-lg">
+              <div class="form-group">
                 {{ Form::password('password', ['class'=>"form-control", 'placeholder'=>"Password"]) }}
               </div>
             @endif
           
           <!-- <br><br>   -->
-          <div class="form-group form-group-lg">
-            {{ Form::submit('Sign in', ['class'=>'form-control btn btn-warning']) }}
+          <div class="form-group">
+            {{ Form::submit('Sign in', ['class'=>'form-control btn btn-default']) }}
           </div>
           
           <!-- <br><br> -->
@@ -54,17 +54,17 @@
             ------ or ------
           </p>
           <div class="col-md-4">
-            <a href="hybridauth?provider=twitter" class="btn btn-default form-control">
+            <a href="hybridauth?provider=twitter" class="btn btn-default btn-info form-control">
               <i class="fa fa-twitter fa-2x"></i>
             </a>
           </div>
           <div class="col-md-4">
-            <a href="hybridauth?provider=google" class="btn btn-default form-control">
+            <a href="hybridauth?provider=google" class="btn btn-default btn-danger form-control">
               <i class="fa fa-google fa-2x"></i>
             </a>
           </div>
           <div class="col-md-4">
-            <a href="hybridauth?provider=facebook" class="btn btn-default form-control">
+            <a href="hybridauth?provider=facebook" class="btn btn-default btn-primary form-control">
               <i class="fa fa-facebook fa-2x"></i>
             </a>
           </div>
