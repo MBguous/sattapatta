@@ -46,7 +46,7 @@
           
           <!-- <br><br>   -->
           <div class="form-group">
-            {{ Form::submit('Sign in', ['class'=>'form-control btn btn-default']) }}
+            {{ Form::submit('Sign in', ['class'=>'btn btn-sm btn-default btn-block']) }}
           </div>
           
           <!-- <br><br> -->
@@ -54,18 +54,18 @@
             ------ or ------
           </p>
           <div class="col-md-4">
-            <a href="hybridauth?provider=twitter" class="btn btn-default btn-info form-control">
-              <i class="fa fa-twitter fa-2x"></i>
+            <a href="hybridauth?provider=twitter" class="btn btn-sm btn-info btn-block">
+              <i class="fa fa-twitter"></i>
             </a>
           </div>
           <div class="col-md-4">
-            <a href="hybridauth?provider=google" class="btn btn-default btn-danger form-control">
-              <i class="fa fa-google fa-2x"></i>
+            <a href="hybridauth?provider=google" class="btn btn-sm btn-danger btn-block">
+              <i class="fa fa-google"></i>
             </a>
           </div>
           <div class="col-md-4">
-            <a href="hybridauth?provider=facebook" class="btn btn-default btn-primary form-control">
-              <i class="fa fa-facebook fa-2x"></i>
+            <a href="hybridauth?provider=facebook" class="btn btn-sm btn-primary btn-block">
+              <i class="fa fa-facebook"></i>
             </a>
           </div>
           <!-- <div>

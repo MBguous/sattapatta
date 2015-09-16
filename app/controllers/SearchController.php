@@ -2,20 +2,21 @@
 
 class SearchController extends BaseController {
 
-	public function search(){
+	// public function search(){
 		
-		if (Request::ajax()){
+	// 	if (Request::ajax()){
 			
-			// $users = User::all()->lists('username');
-			$items = Item::all()->lists('name');
+	// 		// $users = User::all()->lists('username');
+	// 		$items = Item::all()->lists('name');
 			
-			return Response::json(array('items'=>$items));
-		}
-	}
+	// 		return Response::json(array('items'=>$items));
+	// 	}
+	// }
 
 	public function showSearchResults() {
 
 		$keywords = Input::get('search');
+		dd($keywords);
 		$itemsAll = Item::all();
 		$items = new \Illuminate\Database\Eloquent\Collection();
 
@@ -30,15 +31,24 @@ class SearchController extends BaseController {
 
 	public function quickSearch() {
 
-		$keywords = Input::get('keywords');
+		$keyword = Input::get('keyword');
+		$items = Item::all();
 
-		// Clockwork::startEvent('query', 'Simple Query');
-		// $user = User::first();
-		// Clockwork::info($user);
-		$items = Item::where('name', 'LIKE', '%'.$keywords.'%')->get();
-		// Clockwork::endEvent('query');
-		
-		// dd($items);
+		if ($keyword != null) {
+			$items = Item::where('name', 'like', '%'.$keyword.'%')
+								// ->orWhereHas('tags', function($q)
+								// 	{
+								// 		$q->where('name', 'like', '%'.$keyword.'%');
+
+								// 	})
+			->paginate(8);
+			// var_dump($items);
+			// $taggedItems = Item::has('tags', 'like', '%'.$keyword.'%' )->get();
+
+		}
+		else {
+			$items = Item::all();
+		}
 
 		return View::make('partials.showItems')->withItems($items);
 

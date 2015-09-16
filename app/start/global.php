@@ -90,9 +90,18 @@ App::down(function()
 
 require app_path().'/filters.php';
 require app_path().'/events.php';
+require app_path().'/helpers.php';
 
 Event::listen('item.view', 'Sattapatta\Events\ViewItemHandler');
 
 View::composer('partials.showItems', 'Sattapatta\Composers\ItemComposer');
 
 View::composer('chats.show', 'Sattapatta\Composers\ChatComposer');
+
+class LaravelLoggerProxy {
+    public function log( $msg ) {
+        Log::info($msg);
+    }
+}
+
+Pusherer::set_logger(new LaravelLoggerProxy());

@@ -2,25 +2,11 @@
 
 @section ('content')
 
-<div id="wrapper" class="toggled">
-
-    
- 
-        
-  <!-- Page Content -->
-  <div id="page-content-wrapper">
-    <div class="container-fluid">
       <div class="row">
-        @if (Session::has('message'))
-          <div class="alert alert-warning alert-dismissible" id="messageDiv" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-            <span><i class="fa fa-info-circle"></i>&nbsp;{{ Session::get('message') }}</span>
-          </div>
-        @endif
+        
+        @include ('partials.sidebar')
 
-        <div class="col-md-offset-1 col-md-10">
+        <div class="col-md-10">
           <!-- <a href="#menu-toggle" id="menu-toggle"><i class='fa fa-align-justify fa-2x'></i></a> -->
           <!--  -->
           
@@ -109,11 +95,5 @@
 												
           </div>
         </div>
-      </div>
-    </div>
-    <!-- /#page-content-wrapper -->
-
-  </div>
-  <!-- /#wrapper -->
 
 @stop

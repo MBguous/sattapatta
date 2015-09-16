@@ -4,6 +4,14 @@ class ItemController extends BaseController {
 
 	public function browse() {
 
+		if (Input::get('search') != null) {
+
+			$keywords = Input::get('search');
+			// dd($keywords);
+			$items = Item::where('name', 'LIKE', '%'.$keywords.'%')->paginate(8);
+			return View::make('browse', compact('items'));
+		}
+
 		$items = Item::where('status', 'available')->orderBy('created_at', 'desc')->paginate(8);
 
 		return View::make('browse', compact('items'));
@@ -133,6 +141,7 @@ class ItemController extends BaseController {
 
 			// add tags
 			$tags = Input::get('tags');
+			// dd($tags);
 			// $tagsarray = explode(',', $tags);
 
 			for ($i=0; $i<sizeOf($tags); $i++) {
@@ -143,7 +152,7 @@ class ItemController extends BaseController {
 					$item->tags()->save($tag);
 				}
 				else {
-					$item->tags()->attach($tagQuery);
+					$item->tags()->attach($tagId);
 				}
 			}
 
@@ -173,16 +182,12 @@ class ItemController extends BaseController {
 				$image->item_id  = $itemId;
 				$image->save();
 			}
-
-
-			
-
 			
 		});
 
 		
 
-		return Redirect::back()->withMessage('Item posted successfully.');
+		return Redirect::route('items.browse')->withMessage('Item posted successfully.');
 	}
 
 	public function updateItem($id) {
@@ -195,15 +200,15 @@ class ItemController extends BaseController {
 		// DB::beginTransaction();
 
 		$rules = [
-		'name'        => 'required|max:60',
-		'description' => 'required',
-		'price'       => 'required|numeric',
-		// 
-		// 'tag'					=> 'unique:tags'
+		'name'			=> 'required|max:60',
+		'description'	=> 'required',
+		'price'			=> 'required|numeric',
+		'tags'			=> 'required'
 		];
 
 		$messages = array(
-			'price.required'    => 'If you don\'t remember the price, enter the approximate value.' ,
+			'price.required'	=> 'If you don\'t remember the price, enter the approximate value.' ,
+			'tags.required'		=> 'Please enter at least one tag.'
 			// 'images.required' => 'Please upload an image of the item.',
 			// 'images.image'    => 'You need to upload an image of filetypes: jpeg, jpg, bmp, gif or png.'
 			);
@@ -214,9 +219,9 @@ class ItemController extends BaseController {
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
 
-		$tagList = Input::get('tags');
+		$tags = Input::get('tags');
 		$tagIdArray = [];
-		foreach ($tagList as $value) {
+		foreach ($tags as $value) {
 			$tagId = Tag::whereName($value)->pluck('id');
 			array_push($tagIdArray, $tagId);
 		}

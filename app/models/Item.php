@@ -2,7 +2,7 @@
 
 class Item extends Eloquent {
 
-	protected $fillable = ['name', 'description', 'price', 'date', 'time', 'status', 'user_id', 'category_id'];
+	protected $fillable = ['name', 'description', 'price', 'date', 'time', 'status', 'user_id'];
 
 	public function user()
 	{

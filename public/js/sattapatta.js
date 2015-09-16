@@ -106,7 +106,7 @@ $("#menu-toggle").click(function(e) {
 /* Initialize file-input-image-upload widget */
 $("#input-id").fileinput({
   previewFileType: "image",
-  browseClass: "btn btn-primary",
+  browseClass: "btn btn-sm btn-primary",
   browseLabel: " Pick Image",
   browseIcon: '<i class="glyphicon glyphicon-picture"></i>',
   // removeClass: "btn btn-danger",
@@ -181,44 +181,44 @@ $searchbox.blur(function() {
 });
 
 
-$('#searchbox').selectize({
-    valueField: 'url',
-    labelField: 'name',
-    searchField: ['name'],
-    maxOptions: 10,
-    options: [],
-    create: false,
-    render: {
-        option: function(item, escape) {
-            // return '<div><img src="'+ item.icon +'">' +escape(item.name)+'</div>';
-            return '<div>' +escape(item.name)+'</div>';
-        }
-    },
-    optgroups: [
-        {value: 'item', label: 'Items'},
-        {value: 'user', label: 'Users'}
-    ],
-    optgroupField: 'class',
-    optgroupOrder: ['item','user'],
-    load: function(query, callback) {
-        if (!query.length) return callback();
-        $.ajax({
-            url: root+'/api/search',
-            type: 'GET',
-            dataType: 'json',
-            data: {
-                q: query
-            },
-            error: function() {
-                callback();
-            },
-            success: function(res) {
-                console.log(res);
-                callback(res.data);
-            }
-        });
-    },
-    onChange: function(){
-        window.location = this.items[0];
-    }
-});
+// $('#searchbox').selectize({
+//     valueField: 'url',
+//     labelField: 'name',
+//     searchField: ['name'],
+//     maxOptions: 10,
+//     options: [],
+//     create: false,
+//     render: {
+//         option: function(item, escape) {
+//             // return '<div><img src="'+ item.icon +'">' +escape(item.name)+'</div>';
+//             return '<div>' +escape(item.name)+'</div>';
+//         }
+//     },
+//     optgroups: [
+//         {value: 'item', label: 'Items'},
+//         {value: 'user', label: 'Users'}
+//     ],
+//     optgroupField: 'class',
+//     optgroupOrder: ['item','user'],
+//     load: function(query, callback) {
+//         if (!query.length) return callback();
+//         $.ajax({
+//             url: root+'/api/search',
+//             type: 'GET',
+//             dataType: 'json',
+//             data: {
+//                 q: query
+//             },
+//             error: function() {
+//                 callback();
+//             },
+//             success: function(res) {
+//                 console.log(res);
+//                 callback(res.data);
+//             }
+//         });
+//     },
+//     onChange: function(){
+//         window.location = this.items[0];
+//     }
+// });

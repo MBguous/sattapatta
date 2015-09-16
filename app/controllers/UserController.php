@@ -51,7 +51,12 @@ class UserController extends BaseController {
 		}
 
 		// watchlist items
-		$watchlist_items = Auth::user()->watchlist->all();
+		if(Auth::check()) {
+			$watchlist_items = Auth::user()->watchlist->all();
+		}
+		else {
+			$watchlist = 0;
+		}
 		// dd($watchlist_items);
 		
 		return View::make('users.profile', compact('items', 'pc', 'watchlist_items'))->withUser($user);

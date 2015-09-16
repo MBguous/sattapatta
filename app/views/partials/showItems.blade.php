@@ -8,11 +8,14 @@
         <!-- <img src="http://placehold.it/800x500" alt=""> -->
         <div class="center-block">
           <a href="{{URL::route('items.show', [$item->user->username, $item->name, $item->id])}}">
-            @if(!$item->images->first())
+           {{--  @if(!$item->images->first())
               {{ HTML::image('images/placeholder.png', null, ['style'=>'height:150px', 'class'=>'img-responsive']) }}
             @else
               {{ HTML::image($item->images->first()->imageUrl, null, ['style'=>'height:150px', 'class'=>'img-responsive']) }}
-            @endif
+            @endif --}}
+
+            {{ HTML::image(!$item->images->first() ? 'images/placeholder.png' : $item->images->first()->imageUrl, null, ['style'=>'height:150px', 'class'=>'img-responsive'])}}
+
           </a>
 
         </div>
@@ -29,8 +32,8 @@
                     {{ Form::hidden('item-id', $item->id) }}
                 @endif
                 
-                <button type="submit" class="btn-naked" data-toggle="tooltip" data-placement="top" title="Add to watchlist">
-                  <i class="fa fa-map-pin {{ $watched ? 'watched' : 'unwatched' }}"></i>
+                <button type="submit" class="btn btn-xs {{ $watched  ? 'btn-default' : 'btn-primary' }}">
+                  <i class="fa fa-thumb-tack"></i> {{ $watched ? 'Added' : 'Add' }} to watchlist
                 </button>
                 {{ Form::close() }}
 

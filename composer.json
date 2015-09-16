@@ -16,7 +16,8 @@
 		"barryvdh/laravel-debugbar"	: "~1.8",
 		"cboden/ratchet"           	: "0.3.*",
 		"brainboxlabs/brain-socket"	: "dev-master",
-		"itsgoingd/clockwork"		: "~1.9"
+		"itsgoingd/clockwork"			: "~1.9",
+		"artdarek/pusherer"				: "1.0.*"
 	},
 	"autoload": {
 		"classmap": [

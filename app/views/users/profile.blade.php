@@ -4,176 +4,39 @@
 
 
 <div class="row">
-	<div class="col-md-offset-1 col-md-10">
 
-		<div class="row">
-			<div class="col-md-3">
-				<div class="panel panel-default text-center">
-					<div class="panel-heading">Profile Image</div>
-					<div class="panel-body">
-						<div class="img-circle" style="overflow:hidden; height:100%; width:100%">
-							<a href="#profile-image" data-toggle="modal" title="Change profile picture">
-								{{ HTML::image($user->photoURL, 'profile-pic', ['class'=>'img-responsive']) }}
-							</a>
-						</div>
-						
-						<div class="modal fade" id="profile-image">
-							<div class="modal-dialog">
-								<div class="modal-content">
-									<div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-										<h4 class="modal-title">Change profile picture</h4>
-									</div>
-									{{ Form::open(array('url'=>'users/profile/image', 'files'=>true)) }}
-									<div class="modal-body">
+	@if (Auth::check() and Auth::user()->username == $user->username)
+		@include ('partials.sidebar')
+	@endif
 
-										{{ Form::label('image', 'Choose an image') }}
+	<div class="col-md-3">
+		@include ('partials.users.profile.image')
+    
+    <p>
+    	
+    	@if(!Auth::check() or $loggedUser->username != $user->username)
+    	{{ HTML::link('#contactModal', 'Contact', ['data-toggle'=>'modal', 'class'=>'btn btn-sm btn-default btn-block']) }}
+    	{{ HTML::link('#chatModal', 'Chat', ['data-toggle'=>'modal', 'class'=>'btn btn-sm btn-default btn-block']) }}
+    	@endif
 
-										{{ Form::file('photoURL', ['id'=>'profile-image', 'class'=>'file', 'data-preview-file-type'=>'text', 'data-show-upload'=>false, 'accept'=>'image/*']) }}
-										<div class="text-danger" id="photoURL_error">{{ $errors->first('photoURL', ':message') }}</div>
+    </p>
 
-										
+    <!-- #contactModal -->
+    @include('partials.users.profile.contact')
+    <!-- /#contactModal -->
 
-									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-										<button type="submit" class="btn btn-primary">Save changes</button>
-									</div>
-									{{ Form::close() }}
-								</div>
-							</div>
-						</div>
-						<!-- /modal -->
-		<!-- <br>
-		<hr> -->
-		
-					</div>
-					<div class="panel-footer">
-						<p>
-							{{ $user->username }}	
-						</p>
-						
-						<p>
-							<i class="fa fa-calendar"></i> Joined on {{ date('M j, 20y',strtotime($user->created_at)) }}
-						</p>
-					</div>
-				</div>
-		    
-		    <p>
-		    	
-		    	@if(!Auth::check() or $loggedUser->username != $user->username)
-		    	{{ HTML::link('#contactModal', 'Contact', ['data-toggle'=>'modal', 'class'=>'btn btn-default btn-block']) }}
-		    	{{ HTML::link('#chatModal', 'Chat (user offline)', ['data-toggle'=>'modal', 'class'=>'btn btn-default btn-block']) }}
-		    	@endif
+    <!-- #chatModal -->
+   	@include('partials.users.profile.chat')
+    <!-- /#chatModal -->
 
-		    </p>
+  </div>
+  <!-- profile image div -->
 
-		    <!-- #contactModal -->
-		    @if (Auth::check())
-		    <div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		    	<div class="modal-dialog">
-		    		<div class="modal-content">
-		    			<div class="modal-header">
-		    				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		    				<h4 class="modal-title" id="myModalLabel">To: {{ $user->username }}</h4>
-		    			</div>
-		    			<div class="modal-body">
+	<div class="col-md-7">
 
-		    				{{ Form::open(array('route'=>array('send.message', $user->username), 'class'=>'form-horizontal')) }}
-		    				<div class="row">
-		    					<div class="form-group">
-		    						<div class="col-md-offset-1 col-md-10">
-		    							{{ Form::text('title', null, ['class'=>'form-control', 'placeholder'=>'Title']) }}
-		    							<!-- <div class="text-danger" id="title_error">{{ $errors->first('title', ':message') }}</div> -->
-		    							{{ $errors->first('title', '<div class="text-danger" id="title_error">:message</div>') }}
-		    						</div>
-		    					</div>
-		    				</div>
-
-		    				<div class="row">
-		    					<div class="form-group">
-		    						<div class="col-md-offset-1 col-md-10">
-		    							{{ Form::textarea('content', null, ['class'=>'form-control', 'placeholder'=>'Write your message']) }}
-		    							{{ $errors->first('content', '<div class="text-danger" id="content_error">:message</div>') }}
-		    						</div>
-		    					</div>
-		    				</div>
-		    				<div class="row">
-		    					<div class="form-group">
-		    						<div class="col-md-offset-1 col-md-10">
-		    							{{ Form::submit('Send message', array('class'=>'btn btn-primary')) }}
-		    							{{ HTML::link('#', 'Close', array('class'=>'btn btn-default', 'data-dismiss'=>'modal')) }}
-		    						</div>
-		    					</div>
-		    				</div>
-		    				{{ Form::close() }}
-
-		    			</div>
-
-		    		</div>
-		    	</div>
-		    </div>
-		    <!-- /.modal -->
-		    @else
-		    <div class="modal fade" id="contactModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		    	<div class="modal-dialog">
-		    		<div class="modal-content">
-		    			<div class="modal-header">
-		    				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		    				<h4 class="modal-title" id="myModalLabel">
-		    					Please {{ HTML::linkRoute('login', 'log in') }}
-		    				</h4>
-		    			</div>
-		    			<div class="modal-body">
-		    				<p>You must logged in to be able to send messages.</p>
-		    			</div>
-		    		</div>
-		    	</div>
-		    </div>
-		    @endif
-		    <!-- /#contactModal -->
-
-		    <!-- #chatModal -->
-		    @if (Auth::check())
-		    <div class="modal fade" id="chatModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		    	<div class="modal-dialog">
-		    		<div class="modal-content">
-		    			<div class="modal-header">
-		    				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		    				<h4 class="modal-title" id="myModalLabel">Chat with {{ $user->username }}</h4>
-		    			</div>
-		    			<div class="modal-body">
-		    				<p>Are you sure want to chat with this user?</p>
-		    				{{ HTML::linkRoute('chat.show', 'Go ahead', ['user1'=>Auth::user()->id, 'user2'=>$user->id], ['class'=>'btn btn-primary']) }}
-		    				{{ HTML::link('#', 'No', array('class'=>'btn btn-default', 'data-dismiss'=>'modal')) }}
-		    			</div>
-
-		    		</div>
-		    	</div>
-		    </div>
-		    <!-- /.modal -->
-		    @else
-		    <div class="modal fade" id="chatModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-		    	<div class="modal-dialog">
-		    		<div class="modal-content">
-		    			<div class="modal-header">
-		    				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		    				<h4 class="modal-title" id="myModalLabel">
-		    					Please {{ HTML::linkRoute('login', 'log in') }}
-		    				</h4>
-		    			</div>
-		    			<div class="modal-body">
-		    				<p>You must logged in to be able to send chat requests.</p>
-		    			</div>
-		    		</div>
-		    	</div>
-		    </div>
-		    @endif
-		    <!-- /#chatModal -->
-
-		  </div>
-		  <!-- profile image div -->
-		  <div class="col-md-9">
+		{{-- <div class="row">
+			
+		  <div class="col-md-12"> --}}
   			<!-- <div class="panel panel-success text-center">
 		    	<div class="panel panel-heading">Edit info</div>
 		    	<div class="panel panel-body">
@@ -187,7 +50,9 @@
 		    		<li role="presentation" class="active">
 		    			<a href="#profile" aria-controls="profile" role="tab" data-toggle="tab"> Basic info</a>
 		    		</li>
-		    		<li role="presentation"><a href="#watchlist" aria-controls="watchlist" role="tab" data-toggle="tab">Watchlist</a></li>
+		    		@if (Auth::check() and Auth::user()->id == $user->id)
+			    		<li role="presentation"><a href="#watchlist" aria-controls="watchlist" role="tab" data-toggle="tab">Watchlist</a></li>
+		    		@endif
 		    		<li role="presentation"><a href="#listings" aria-controls="listings" role="tab" data-toggle="tab">Listings</a></li>
 		    	</ul>
 
@@ -371,9 +236,11 @@
 		    			<!-- /modal -->
 
 		    		</div>
-		    		<div role="tabpanel" class="tab-pane fade" id="watchlist">
-						@include('partials.watchlist')
-		    		</div>
+		    		@if (!Auth::guest())
+			    		<div role="tabpanel" class="tab-pane fade" id="watchlist">
+							@include('partials.watchlist')
+			    		</div>
+		    		@endif
 		    		<div role="tabpanel" class="tab-pane fade" id="listings">
 		    			<br>
 		    			<!-- accordion -->
@@ -385,7 +252,7 @@
 		    						<h4 class="panel-title">
 		    							{{ HTML::link('#'.$item->id, $item->name, ['class'=>'collapsed', 'data-toggle'=>'collapse', 'data-parent'=>'#accordion']) }}
 		    							@if ($item->status == 'unavailable')
-		    							<i class="label label-warning">done deal</i>
+		    							<span class="label label-warning">done deal</span>
 		    							@endif
 		    							<!-- <a class="collapsed" data-toggle="collapse" data-parent="accordion"  href="#{{$item->id}}">
 		    								{{ $item->name }} 
@@ -440,11 +307,11 @@
 						<!-- accordion -->
 
 					</div>
-				</div>
+				</div> <!-- profile info div -->
 			</div>
-		</div>
-		<!-- profile info div -->
-	</div>
+		{{-- </div> --}}
+		
+	{{-- </div> --}}
 
 	<!-- <h2>Dashboard</h2> -->
 </div>
@@ -458,71 +325,6 @@
 		$('#username').editable('disable');
 
 
-
-
-<!-- chats script -->
-
-
-    $(function(){
- 
-        // var fake_user_id = Math.floor((Math.random()*1000)+1);
-        var user_id = {{ Auth::user()->id }};
-        //make sure to update the port number if your ws server is running on a different one.
-        window.app = {};
- 
-        app.BrainSocket = new BrainSocket(
-                // new WebSocket('ws://192.168.1.104:8080'),
-                new WebSocket('ws://sattapatta.com:8080/users/{{ Auth::user()->username }}/profile'),
-                new BrainSocketPubSub()
-        );
- 
-        app.BrainSocket.Event.listen('generic.event',function(msg){
-            console.log(msg);
-            if(msg.client.data.user_id == user_id){
-                $('.messages').append('<p><img src="http://sattapatta.com/{{ Auth::user()->photoURL }}" class="img-circle" width="26"><div class="message">'+msg.client.data.message+'</div></p>');
-                $('.chat .messages').scrollTop($('.chat .messages')[0].scrollHeight);
-            }else{
-                var str_test='<p><img src="'+msg.client.data.user_portrait+'" class="img-circle" width="26"><div class="message">'+msg.client.data.message+'</div></p>';
-                $('.messages').append(str_test);
-                $('.chat .messages').scrollTop($('.chat .messages')[0].scrollHeight);
-            }
-        });
- 
-        app.BrainSocket.Event.listen('app.success',function(data){
-            console.log('An app success message was sent from the ws server!');
-            console.log(data);
-        });
- 
-        app.BrainSocket.Event.listen('app.error',function(data){
-            console.log('An app error message was sent from the ws server!');
-            console.log(data);
-        });
- 
-        $('.entry').keypress(function(event) {
- 
-            if(event.keyCode == 13 && $(this).val() != ""){
- 
-                app.BrainSocket.message('generic.event',
-                        {
-                            'message': $(this).val(),
-                            'user_id': user_id,
-                            'user_portrait': 'http://sattapatta.com/{{ Auth::user()->photoURL}}',
-                            'room': 1
-                        }
-                );
-                $(this).val('');
- 
-            }
- 
-            return event.keyCode != 13; }
-        );
-
-        $('.title').click(function(e) {
-					e.preventDefault();
-					$('.chat-box').slideToggle();
-				});
-				
-    });
 
 	</script>
 

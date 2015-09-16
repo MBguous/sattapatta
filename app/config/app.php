@@ -127,8 +127,10 @@ return array(
 		// 'Intervention\Image\ImageServiceProvider',
 		'Barryvdh\Debugbar\ServiceProvider',
 		'BrainSocket\BrainSocketServiceProvider',
-		'Clockwork\Support\Laravel\ClockworkServiceProvider'
+		'Clockwork\Support\Laravel\ClockworkServiceProvider',
 		// 'sattapatta\providers'
+		// 'Sattapatta\Providers\HelperServiceProvider',
+		'Artdarek\Pusherer\PushererServiceProvider',
 
 	),
 

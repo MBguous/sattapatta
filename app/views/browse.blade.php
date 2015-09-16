@@ -16,14 +16,23 @@
 
   <!-- Title -->
   <div class="row">
+
+    <div class="form-group">
+      {{ Form::text('keyword', null, ['class'=>'form-control', 'id'=>'quick-search', 'placeholder'=>'Make a quick search ...', 'onkeydown'=>'down()', 'onkeyup'=>'up()']) }}
+    </div>
+
     <div class="col-md-6">
-      <h4>Recent listings</h4>
+      <h4>Item listings</h4>
     </div>
   </div>
-  <div class="row">
+  <div class="row" id="show-items">
     @include ('partials.showItems')
   </div>
 
-  {{ $items->links() }}
+  <div class="text-center">{{ $items->links() }}</div>
 
+@stop
+
+@section ('script')
+<script>var root = "{{ url('/') }}";</script>
 @stop

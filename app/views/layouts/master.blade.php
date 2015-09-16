@@ -14,7 +14,8 @@
   <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
   {{-- <link rel="favicon" href="{{ asset('favicon.ico') }}"> --}}
 
-  <!-- Paper Bootstrap CSS -->
+  {{-- {{ HTML::style('css/bootstrap.css') }} --}}
+  <!-- Flatly Bootstrap CSS -->
   {{ HTML::style('css/flatly.bootstrap.css') }}
 
   {{ HTML::style('font-awesome-4.4.0/css/font-awesome.min.css') }}
@@ -71,17 +72,19 @@
               </a>
             </li>
 
+            @if (Auth::check())
+    
             <li class=@yield('chat-class')>
-              {{-- <a href="{{ URL::route('chat.index') }}"> --}}
-              <a href="#">
+              <a href="{{ URL::route('chats.index') }}">
+              {{-- <a href="#"> --}}
                 <i class="fa fa-comment-o fa-lg" data-toggle="tooltip" data-placement="right" title="chat"></i>
               </a>
             </li>
 
-            @if (Auth::check())
-              <li>
+            {{--@if (Auth::check())--}}
+              <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                  <i class="fa fa-bell-o fa-lg" data-toggle="tooltip" data-placement="bottom" title="notifications"></i>
+                  <i class="fa fa-bell-o fa-lg" data-toggle="tooltip" data-placement="right" title="notifications"></i>
                 
                   @if ($notifications->count() > 0)
                     <span class="badge" id="notif-badge">{{ $notifications->count() }}</span>
@@ -92,7 +95,7 @@
                    @forelse ($notifications as $notification)
                   <li id="notif{{$notification->id}}" class="notif"><a href="{{ URL::to($notification->link) }}">{{ $notification->content }}</a></li>
                 @empty
-                  <li>You have no unread notifications.</li>
+                  <li><a href="#">You have no unread notifications.</a></li>
                 @endforelse
                  </ul>
               </li>
@@ -101,7 +104,7 @@
               @endif
 
             <li>
-              {{ Form::open(array('route'=>'search.results', 'class'=>'navbar-form', 'id'=>'navbar-search', 'method'=>'get')) }}
+              {{ Form::open(array('route'=>'items.browse', 'class'=>'navbar-form', 'id'=>'navbar-search', 'method'=>'get')) }}
                 <div class="form-group input-group">
                   <span class="input-group-addon"><i class="fa fa-search fa-rotate-90"></i></span>
                   <input type="text" name="search" id="navbar-searchbox" class="form-control" placeholder="Search" list="search-results">
@@ -141,13 +144,12 @@
   </nav>
   {{-- <div class="body-container"> --}}
 
-  
+  @include('partials.alert')
   
   <div class="container">
 
     {{-- <select id="searchbox" name="q" placeholder="Search products or categories..." class="form-control"></select> --}}
 
-    @include('partials.alert')
     @yield('content')
 
   </div> 
@@ -167,7 +169,7 @@
 
   <!-- Bootstrap Core JavaScript -->
   <!-- // <script src="js/bootstrap.min.js"></script> -->
-  {{ HTML::script('js/bootstrap.min.js') }}
+  {{ HTML::script('js/bootstrap.js') }}
   {{ HTML::script('js/search.js') }}
   {{ HTML::script('js/bootstrap-tagsinput.js') }}
   {{-- {{ HTML::script('js/chats.js') }} --}}
@@ -176,7 +178,7 @@
   {{ HTML::script('js/moment.js') }}
   {{ HTML::script('js/brain-socket.min.js') }}
   {{ HTML::script('js/jquery.waypoints.min.js') }}
-  {{ HTML::script('vendor/selectize/js/standalone/selectize.min.js') }}
+  {{-- {{ HTML::script('vendor/selectize/js/standalone/selectize.min.js') }} --}}
 
   {{ HTML::script('js/sattapatta.js') }}
   
@@ -201,9 +203,9 @@
     <script>
 
       // Activate Selectize
-      $(document).ready(function(){
-          $('#searchbox').selectize();
-      });
+      // $(document).ready(function(){
+      //     $('#searchbox').selectize();
+      // });
     
 
     // $('.dropdown-toggle').dropdown();

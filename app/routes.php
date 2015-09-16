@@ -34,12 +34,13 @@ Route::get('accounts/activate/{code}', array('as' => 'accounts.activate', 'uses'
 Route::get('mail/{email}', array('as'=>'mail', 'uses'=>'AccountController@sendMail'));
 
 /* Search routes */
-Route::post('/test', array('as'=>'search', 'uses'=>'SearchController@search'));
-Route::get('/search/results', array('as'=>'search.results', 'uses'=>'SearchController@showSearchResults'));
-Route::post('/search/results', array('uses'=>'SearchController@quickSearch'));
+// Route::post('/test', array('as'=>'search', 'uses'=>'SearchController@search'));
+// Route::get('/search/results', array('as'=>'search.results', 'uses'=>'SearchController@showSearchResults'));
+// Route::get('/items/browse', array('as'=>'navbar.search', 'uses'=>'SearchController@showSearchResults'));
+Route::post('items/browse/search', array('uses'=>'SearchController@quickSearch'));
 
 /* Search api routes */
-Route::get('items/browse/api/search', 'ApiSearchController@index');
+// Route::get('items/browse/api/search', 'ApiSearchController@index');
 
 /* Ajax-poll based chat */
 // Route::get('/chat', ['as'=>'chat', 'uses'=>'ChatController@index']);
@@ -77,12 +78,14 @@ Route::group(array('before'=>'auth|session'), function()
 	Route::post('/', array('uses'=>'NotificationController@getNotification'));
 	Route::post('/updateNotif	', array('uses'=>'NotificationController@updateNotification'));
 
+	// Watchlist
 	Route::post('items/browse', array('as'=>'items.browse', 'uses'=>'ItemController@addToWatchlist'));
 	Route::delete('items/browse/{itemId}', ['as'=>'watchlist.destroy', 'uses'=>'ItemController@removeFromWatchlist']);
 	// Route::post('show', array('as'=>'show.message', 'uses'=>'MessageController@showMessage'));
 
 	/* Brainsocket chat */
-	Route::get('{user1_id}/chat/{user2_id}', ['as'=>'chat.show', 'uses'=>'ChatController@show']);
+	Route::get('chat', ['as' => 'chats.index', 'uses' => 'ChatController@index']);
+	Route::get('{user1_id}/chat/{user2_id}', ['as'=>'chats.show', 'uses'=>'ChatController@show']);
 	Route::get('chat/showChats', ['as'=>'chat.showChats', 'uses'=>'ChatController@showChats']);
 });
 
@@ -126,13 +129,24 @@ Route::get('msg', function() {
 		// 
 	return View::make('jpt');
 });
+
+Route::controller('notifications', 'PusherNotificationController');
 Route::get('test', function(){
-	Chat::create([
-		'content'=>'asdfasdf',
-		'chatroom_id'=>1,
-		'user_id'=>2
-	]);
-	return 'chat created';
+
+	dd(User::all()->items);
+
+	// $message = "Pusher test";
+	// Pusherer::trigger('my-channel', 'my-event', ['message'=>$message]);
+
+	// return View::make('test');
+
+	// Chat::create([
+	// 	'content'=>'asdfasdf',
+	// 	'chatroom_id'=>1,
+	// 	'user_id'=>2
+	// ]);
+	// return 'chat created';
+	
 	// return Hash::make('admin');
 	// if(Session::has('_token')){
 	// 	dd('true');

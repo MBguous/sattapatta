@@ -16,7 +16,7 @@
 
 <div class="row">
     
-    @include('users.partials.chatSidebar')
+    @include('partials.sidebar')
 
 	<div class="col-md-8">
         <div class="panel panel-default chatbs">
