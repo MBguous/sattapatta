@@ -13,7 +13,7 @@ class OfferController extends BaseController {
 		$offer = array(
 			'date'		=> date('Y-m-d'),
 			'time'		=> date('H:i:s'),
-			'user_id' => Auth::user()->id,
+			'user_id'	=> Auth::user()->id,
 			'item_id'	=> Input::get('itemid')
 			);
 
@@ -26,7 +26,7 @@ class OfferController extends BaseController {
 			'item_id'  => $itemId
 			);		
 
-		$insertOffer = 	DB::table('offer_items')->insert($offerItem);
+		$insertOffer = DB::table('offer_items')->insert($offerItem);
 
 		//  item for which the offer is made
 		$item = Item::where('id', Input::get('itemid'))->first();

@@ -15,6 +15,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 * @var string
 	 */
 	protected $table = 'users';
+	protected $dates = ['last_seen'];
 
 	/**
 	 * The attributes excluded from the model's JSON form.
@@ -47,8 +48,16 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $this->hasMany('Chat');
 	}
 
+	public function reviews() {
+		return $this->hasMany('Review', 'reviewer_id');
+	}
+
 	public function watchlist() {
 		return $this->belongsToMany('Item', 'watchlist')->withTimestamps();
+	}
+
+	public function online() {
+		return $this->hasOne('Online');
 	}
 
 	public static $auth_rules = [
@@ -71,23 +80,8 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	'photoURL' => 'required|image|mimes:jpeg,jpg,png,gif,bmp'
 	];
 
-	public static $edit_rules = [
-		'username'	=> 'max:20|min:3|unique:users',
-		'email'			=> 'email|max:50|unique:users',
-		'firstName'	=> 'string',
-		'lastName'	=> 'string',
-		'gender'		=> 'string',
-		'birthDay'	=> 'integer',
-		'birthMonth'=> 'integer',
-		'birthYear'	=> 'integer',
-		'phone'			=> 'string',
-		'address'		=> 'string',
-		'country'		=> 'string'
-		];
 
-	protected $fillable = ['username', 'password', 'email', 'active', 'code', 'identifier', 'photoURL', 
-							'firstName', 'lastName', 'gender', 'birthday', 'birthMonth', 
-							'birthYear', 'phone', 'address', 'country'];
+	protected $fillable = ['*'];
 
 
 	public function getFullNameAttribute(){

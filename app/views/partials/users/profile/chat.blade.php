@@ -7,9 +7,15 @@
 				<span class="modal-title" id="myModalLabel">Chat with {{ $user->username }}</span>
 			</div>
 			<div class="modal-body">
-				<p>Are you sure want to chat with this user?</p>
-				{{ HTML::linkRoute('chats.show', 'Go ahead', ['user1'=>Auth::user()->id, 'user2'=>$user->id], ['class'=>'btn btn-sm btn-primary']) }}
-				{{ HTML::link('#', 'No', array('class'=>'btn btn-sm btn-default', 'data-dismiss'=>'modal')) }}
+				<p>Do you want to chat with this user?</p>
+				{{-- {{ HTML::linkRoute('chats.show', 'Go ahead', ['user1'=>Auth::user()->id, 'user2'=>$user->id], ['class'=>'btn btn-sm btn-primary']) }} --}}
+				
+
+				<a href="#" title="Go ahead" onclick="startChat({{ Auth::user()->id }}, {{ $user->id }})" data-dismiss="modal" class="btn btn-sm btn-primary">
+					Go ahead
+				</a>
+
+				{{ HTML::link('#', 'No', ['class'=>'btn btn-sm btn-default', 'data-dismiss'=>'modal']) }}
 			</div>
 
 		</div>
@@ -32,4 +38,15 @@
 		</div>
 	</div>
 </div>
+<!-- /.modal -->
 @endif
+
+{{-- chat window --}}
+@include ('partials.chats.window')
+
+{{-- chat script --}}
+{{-- @section('script')
+
+
+
+@stop --}}

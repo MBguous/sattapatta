@@ -34,6 +34,7 @@ class CreateUsersTable extends Migration {
 			$table->string('phone', 30)->nullable();
 			$table->string('address', 100)->nullable();
 			$table->string('country', 30)->nullable();
+			$table->timestamp('last_seen');
 			$table->timestamps();
 
 			$table->unique(array('provider', 'identifier'));

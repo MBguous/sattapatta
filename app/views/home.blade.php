@@ -33,13 +33,14 @@ Sattapatta - online barter platform
             Don't worry if you have unused stuffs cluttering up your space. Get rid of them and get something in return.
             Do it all without any cost at SattaPatta.
           </p>
-          <p><a class="btn btn-primary btn-large">Register Now!</a>
-          <div
-            class="fb-like"
-            data-share="true"
-            data-width="450"
-            data-show-faces="true">
-          </div>
+          <p>
+            {{-- <a class="btn btn-primary btn-large">Register Now!</a> --}}
+            <div
+              class="fb-like"
+              data-share="true"
+              data-width="450"
+              data-show-faces="true">
+            </div>
           </p>
           Find the project at <a href="https://github.com/MBguous/sattapatta"><i class="fa fa-github fa-lg"></i></a>
         </div>
@@ -75,7 +76,7 @@ Sattapatta - online barter platform
 
           <!-- submit button -->
           <div class="form-group">
-            <button type="submit" class="btn btn-primary form-control">Sign up for SattaPatta</button>
+            <button type="submit" class="btn btn-orange btn-block">Sign up for SattaPatta</button>
           </div>
 
           <p class="text-center text-muted">
@@ -85,20 +86,20 @@ Sattapatta - online barter platform
           <!-- oauth -->
           <!-- twitter -->
           <div class="col-md-4">
-            <a href="hybridauth?provider=twitter" class="btn btn-info form-control">
-              <i class="fa fa-twitter fa-2x"></i>
+            <a href="hybridauth?provider=twitter" class="btn btn-o form-control">
+              <i class="fa fa-twitter fa-2x text-info"></i>
             </a>
           </div>
           <!-- google -->
           <div class="col-md-4">
-            <a href="hybridauth?provider=google" class="btn btn-danger form-control">
-              <i class="fa fa-google fa-2x"></i>
+            <a href="hybridauth?provider=google" class="btn btn-o form-control">
+              <i class="fa fa-google fa-2x text-danger"></i>
             </a>
           </div>
           <!-- facebook -->
           <div class="col-md-4">
-            <a href="hybridauth?provider=facebook" class="btn btn-primary form-control">
-              <i class="fa fa-facebook fa-2x"></i>
+            <a href="hybridauth?provider=facebook" class="btn btn-o form-control">
+              <i class="fa fa-facebook fa-2x text-primary"></i>
             </a>
           </div>
 

@@ -6,37 +6,35 @@
 <div class="row">
 
 	@if (Auth::check() and Auth::user()->username == $user->username)
-		@include ('partials.sidebar')
+	@include ('partials.sidebar')
 	@endif
 
 	<div class="col-md-3">
 		@include ('partials.users.profile.image')
-    
-    <p>
-    	
-    	@if(!Auth::check() or $loggedUser->username != $user->username)
-    	{{ HTML::link('#contactModal', 'Contact', ['data-toggle'=>'modal', 'class'=>'btn btn-sm btn-default btn-block']) }}
-    	{{ HTML::link('#chatModal', 'Chat', ['data-toggle'=>'modal', 'class'=>'btn btn-sm btn-default btn-block']) }}
-    	@endif
 
-    </p>
+		<p>
+			@if(!Auth::check() or $loggedUser->username != $user->username)
+			{{ HTML::link('#contactModal', 'Contact', ['data-toggle'=>'modal', 'class'=>'btn btn-sm btn-default btn-block']) }}
+			{{ HTML::link('#chatModal', 'Chat', ['data-toggle'=>'modal', 'class'=>'btn btn-sm btn-default btn-block']) }}
+			@endif
+		</p>
 
-    <!-- #contactModal -->
-    @include('partials.users.profile.contact')
-    <!-- /#contactModal -->
+		<!-- #contactModal -->
+		@include('partials.users.profile.contact')
+		<!-- /#contactModal -->
 
-    <!-- #chatModal -->
-   	@include('partials.users.profile.chat')
-    <!-- /#chatModal -->
+		<!-- #chatModal -->
+		@include('partials.users.profile.chat')
+		<!-- /#chatModal -->
 
-  </div>
-  <!-- profile image div -->
+	</div>
+	<!-- profile image div -->
 
 	<div class="col-md-7">
 
 		{{-- <div class="row">
 			
-		  <div class="col-md-12"> --}}
+		<div class="col-md-12"> --}}
   			<!-- <div class="panel panel-success text-center">
 		    	<div class="panel panel-heading">Edit info</div>
 		    	<div class="panel panel-body">
@@ -46,14 +44,15 @@
 		    <div role="tabpanel">
 
 		    	<!-- Nav tabs -->
-		    	<ul class="nav nav-tabs" role="tablist">
+		    	<ul class="nav nav-pills" role="tablist">
 		    		<li role="presentation" class="active">
 		    			<a href="#profile" aria-controls="profile" role="tab" data-toggle="tab"> Basic info</a>
 		    		</li>
 		    		@if (Auth::check() and Auth::user()->id == $user->id)
-			    		<li role="presentation"><a href="#watchlist" aria-controls="watchlist" role="tab" data-toggle="tab">Watchlist</a></li>
+		    		<li role="presentation"><a href="#watchlist" aria-controls="watchlist" role="tab" data-toggle="tab">Watchlist</a></li>
 		    		@endif
 		    		<li role="presentation"><a href="#listings" aria-controls="listings" role="tab" data-toggle="tab">Listings</a></li>
+		    		<li role="presentation"><a href="#reviews" aria-controls="reviews" role="tab" data-toggle="tab">Reviews</a></li>
 		    	</ul>
 
 		    	<!-- Tab panes -->
@@ -61,13 +60,13 @@
 		    		<div role="tabpanel" class="tab-pane fade in active" id="profile">
 		    			<br><br>
 
-							@if(Auth::check() and Auth::user()->id == $user->id)
-							<div class="progress">
-								<div class="progress-bar progress-bar-striped" style="width: {{ $pc }}%;">
-									{{ $pc }}% Profile Complete
-								</div>
-							</div>
-							@endif
+		    			@if(Auth::check() and Auth::user()->id == $user->id)
+		    			<div class="progress">
+		    				<div class="progress-bar progress-bar-striped" style="width: {{ $pc }}%;">
+		    					{{ $pc }}% Profile Complete
+		    				</div>
+		    			</div>
+		    			@endif
 		    			<div class="col-md-12">
 		    				<table class="table table-striped table-hover" id="profile-table">
 		    					<tr>
@@ -79,8 +78,8 @@
 		    							</a>
 
 		    							@if(Auth::check() and Auth::user()->id == $user->id)
-		    							<a href="#edit-profile" data-toggle="modal" class="pull-right">
-		    								<i class="icon icon-Pencil"></i>&nbsp;Edit username
+		    							<a href="#edit-profile" class="editable-click pull-right" data-toggle="modal">
+		    								<i class="fa fa-Pencil"></i>&nbsp;Click here to edit username
 		    							</a>
 		    							@endif
 		    						</td>
@@ -89,24 +88,24 @@
 		    						<th>Email</th>
 		    						<td>
 		    							@if(Auth::check() and Auth::user()->id == $user->id)
-			    							<a href="#" id="email" data-type="text" data-pk="{{$user->id}}" data-url="profile/edit" data-title="Enter email">
-			    								{{ $user->email }}			
-			    							</a>
-			    						@else
-			    							{{ $user->email }}
-			    						@endif
+		    							<a href="#" id="email" class="editable-click" data-type="text" data-title="Enter email">
+		    								{{ $user->email }}			
+		    							</a>
+		    							@else
+		    							{{ $user->email }}
+		    							@endif
 
 		    						</td>
 		    					</tr>
 		    					<tr>
 		    						<th>First Name</th>
 		    						<td>
-			    						@if(Auth::check() and Auth::user()->id == $user->id)
-			    							<a href="#" id="firstName" data-type="text" data-pk="{{$user->id}}" data-url="profile/edit" data-title="Enter first name">
-			    								{{ $user->firstName }}			
-			    							</a>
+		    							@if(Auth::check() and Auth::user()->id == $user->id)
+		    							<a href="#" id="firstName" class="editable-click" data-type="text" data-title="Enter first name">
+		    								{{ $user->firstName }}			
+		    							</a>
 		    							@else
-			    							{{ $user->firstName }}
+		    							{{ $user->firstName }}
 		    							@endif
 
 		    						</td>
@@ -115,44 +114,48 @@
 		    						<th>Last Name</th>
 		    						<td>
 		    							@if(Auth::check() and Auth::user()->id == $user->id)
-			    							<a href="#" id="lastName" data-type="text" data-pk="{{$user->id}}" data-url="profile/edit" data-title="Enter last name">
-			    								{{ $user->lastName }}			
-			    							</a>
-			    						@else
-			    							{{ $user->lastName }}
-			    						@endif
+		    							<a href="#" id="lastName" class="editable-click" data-type="text" data-title="Enter last name">
+		    								{{ $user->lastName }}			
+		    							</a>
+		    							@else
+		    							{{ $user->lastName }}
+		    							@endif
 
 		    						</td>
 		    					</tr>
 		    					<tr>
 		    						<th>Gender</th>
 		    						<td>
-			    						@if(Auth::check() and Auth::user()->id == $user->id)
-			    							<a href="#" id="gender" data-type="select" data-pk="{{$user->id}}" data-url="profile/edit" data-title="Select gender"></a>
-		    							@else
-		    								@if($user->gender == 1)
-		    									Male
-		    								@elseif($user->gender == 2)
-		    									Female
-		    								@elseif($user->gender == 3)
-		    									Other
-		    								@endif
-		    							@endif
+		    							@if(Auth::check() and Auth::user()->id == $user->id)
+		    							<a href="#" id="gender" data-type="select" data-title="Select gender"></a>
 		    							{{ Form::hidden('gender-value', $user->gender, ['id'=>'gender-value']) }}
+		    							@else
+			    							@if($user->gender == 1)
+			    							Male
+			    							@elseif($user->gender == 2)
+			    							Female
+			    							@elseif($user->gender == 3)
+			    							Other
+			    							@endif
+		    							@endif
+		    							
 		    						</td>
 		    					</tr>
 		    					<tr>
 		    						<th>Date of Birth</th>
 		    						<td>
-			    						@if(Auth::check() and Auth::user()->id == $user->id)
-			    							<a href="#" id="birthYear" data-type="select" data-pk="{{$user->id}}" data-url="profile/edit" data-value="{{$user->birthYear}}" data-title="Select year"></a>
-			    							-
-			    							<a href="#" id="birthMonth" data-type="select" data-pk="{{$user->id}}" data-url="profile/edit" data-value="{{$user->birthMonth}}" data-title="Select month"></a>
-			    							-
-			    							<a href="#" id="birthDay" data-type="select" data-pk="{{$user->id}}" data-url="profile/edit" data-value="{{$user->birthDay}}" data-title="Select day"></a>
-											@else
-												{{ $user->birthYear }} - {{ $user->birthMonth }} - {{ $user->birthDay }}
-											@endif
+		    							@if(Auth::check() and Auth::user()->id == $user->id)
+
+			    							<a href="#" id="birthMonth" data-type="select" data-value="{{$user->birthMonth}}" data-title="Select month"></a>
+			    							/
+			    							<a href="#" id="birthDay" data-type="select" data-value="{{$user->birthDay}}" data-title="Select day"></a>
+			    							/
+			    							<a href="#" id="birthYear" data-type="select" data-value="{{$user->birthYear}}" data-title="Select year"></a>
+
+		    							@else
+			    							{{ $user->birthYear }} - {{ $user->birthMonth }} - {{ $user->birthDay }}
+		    							@endif
+
 		    							{{ Form::hidden('birthYear-value', $user->birthYear, ['id'=>'birthYear-value']) }}
 		    							{{ Form::hidden('birthMonth-value', $user->birthMonth, ['id'=>'birthMonth-value']) }}
 		    							{{ Form::hidden('birthDay-value', $user->birthDay, ['id'=>'birthDay-value']) }}
@@ -162,12 +165,12 @@
 		    						<th>Phone</th>
 		    						<td>
 		    							@if(Auth::check() and Auth::user()->id == $user->id)
-			    							<a href="#" id="phone" data-type="tel" data-pk="{{$user->id}}" data-url="profile/edit" data-title="Enter phone">
-			    								{{ $user->phone }}			
-			    							</a>
-			    						@else
-			    							{{ $user->phone }}
-			    						@endif
+		    							<a href="#" id="phone" class="editable-click" data-type="tel" data-title="Enter phone">
+		    								{{ $user->phone }}			
+		    							</a>
+		    							@else
+		    							{{ $user->phone }}
+		    							@endif
 
 		    						</td>
 		    					</tr>
@@ -175,11 +178,11 @@
 		    						<th>Address</th>
 		    						<td>
 		    							@if(Auth::check() and Auth::user()->id == $user->id)
-			    							<a href="#" id="address" data-type="text" data-pk="{{$user->id}}" data-url="profile/edit" data-title="Enter address">
-			    								{{ $user->address }}			
-			    							</a>
+		    							<a href="#" id="address" class="editable-click" data-type="text" data-title="Enter address">
+		    								{{ $user->address }}			
+		    							</a>
 		    							@else
-		    								{{ $user->address }}
+		    							{{ $user->address }}
 		    							@endif
 
 		    						</td>
@@ -188,12 +191,12 @@
 		    						<th>Country</th>
 		    						<td>
 		    							@if(Auth::check() and Auth::user()->id == $user->id)
-			    							<a href="#" id="country" data-type="text" data-pk="{{$user->id}}" data-url="profile/edit" data-title="Enter country">
-			    								{{ $user->country }}			
-			    							</a>
-			    						@else
-			    							{{ $user->country }}
-			    						@endif
+		    							<a href="#" id="country" class="editable-click" data-type="text" data-title="Enter country">
+		    								{{ $user->country }}			
+		    							</a>
+		    							@else
+		    							{{ $user->country }}
+		    							@endif
 		    						</td>
 		    					</tr>
 		    				</table>
@@ -224,8 +227,8 @@
 
 		    						</div>
 		    						<div class="modal-footer">
-		    							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-		    							<button type="submit" class="btn btn-primary">Save changes</button>
+		    							<button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Close</button>
+		    							<button type="submit" class="btn btn-sm btn-primary">Save changes</button>
 		    						</div>
 		    						<!-- </form> -->
 		    						{{ Form::close() }}
@@ -237,10 +240,15 @@
 
 		    		</div>
 		    		@if (!Auth::guest())
-			    		<div role="tabpanel" class="tab-pane fade" id="watchlist">
-							@include('partials.watchlist')
-			    		</div>
+		    		<div role="tabpanel" class="tab-pane fade" id="watchlist">
+		    			@include('partials.watchlist')
+		    		</div>
 		    		@endif
+
+		    		<div role="tabpanel" class="tab-pane fade" id="reviews">
+		    			@include('partials.users.reviews')
+		    		</div>
+
 		    		<div role="tabpanel" class="tab-pane fade" id="listings">
 		    			<br>
 		    			<!-- accordion -->
@@ -259,73 +267,110 @@
 		    							</a> -->
 						        <!-- <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
 						          Collapsible Group Item #1
-						        </a> -->
-						      </h4>
-						    </div>
-						    <div id={{ $item->id }} class="panel-collapse collapse" role="tabpanel">
-						    	<div class="panel-body">
-						    		<div class="col-md-4">
-						    			<a href="{{URL::route('items.show', [$item->user->username, $item->name, $item->id])}}">
+						       </a> -->
+						    </h4>
+						 </div>
+						 <div id={{ $item->id }} class="panel-collapse collapse" role="tabpanel">
+						 	<div class="panel-body">
+						 		<div class="col-md-4">
+						 			<a href="{{URL::route('items.show', [$item->user->username, $item->name, $item->id])}}">
 
-						    				@if(!$item->images->first())
-						    				{{ HTML::image('images/placeholder.png', null, ['style'=>'height:150px', 'class'=>'img-responsive']) }}
-						    				@else
-						    				{{ HTML::image($item->images->first()->imageUrl, null, ['style'=>'height:150px', 'class'=>'img-responsive']) }}
-						    				@endif
-						    			</a>
-						    		</div>
-						    		<div class="col-md-8">
-						    			<table class="table table-striped table-hover">
-						    				<tr>
-						    					<th>Name</th>
-						    					<td>{{ $item->name }}</td>
-						    				</tr>
-						    				<tr>
-						    					<th>Price</th>
-						    					<td>Rs. {{ $item->price }}</td>
-						    				</tr>
-						    				<tr>
-						    					<th>Description</th>
-						    					<td>{{ $item->description }}</td>
-						    				</tr>
-						    				<tr>
-						    					<th>Posted on</th>
-						    					<td>{{ $item->date }} {{ $item->time }}</td>
-						    				</tr>
-						    				<tr>
-						    					<th>Status</th>
-						    					<td>{{ $item->status }}</td>
-						    				</tr>
-						    			</table>
-						    		</div>
-						    	</div>
-						    </div>
-						  </div>
-						  @endforeach
-
+						 				@if(!$item->images->first())
+						 				{{ HTML::image('images/placeholder.png', null, ['style'=>'height:150px', 'class'=>'img-responsive']) }}
+						 				@else
+						 				{{ HTML::image($item->images->first()->imageUrl, null, ['style'=>'height:150px', 'class'=>'img-responsive']) }}
+						 				@endif
+						 			</a>
+						 		</div>
+						 		<div class="col-md-8">
+						 			<table class="table table-striped table-hover">
+						 				<tr>
+						 					<th>Name</th>
+						 					<td>{{ $item->name }}</td>
+						 				</tr>
+						 				<tr>
+						 					<th>Price</th>
+						 					<td>Rs. {{ $item->price }}</td>
+						 				</tr>
+						 				<tr>
+						 					<th>Description</th>
+						 					<td>{{ $item->description }}</td>
+						 				</tr>
+						 				<tr>
+						 					<th>Posted on</th>
+						 					<td>{{ $item->date }} {{ $item->time }}</td>
+						 				</tr>
+						 				<tr>
+						 					<th>Status</th>
+						 					<td>{{ $item->status }}</td>
+						 				</tr>
+						 			</table>
+						 		</div>
+						 	</div>
+						 </div>
 						</div>
-						<!-- accordion -->
+						@endforeach
 
 					</div>
-				</div> <!-- profile info div -->
-			</div>
+					<!-- accordion -->
+
+				</div>
+			</div> <!-- profile info div -->
+		</div>
 		{{-- </div> --}}
 		
-	{{-- </div> --}}
+		{{-- </div> --}}
 
-	<!-- <h2>Dashboard</h2> -->
-</div>
+		<!-- <h2>Dashboard</h2> -->
+	</div>
 </div>
 
 @stop
 
 @section ('script')
 
+<script>
+// $(function(){
+	$('#username').editable('disable');
+	var userId = {{ $user->id }};
+
+	// $.fn.editable.defaults.send = "always";
+
+	$('#profile-table').editable({
+		selector: 'a',
+		url: 'profile/edit',
+		pk: userId,
+	});
+
+	
+// });
+</script>
+
 	<script>
-		$('#username').editable('disable');
 
+	var user_id = {{ Auth::user()->id }};
+	var user2_id = {{ $user->id }};
+	var username = "{{ Auth::user()->username}}";
+	var user2 = "{{ $user->username }}";
+	var photoUrl = "{{ Auth::user()->photoURL}}";
 
+	var root = '{{url("/")}}';
+	
+	var chatroomId = {{ getChatroomId(Auth::user()->id, $user->id) }};
+    // var user2_id = $('#chatlist').find(":selected").val();
+
+/*var route = "{{URL::route('chats.show', [
+                        'user1' => Auth::user()->id, 
+                        'user2' => "+user2_id+"
+                        ])
+              }}";
+              console.log(route);*/
 
 	</script>
+
+	{{ HTML::script('js/chatsbs.js') }}
+
+	{{ HTML::script('js/Sattapatta/editable.js') }}
+
 
 @stop

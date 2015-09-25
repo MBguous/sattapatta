@@ -13,17 +13,12 @@
 
 App::before(function($request)
 {
-	// if( ! Request::secure() )
- //    {
- //        return Redirect::secure( Request::path() );
- //    }
-	
-	//
-	$bag = Session::getMetadataBag();
-	$max = Config::get('session.lifetime') * 60;
-	if ($bag && $max < (time() - $bag->getLastUsed())) {
-	    // Event::fire('idle.too-long');
-	    return Redirect::route('login')->withMessage('Your session has expired. Please log in again.');
+	if(Auth::check())
+	{
+		$user = Auth::user();
+		$user->last_seen = Carbon::now();
+		$user->save();
+		// dd($user->last_seen);
 	}
 });
 
@@ -102,16 +97,12 @@ Route::filter('csrf', function()
 
 // Custom session filter
 Route::filter('session', function() {
-	// $bag = Session::getMetadataBag();
-	// if ((time() - $bag->getLastUsed()) > (Config::get('session.lifetime') * 60)) {
-	// 	return Redirect::route('login')->withMessage('Your session has expired. Please log in again.');
-	// }
 
 	$bag = Session::getMetadataBag();
 	$max = Config::get('session.lifetime') * 60;
 	if ($bag && $max < (time() - $bag->getLastUsed())) {
 	    // Event::fire('idle.too-long');
-	    return Redirect::route('login')->withMessage('Your session has expired. Please log in again.');
+		return Redirect::route('login')->withMessage('Your session has expired. Please log in again.');
 	}
 	
 });

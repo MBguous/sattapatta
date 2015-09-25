@@ -34,8 +34,8 @@ class Item extends Eloquent {
 		return $this->belongsToMany('Category');
 	}
 
-	// public function getImageUrlAttribute()
-	// {
-	// 	return $this->images->lists('imageUrl');
-	// }
+	public function getImageUrlAttribute()
+	{
+		return $this->images->lists('imageUrl');
+	}
 }

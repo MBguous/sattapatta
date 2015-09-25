@@ -50,6 +50,13 @@ class UserController extends BaseController {
 			$pc+=10;
 		}
 
+		// online status
+		$beforeTime = Carbon::now()->subMinutes(5);
+
+		$lastSeen = User::whereId($user->id)->pluck('last_seen');
+
+		$onlineStatus = $beforeTime->lt($lastSeen);
+
 		// watchlist items
 		if(Auth::check()) {
 			$watchlist_items = Auth::user()->watchlist->all();
@@ -57,9 +64,22 @@ class UserController extends BaseController {
 		else {
 			$watchlist = 0;
 		}
-		// dd($watchlist_items);
+
+		// user reviews
+		// if (Auth::check()) {
+		// 	$reviews = Review::where('reviewee_id', Auth::user()->id)->get();
+		// }
+		// else {
+		$reviews = Review::where('reviewee_id', $user->id)->orderBy('created_at', 'desc')->get();
+		// dd($reviews->user);
+		// }
+
 		
-		return View::make('users.profile', compact('items', 'pc', 'watchlist_items'))->withUser($user);
+		$avg = Review::where('reviewee_id', $user->id)->avg('rating');
+		$avg = (int)$avg;
+      // dd($avg);
+		
+		return View::make('users.profile', compact('items', 'pc', 'watchlist_items', 'reviews', 'avg', 'onlineStatus'))->withUser($user);
 	}
 
 	public function editProfileImage() {
@@ -86,31 +106,46 @@ class UserController extends BaseController {
 	public function editProfile()
 	{
 		$inputs = Input::all();
+		// dd($inputs);
 		$user = User::find($inputs['pk']);
 
 		$data = array(
 			$inputs['name'] => $inputs['value']
-		);
-    
-    $validator = Validator::make($data, User::$edit_rules);
-    if ($validator->passes())
-    {
-    	$user->$inputs['name'] = $inputs['value'];
-	   	// $user->save();
-	   	if ($user->save())
-	   		return Response::make('', 200);
-    }
-   	return Response::make($validator->messages()->first($inputs['name']), 400);
-    
+			);
+
+		$edit_rules = [
+			'username'		=> 'max:20|min:3|unique:users',
+			'email'			=> 'email|max:50|unique:users,email,'.$user->id,
+			'firstName'		=> 'string|max:50',
+			'lastName'		=> 'string|max:50',
+			'gender'			=> 'string',
+			'birthDay'		=> 'integer',
+			'birthMonth'	=> 'integer',
+			'birthYear'		=> 'integer',
+			'phone'			=> 'string',
+			'address'		=> 'string',
+			'country'		=> 'string'
+		];
+		
+		$validator = Validator::make($data, $edit_rules);
+		if ($validator->passes())
+		{
+			$user->$inputs['name'] = $inputs['value'];
+
+			if ($user->save())
+				return Response::make('', 200);
+		}
+		return Response::make($validator->messages()->first($inputs['name']), 400);
+		
 	}
 
 	public function editProfileInfo($username) {
 
 
-	if (Request::ajax()) {
+		if (Request::ajax()) {
 		// $inputData = Input::get('formData');
 		// parse_str($inputData, $formFields);
-		$username = Input::get('username');
+			$username = Input::get('username');
 		// $userData = array(
 		// 	'username'   => $formFields['username'],
 		// 	'firstName'  => $formFields['firstName'],
@@ -122,12 +157,12 @@ class UserController extends BaseController {
 		// 	'address'    => $formFields['address'],
 		// 	'country'    => $formFields['country'],
 		// );
-		$userData = array('username' => $username);
+			$userData = array('username' => $username);
 
-		$id = Auth::user()->id;
+			$id = Auth::user()->id;
 
-		$rules = [
-		'username'	=> 'required|max:20|min:3|unique:users,username, '.$id,
+			$rules = [
+			'username'	=> 'required|max:20|min:3|unique:users,username, '.$id,
 		// 'email'			=> 'email|max:50|unique:users',
 		// 'firstName'	=> 'required|string',
 		// 'lastName'	=> 'required|string',
@@ -138,30 +173,40 @@ class UserController extends BaseController {
 		// 'phone'			=> 'string',
 		// 'address'		=> 'string',
 		// 'country'		=> 'string'
-		];
+			];
 
-		$validator = Validator::make($userData,$rules);
-    if($validator->fails()) {
-        return Response::json(array(
-            'fail' => true,
-            'errors' => $validator->getMessageBag()->toArray()
-        ));
-		}
-		else {
-	 		if(Auth::user()->update($userData)) {
-	 			return Response::json(array(
+			$validator = Validator::make($userData,$rules);
+			if($validator->fails()) {
+				return Response::json(array(
+					'fail' => true,
+					'errors' => $validator->getMessageBag()->toArray()
+					));
+			}
+			else {
+				if(Auth::user()->update($userData)) {
+					return Response::json(array(
 						'success'  => true,
 						'username' => Auth::user()->username
-	 				));
-	 		}
+						));
+				}
 
+			}
+			
 		}
-    
-	}
-
 
 	}
 
-	
+	public function postReview() {
+
+		// dd(Input::all());
+		Review::create([
+			'comment'	=> Input::get('comment'),
+			'rating'		=> Input::get('rating'),
+			'reviewer_id'	=> Auth::user()->id,
+			'reviewee_id'	=> Input::get('reviewee_id')
+		]);
+
+		return Redirect::back()->withMessage('User review saved.');
+	}
 
 }

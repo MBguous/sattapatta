@@ -1,6 +1,6 @@
 <div class="col-md-2">
 	<nav id="sidebar">
-		<a href="#" class="btn btn-sm btn-naked btn-block">
+		<a href="#" class="btn btn-sm btn-block">
 			<i class="fa fa-trello fa-fw fa-lg"></i>&nbsp; Dashboard
 		</a>
 
@@ -8,9 +8,17 @@
 			<i class="fa fa-user fa-fw fa-lg"></i>&nbsp; Profile
 		</a>
 
-		<a href="#" class="btn btn-sm btn-block">
-			<i class="fa fa-user fa-fw fa-lg"></i>&nbsp; Items
+		<hr>
+
+		<a href="{{ URL::route('users.listing', Auth::user()->username) }}" class="btn btn-sm btn-block {{ isActiveRoute('users.listing') }}">
+			<i class="fa fa-list-alt fa-fw fa-lg"></i>&nbsp; My Listings
 		</a>
+
+		<a href="{{ URL::route('items.post') }}" class="btn btn-sm btn-block {{ isActiveRoute('items.post') }}">
+			<i class="fa fa-plus-square fa-fw fa-lg"></i>&nbsp; Post Item
+		</a>
+
+		<hr>
 
 		<a href="#" class="btn btn-sm btn-block">
 			<i class="fa fa-comments-o fa-fw fa-lg"></i>&nbsp; Chats

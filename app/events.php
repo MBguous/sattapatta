@@ -18,7 +18,7 @@ Event::listen('app.error', function($client_data) {
 // });
 
 Event::listen('generic.event', function($client_data) {
-	// var_dump($client_data->data->message);
+	
 	Chat::create([
 		'content'=>$client_data->data->message,
 		'chatroom_id'=>$client_data->data->chatroom_id,
@@ -26,3 +26,6 @@ Event::listen('generic.event', function($client_data) {
 	]);
 	return BrainSocket::message('generic.event', array('message'=>'Chat message persisted.'));
 });
+
+Event::listen('item.view', 'Sattapatta\Events\ViewItemHandler');
+

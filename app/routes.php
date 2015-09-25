@@ -54,6 +54,8 @@ Route::group(array('before'=>'auth|session'), function()
 	
 	Route::post('users/profile/image', array('as'=>'post.users.profile', 'uses'=>'UserController@editProfileImage'));
 
+	Route::post('user/review', 'UserController@postReview');
+
 	Route::post('users/{username}/profile/info', array('as'=>'post.users.profile.info', 'uses'=>'UserController@editProfileInfo'));
 	Route::post('users/{username}/profile/edit', array('as'=>'userProfile.edit', 'uses'=>'UserController@editProfile'));
 	Route::post('admin/user/edit', array('uses'=>'UserController@editProfile'));
@@ -85,17 +87,19 @@ Route::group(array('before'=>'auth|session'), function()
 
 	/* Brainsocket chat */
 	Route::get('chat', ['as' => 'chats.index', 'uses' => 'ChatController@index']);
-	Route::get('{user1_id}/chat/{user2_id}', ['as'=>'chats.show', 'uses'=>'ChatController@show']);
+	Route::get('{user1_id}/chat/{user2_id}', ['as'=>'chats.show', 'uses'=>'ChatController@showOld']);
+	// Route::get('users/{username}/profile/chat', 'ChatController@show');
+	Route::get('users/{username}/profile/chat', 'ChatController@show');
 	Route::get('chat/showChats', ['as'=>'chat.showChats', 'uses'=>'ChatController@showChats']);
 });
 
 
 // Route::group(array('before'=>'session'), function() {
 
-	Route::get('users/{username}/profile', array('as'=>'users.profile', 'uses'=>'UserController@showProfile'));
-	Route::get('items/browse', array('as'=>'items.browse', 'uses'=>'ItemController@browse'));
-	Route::get('{username}/{itemname}/{itemid}', array('as'=>'items.show', 'uses'=>'ItemController@showItem'));
-	
+Route::get('users/{username}/profile', array('as'=>'users.profile', 'uses'=>'UserController@showProfile'));
+Route::get('items/browse', array('as'=>'items.browse', 'uses'=>'ItemController@browse'));
+Route::get('{username}/{itemname}/{itemid}', array('as'=>'items.show', 'uses'=>'ItemController@showItem'));
+
 
 	// chat routes
 	// Route::get('chats/request/{username}', array('as'=>'chat.request', 'uses'=>'ChatController@chatRequest'));
@@ -176,7 +180,7 @@ Route::get('test', function(){
 		// 	else {
 		// 		$item->tags()->attach($tagQuery);
 		// 	}
-		
+	
 		// $chat = Chat::find(2);
 		// dd($chat->username);
 	
@@ -226,7 +230,7 @@ Route::post('users/profile/info-inactive', function(){
 			'phone' => $formFields['phone'],
 			'address' => $formFields['address'],
 			'country' => $formFields['country'],
-		);
+			);
 		// dd($userData);
 		// var_dump(Input::all());
 		// var_dump($inputData);
@@ -246,12 +250,12 @@ Route::post('users/profile/info-inactive', function(){
 		];
 
 		$validator = Validator::make($userData,$rules);
-    if($validator->fails()) {
-        return Response::json(array(
-            'fail' => true,
-            'errors' => $validator->getMessageBag()->toArray()
-        ));
-     }
+		if($validator->fails()) {
+			return Response::json(array(
+				'fail' => true,
+				'errors' => $validator->getMessageBag()->toArray()
+				));
+		}
 		return 'ajax post request';
 		// return Response::json(Input::all());
 	}

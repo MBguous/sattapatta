@@ -25,7 +25,18 @@ class ItemController extends BaseController {
 	 * @return [type]           [description]
 	 */
 	public function showItem($username, $itemname, $itemid) {
-		
+
+		$user = User::where('username', $username)->first();
+
+		$beforeTime = Carbon::now()->subMinutes(5);
+		// dd($beforeTime);
+
+		$lastSeen = User::whereId($user->id)->pluck('last_seen');
+		// dd($lastSeen);
+
+		$onlineStatus = $beforeTime->lt($lastSeen);
+		// dd($onlineStatus);
+
 		$swapItem = Item::where('id', $itemid)->first();
 		Event::fire('item.view', $swapItem);
 
@@ -37,13 +48,16 @@ class ItemController extends BaseController {
 		else
 			$itemList = null;
 		
-		$user            = User::where('username', $username)->first();
 		$comments        = Comment::where('item_id', $itemid)->orderBy('created_at', 'desc')->get();
 		// $requestCount = DB::table('offers')->where('item_id', '=', $itemid)->count();
 		$offers          = Offer::where('item_id', $itemid)->where('status', 'pending')->get();
 		// dd(Offer::find(3)->offerItems->first()->name);
 
-		return View::make('items.show', compact('swapItem', 'items', 'itemList', 'user', 'comments', 'offers'));
+		$reviewsCount = Review::where('reviewee_id', $user->id)->count('rating');
+		$avg = Review::where('reviewee_id', $user->id)->avg('rating');
+		$avg = (int)$avg;
+
+		return View::make('items.show', compact('swapItem', 'items', 'itemList', 'user', 'comments', 'offers', 'onlineStatus', 'reviewsCount', 'avg'));
 	}
 
 	public function editItem($username, $itemname, $itemid) {
@@ -70,16 +84,19 @@ class ItemController extends BaseController {
     // dd($item);
     // exit;
 		
-		$item = Item::find($itemid);
+		$item = Item::findOrFail($itemid);
 		// $tags = Tag::lists('name', 'name');
 		$tags = $item->tags->lists('name', 'name');
+		
 		return View::make('items.edit', compact('item', 'tags'));
 	}
 
 
 	public function showListing($username) {
 
-		$items = Item::where('user_id', Auth::user()->id)->get();
+		$items = Item::where('user_id', Auth::user()->id)
+		->orderBy('created_at', 'desc')
+		->get();
 		return View::make('users.listing', compact('items'));
 	}
 
@@ -146,7 +163,8 @@ class ItemController extends BaseController {
 
 			for ($i=0; $i<sizeOf($tags); $i++) {
 				$tagName = $tags[$i];
-				$tagId = Tag::where('name', $tagName)->pluck('id');
+				$tagId 	= Tag::where('name', $tagName)->pluck('id');
+
 				if ( $tagId == null) {
 					$tag = new Tag(array('name'=>$tagName));
 					$item->tags()->save($tag);
@@ -161,10 +179,12 @@ class ItemController extends BaseController {
 			foreach($photos as $photo)
 			{
 				$imageRules       = ['imageUrl' => 'required|image|mimes:jpeg,jpg,bmp,gif,png'];
+				
 				$message          = array(
-										'images.required' => 'Please upload an image of the item.',
-										'images.image'    => 'You need to upload an image of filetypes: jpeg, jpg, bmp, gif or png.'
-									);
+					'images.required' => 'Please upload an image of the item.',
+					'images.image'    => 'You need to upload an image of filetypes: jpeg, jpg, bmp, gif or png.'
+				);
+
 				$imageValidator   = Validator::make(['imageUrl'=>$photo], $imageRules, $message);
 
 				if($imageValidator->fails())
@@ -185,14 +205,12 @@ class ItemController extends BaseController {
 			
 		});
 
-		
-
 		return Redirect::route('items.browse')->withMessage('Item posted successfully.');
 	}
 
 	public function updateItem($id) {
 
-		
+	
 		// echo '<pre>';
 		// var_dump($tagIdArray);
 		// exit;
@@ -209,8 +227,8 @@ class ItemController extends BaseController {
 		$messages = array(
 			'price.required'	=> 'If you don\'t remember the price, enter the approximate value.' ,
 			'tags.required'		=> 'Please enter at least one tag.'
-			// 'images.required' => 'Please upload an image of the item.',
-			// 'images.image'    => 'You need to upload an image of filetypes: jpeg, jpg, bmp, gif or png.'
+				// 'images.required' => 'Please upload an image of the item.',
+				// 'images.image'    => 'You need to upload an image of filetypes: jpeg, jpg, bmp, gif or png.'
 			);
 
 		$validator = Validator::make(Input::all(), $rules, $messages);
@@ -219,18 +237,75 @@ class ItemController extends BaseController {
 			return Redirect::back()->withErrors($validator)->withInput();
 		}
 
-		$tags = Input::get('tags');
-		$tagIdArray = [];
-		foreach ($tags as $value) {
-			$tagId = Tag::whereName($value)->pluck('id');
-			array_push($tagIdArray, $tagId);
-		}
+		DB::transaction(function() use($id) 
+		{
+			$tags = Input::get('tags');
+			$tagIdArray = [];
+			foreach ($tags as $value) {
+				$tag = Tag::firstOrCreate(['name' => $value]);
+				$tagId = $tag->id;
+				array_push($tagIdArray, $tagId);
+			}
 
-		$item = Item::find($id);
-		$item->update(Input::all());
-		$item->tags()->sync($tagIdArray);
+			$item = Item::find($id);
+			$item->update(Input::all());
+			$item->tags()->sync($tagIdArray);
+
+			// update images
+			if (Input::hasFile('imageUrl'))
+			{
+
+				// delete images physically
+				foreach($item->images as $image)
+				{
+					File::delete(public_path().'/'.$image->imageUrl);
+				}
+
+				// delete relationship
+				$item->images()->delete();
+
+				// insert images
+				$photos    = Input::file('imageUrl');
+
+				foreach($photos as $photo)
+				{
+					
+					$imageRules = ['imageUrl' => 'image|mimes:jpeg,jpg,bmp,gif,png'];
+					$message = array(
+						'imageUrl.image'    => 'You need to upload an image of filetypes: jpeg, jpg, bmp, gif or png.'
+						);
+					$imageValidator = Validator::make(['imageUrl'=>$photo], $imageRules, $message);
+
+					if($imageValidator->fails())
+					{
+						return Redirect::back()->withErrors($imageValidator)->withInput();
+					}
+
+					$filename = date('Y-m-d-His').'-'.$photo->getClientOriginalName();
+
+					$image = new Image(['imageUrl' => 'images/items/'.$filename]);
+					// $image->imageUrl = 'images/items/'.$filename;
+					// $image->save();
+
+					$itemImageSave = $item->images()->save($image);
+
+					if (!$itemImageSave)
+					{
+						DB::rollback();
+						return Redirect::back()->withMessage('Image upload failed. Please try again.');
+					}
+
+					$path = public_path().'/images/items/';
+					$photo->move($path, $filename);
+				}
+			}
+
+		});
+
+		
 		// return Redirect::back()->withMessage('Item updated successfully');
-		return $this->browse();
+		// return $this->browse();
+		return Redirect::route('items.browse')->withMessage('Item updated successfully.');
 
 		// $item              = Item::find($id);
 		// $item->name        = Input::get('name');
@@ -242,42 +317,6 @@ class ItemController extends BaseController {
 		// // $item->user_id     = Auth::user()->id;
 		// $itemSave = $item->save();
 
-		// images
-		if (Input::hasFile('imageUrl'))
-		{
-			$photos    = Input::file('imageUrl');
-
-			foreach($photos as $photo)
-			{
-				
-				$imageRules = ['imageUrl' => 'image|mimes:jpeg,jpg,bmp,gif,png'];
-				$message = array(
-					'imageUrl.image'    => 'You need to upload an image of filetypes: jpeg, jpg, bmp, gif or png.'
-					);
-				$imageValidator = Validator::make(['imageUrl'=>$photo], $imageRules, $message);
-
-				if($imageValidator->fails())
-				{
-					return Redirect::back()->withErrors($imageValidator)->withInput();
-				}
-
-				$filename = date('Y-m-d-His').'-'.$photo->getClientOriginalName();
-
-				$path = public_path().'/images/items/';
-				$photo->move($path, $filename);
-
-				$image = new Image();
-				$image->imageUrl = 'images/items/'.$filename;
-
-				$itemImageSave = $item->images()->save($image);
-				if (!$itemImageSave)
-				{
-					DB::rollback();
-					return Redirect::back()->withMessage('Image upload failed. Please try again.');
-				}
-			}
-		}
-		
 	}
 
 	public function addToWatchlist() 
